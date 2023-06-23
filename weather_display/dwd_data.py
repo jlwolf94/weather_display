@@ -18,22 +18,6 @@ class DwdData:
     Class that contains the DWD-API configuration, stores retrieved data and
     can preprocess the data. The class is initialized with the default API
     configuration and a station identifier.
-
-    Attributes
-    ----------
-    config (Configuration):
-        Configuration object with all settings for the DWD-API.
-
-    station_identifier (str):
-        Station identifier of an existing weather station.
-
-    error_state (bool):
-        Current error state that indicates whether the last API call
-        raised an error or not.
-
-    raw_data (StationOverview):
-        Raw data that is retrieved as a json file in the API response and
-        converted to a StationOverview object.
     """
 
     def __init__(self, station_identifier):
@@ -49,9 +33,30 @@ class DwdData:
         # Defining the host is optional and defaults to https://app-prod-ws.warnwetter.de/v30
         # See configuration.py for a list of all supported configuration parameters.
         self.config = dwd.Configuration(host="https://app-prod-ws.warnwetter.de/v30")
+        """
+        config (Configuration):
+            Configuration object with all settings for the DWD-API.
+        """
+
         self.station_identifier = str(station_identifier)
+        """
+        station_identifier (str):
+            Station identifier of an existing weather station.
+        """
+
         self.error_state = False
+        """
+        error_state (bool):
+            Current error state that indicates whether the last API call
+            raised an error or not.
+        """
+
         self.raw_data = None
+        """
+        raw_data (StationOverview):
+            Raw data that is retrieved as a json file in the API response and
+            converted to a StationOverview object.
+        """
 
     def get_data(self):
         """
