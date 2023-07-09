@@ -228,6 +228,33 @@ class DwdStations:
 
         return True
 
+    def load_table_from_json(self):
+        """
+        Method that loads the table entries from a json file with the
+        set file name. The file needs to be in the data directory.
+
+        Returns
+        -------
+        table_entries (list):
+            A list containing all rows from the stations table as
+            individual dictionaries or an empty list.
+        """
+
+        # Get the path to the json file.
+        file_path = Path(__file__).parents[1].joinpath("data", self.file_name)
+
+        # Try to load the data if the file exists.
+        if file_path.is_file():
+            try:
+                with file_path.open(encoding="utf-8") as file:
+                    return json.load(file)
+            except OSError as err_os:
+                print("I/O Error:", err_os)
+                return []
+        else:
+            print("I/O Error: File does not exist.")
+            return []
+
     def update(self):
         """
         Method that updates or retrieves the stations table by checking the
@@ -249,15 +276,36 @@ class DwdStations:
 
             # Check whether the file is already updated and get the stations from the file.
             if curr_date - mod_date <= datetime.timedelta(hours=self.refresh):
-                try:
-                    with file_path.open(encoding="utf-8") as file:
-                        self.table_entries = json.load(file)
-                        return True
-                except OSError as err_os:
-                    print("I/O Error:", err_os)
-                    return False
+                table_entries = self.load_table_from_json()
 
-        # Update the table entries and the json file.
-        table_entries = self.get_table_entries()
-        self.table_entries = table_entries
-        return self.save_table_as_json(table_entries)
+                # Check whether data is available.
+                if table_entries:
+                    self.table_entries = table_entries
+                    return True
+                else:
+                    print("Data Error: No data available from json file.")
+                    return False
+            else:
+                # Update the table entries and the json file.
+                table_entries = self.get_table_entries()
+                self.table_entries = table_entries
+
+                if self.save_table_as_json(table_entries):
+                    # Update was successful.
+                    return True
+                else:
+                    # Fall back to existing file if saving failed.
+                    table_entries = self.load_table_from_json()
+
+                    # Check whether data is available.
+                    if table_entries:
+                        self.table_entries = table_entries
+                        return True
+                    else:
+                        print("Data Error: No data available from json file.")
+                        return False
+        else:
+            # Update the table entries and the json file.
+            table_entries = self.get_table_entries()
+            self.table_entries = table_entries
+            return self.save_table_as_json(table_entries)
