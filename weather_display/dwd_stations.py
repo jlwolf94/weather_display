@@ -19,29 +19,103 @@ class DwdStations:
     updated after the set amount of time.
     """
 
-    def __init__(self, attempts=3, timeout=10, refresh=24,
-                 file_name="dwd_stations.json"):
+    def __init__(self, attempts=3, timeout=10, refresh=24, file_name="dwd_stations.json"):
+        """
+        Constructor for the DwdStations objects.
+
+        Parameters
+        ----------
+        attempts (int):
+            Number of connection attempts. Default value is 3.
+
+        timeout (int):
+            Connection timeout for a server answer in seconds.
+            Default value is 10 seconds.
+
+        refresh (int):
+            Refresh time in hours for the saved json file.
+            Default value is 24 hours.
+
+        file_name (str):
+            File name for the json file with all station data.
+            Default name is dwd_stations.json.
+        """
+
         self.url = "https://www.dwd.de/DE/leistungen/klimadatendeutschland/" \
             + "statliste/statlex_html.html"
+        """
+        url (str):
+            Standard url pointing to the location of the table with all stations
+            and their corresponding informations.
+        """
 
         self.params = {"view": "nasPublication", "nn": "16102"}
+        """
+        params (dict):
+            Dictionary with all url parameters for the request.
+        """
 
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) " \
             + "Gecko/20100101 Firefox/114.0"
         self.headers = {"User-Agent": user_agent}
+        """
+        headers (dict):
+            Dictionary with all header parameters for the request.
+        """
 
         self.attempts = attempts
+        """
+        attempts (int):
+            Number of connection attempts. Default value is 3.
+        """
 
         self.timeout = timeout
+        """
+        timeout (int):
+            Connection timeout for a server answer in seconds.
+            Default value is 10 seconds.
+        """
 
         self.refresh = refresh
+        """
+        refresh (int):
+            Refresh time in hours for the saved json file.
+            Default value is 24 hours.
+        """
 
         self.file_name = file_name
+        """
+        file_name (str):
+            File name for the json file with all station data.
+            Default name is dwd_stations.json.
+        """
 
         self.table_entries = []
+        """
+        table_entries (list):
+            A list containing all rows from the stations table as
+            individual dictionaries.
+        """
 
     @staticmethod
     def process_stations_page(response):
+        """
+        Method that processes the response content of a request to the standard url
+        and returns a formatted list of the stations with their informations.
+
+        Parameters
+        ----------
+        response (Response):
+            A response object retrieved from a request to the standard url.
+
+        Returns
+        -------
+        table_entries (list):
+            A list containing all rows from the stations table as
+            individual dictionaries.
+        """
+
+        # Convert the response content to a searchable object.
         stations_page = BeautifulSoup(response.content, features="lxml")
 
         # Extract the table from the page and convert it to a json file.
@@ -66,11 +140,21 @@ class DwdStations:
         return table_entries
 
     def get_stations_page(self):
-        # Try three times to reach the server.
-        for i in range(3):
+        """
+        Method that triggers a get request for the standard url and
+        handles all possible error cases.
+
+        Returns
+        -------
+        response (Optional[Response]):
+            The response object of the request to the standard url or None.
+        """
+
+        # Try to reach the server multiple times and handle occuring exceptions.
+        for i in range(self.attempts):
             try:
                 response = requests.get(self.url, params=self.params,
-                                        headers=self.params, timeout=self.timeout)
+                                        headers=self.headers, timeout=self.timeout)
                 response.raise_for_status()
             except requests.exceptions.HTTPError as err_http:
                 print("HTTP Error:", err_http)
