@@ -172,6 +172,17 @@ class DwdStations:
         return None
 
     def get_table_entries(self):
+        """
+        Method that triggers a request to the standard url and processes the
+        data in the response by using the already defined methods.
+
+        Returns
+        -------
+        table_entries (list):
+            A list containing all rows from the stations table as
+            individual dictionaries or an empty list.
+        """
+
         # Get the table entries by processing the server response.
         response = self.get_stations_page()
         if response is not None:
@@ -180,6 +191,22 @@ class DwdStations:
             return []
 
     def save_table_as_json(self, table_entries):
+        """
+        Method that saves the given table entries to a json file
+        with the set file name. The file is placed in a data directory.
+
+        Parameters
+        ----------
+        table_entries (list):
+            A list containing all rows from the stations table as
+            individual dictionaries.
+
+        Returns
+        -------
+        success (bool):
+            Indicates whether the save process was a success or not.
+        """
+
         # Get the path to the json file.
         file_path = Path(__file__).parents[1].joinpath("data", self.file_name)
 
@@ -202,6 +229,16 @@ class DwdStations:
         return True
 
     def update(self):
+        """
+        Method that updates or retrieves the stations table by checking the
+        current data and calling all neccessary methods for the update.
+
+        Returns
+        -------
+        success (bool):
+            Indicates whether the update process was a success or not.
+        """
+
         # Get the path to the json file.
         file_path = Path(__file__).parents[1].joinpath("data", self.file_name)
 
