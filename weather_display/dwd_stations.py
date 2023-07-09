@@ -4,6 +4,7 @@ all stations listed on the corresponding DWD website and to convert this list
 to a processable json file. The class handles all needed request and I/O processes.
 """
 
+import math
 import datetime
 import json
 import requests
@@ -218,6 +219,46 @@ class DwdStations:
                 return stations[0]
             else:
                 return {}
+        else:
+            return {}
+
+    def get_station_info_by_distance(self, latitude, longitude):
+        """
+        Method that searches the station closest to the current position which
+        is represented by the latitude and longitude value. The informations
+        of the closest station with hourly measurements are returned.
+
+        Parameters
+        ----------
+        latitude (float):
+            The current geographic latitude.
+
+        longitude (float):
+            The current geographic longitude.
+
+        Returns
+        -------
+        station_info (dict):
+            A dictionary containing all informations of the station or
+            an empty dictionary if no station is found.
+        """
+
+        # Check whether data for a search is available.
+        if self.table_entries:
+            # Get stations with automated hourly measurements.
+            stations = [st for st in self.table_entries if st["Kennung"] == "SY"]
+
+            # Search for the closest station.
+            min_distance = float("inf")
+            min_station = {}
+            for st in stations:
+                curr_distance = math.dist((latitude, longitude),
+                                          (float(st["Breite"]), float(st["Länge"])))
+                if curr_distance < min_distance:
+                    min_distance = curr_distance
+                    min_station = st
+
+            return min_station
         else:
             return {}
 
