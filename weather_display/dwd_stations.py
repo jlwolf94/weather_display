@@ -13,32 +13,30 @@ from pathlib import Path
 
 
 class DwdStations:
+    """
+    Class that contains all methods and data necessary to retrieve the latest
+    DWD stations list. The stations list is saved to a json file and is
+    updated after the set amount of time.
+    """
 
-    def __init__(self, url=None, params=None, headers=None, timeout=15, file_name=None):
-        if url is not None:
-            self.url = url
-        else:
-            self.url = "https://www.dwd.de/DE/leistungen/klimadatendeutschland/" \
-                + "statliste/statlex_html.html"
+    def __init__(self, attempts=3, timeout=10, refresh=24,
+                 file_name="dwd_stations.json"):
+        self.url = "https://www.dwd.de/DE/leistungen/klimadatendeutschland/" \
+            + "statliste/statlex_html.html"
 
-        if params is not None:
-            self.params = params
-        else:
-            self.params = {"view": "nasPublication", "nn": "16102"}
+        self.params = {"view": "nasPublication", "nn": "16102"}
 
-        if headers is not None:
-            self.headers = headers
-        else:
-            user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) " \
-                + "Gecko/20100101 Firefox/114.0"
-            self.headers = {"User-Agent": user_agent}
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) " \
+            + "Gecko/20100101 Firefox/114.0"
+        self.headers = {"User-Agent": user_agent}
+
+        self.attempts = attempts
 
         self.timeout = timeout
 
-        if file_name is not None:
-            self.file_name = str(file_name) + ".json"
-        else:
-            self.file_name = "dwd_stations.json"
+        self.refresh = refresh
+
+        self.file_name = file_name
 
         self.table_entries = []
 
@@ -125,12 +123,11 @@ class DwdStations:
 
         # Check whether the file already exists.
         if file_path.is_file():
-            mod_date = \
-                datetime.datetime.fromtimestamp(file_path.stat().st_mtime).strftime("%d.%m.%Y")
-            curr_date = datetime.datetime.now().strftime("%d.%m.%Y")
+            mod_date = datetime.datetime.fromtimestamp(file_path.stat().st_mtime)
+            curr_date = datetime.datetime.now()
 
             # Check whether the file is already updated and get the stations from the file.
-            if mod_date == curr_date:
+            if curr_date - mod_date <= datetime.timedelta(hours=self.refresh):
                 try:
                     with file_path.open(encoding="utf-8") as file:
                         self.table_entries = json.load(file)
