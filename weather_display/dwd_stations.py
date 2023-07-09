@@ -190,6 +190,37 @@ class DwdStations:
         else:
             return []
 
+    def get_station_info_by_name(self, station_name):
+        """
+        Method that searches a station identified by its name in the stations table
+        and returns the informations of the station if it is found.
+
+        Parameters
+        ----------
+        station_name (str):
+            The name of the searched station.
+
+        Returns
+        -------
+        station_info (dict):
+            A dictionary containing all informations of the station or
+            an empty dictionary if the station is not found.
+        """
+
+        # Check whether data for a search is available.
+        if self.table_entries:
+            # Get stations with automated hourly measurements and the correct name.
+            stations = [st for st in self.table_entries if st["Kennung"] == "SY"
+                        and st["Stationsname"] == station_name]
+
+            # Check whether an entry could be found.
+            if stations:
+                return stations[0]
+            else:
+                return {}
+        else:
+            return {}
+
     def save_table_as_json(self, table_entries):
         """
         Method that saves the given table entries to a json file
