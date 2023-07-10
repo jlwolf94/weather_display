@@ -1,36 +1,40 @@
 """
-The dwd_data module contains the DwdData class that is used to make all calls
-to the DWD-API and preprocess the retrieved data.
+The dwd_data module contains the DwdData class that is used to make all direct calls
+to the DWD-API, save the received data and preprocess the received data for display
+purposes.
 """
 
 import datetime
 import requests
 
-from deutschland import dwd
-from deutschland.dwd.api import default_api
-from deutschland.dwd.model.station_overview_extended_get_station_ids_parameter_inner \
-    import StationOverviewExtendedGetStationIdsParameterInner
-from deutschland.dwd.model.station_overview import StationOverview
-from deutschland.dwd.model.station_overview10865 import StationOverview10865
-from deutschland.dwd.model.error import Error
-from pprint import pprint
-
 
 class DwdData:
     """
-    Class that contains the DWD-API configuration, stores retrieved data and
-    can preprocess the data. The class is initialized with the default API
-    configuration and a station identifier.
+    Class that contains the DWD-API base url, stores the station information
+    used for the data requests and stores the received data for later use or display.
     """
 
-    def __init__(self, station_identifier):
+    def __init__(self, station_info, attempts=3, timeout=10):
         """
         Constructor for the DwdData objects.
 
         Parameters
         ----------
-        station_identifier (str):
-            Station identifier of an existing weather station.
+        station_info (dict):
+            A dictionary containing all informations of a station.
+
+        attempts (int):
+            Number of connection attempts. Default value is 3.
+
+        timeout (int):
+            Connection timeout for a server answer in seconds.
+            Default value is 10 seconds.
+        """
+
+        self.station_info = station_info
+        """
+        station_info (dict):
+            A dictionary containing all informations of a station.
         """
 
         self.url = "https://app-prod-ws.warnwetter.de/v30"
@@ -39,45 +43,24 @@ class DwdData:
             Standard base url for the DWD-API.
         """
 
-        self.attempts = 3
+        self.attempts = attempts
         """
         attempts (int):
             Number of connection attempts. Default value is 3.
         """
 
-        self.timeout = 10
+        self.timeout = timeout
         """
         timeout (int):
             Connection timeout for a server answer in seconds.
             Default value is 10 seconds.
         """
 
-        # Defining the host is optional and defaults to https://app-prod-ws.warnwetter.de/v30
-        # See configuration.py for a list of all supported configuration parameters.
-        self.config = dwd.Configuration(host="https://app-prod-ws.warnwetter.de/v30")
+        self.station_data = {}
         """
-        config (Configuration):
-            Configuration object with all settings for the DWD-API.
-        """
-
-        self.station_identifier = str(station_identifier)
-        """
-        station_identifier (str):
-            Station identifier of an existing weather station.
-        """
-
-        self.error_state = False
-        """
-        error_state (bool):
-            Current error state that indicates whether the last API call
-            raised an error or not.
-        """
-
-        self.raw_data = None
-        """
-        raw_data (StationOverview):
-            Raw data that is retrieved as a json file in the API response and
-            converted to a StationOverview object.
+        station_data (dict):
+            A dictionary containing all current weather data from the
+            station specified by the station_info.
         """
 
     def get_station_data(self, station_info):
