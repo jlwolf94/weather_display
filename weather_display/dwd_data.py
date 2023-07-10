@@ -200,18 +200,16 @@ class DwdData:
 
     def test_print(self):
         """
-        Function to test the formatted print.
+        Method to test the formatted print for the saved station_info and station_data.
         """
 
-        station_name = "Test"
-        formatted_time = "16:00"
-        temperature = 23.1
-        daily_min = 10.2
-        daily_max = 30.2
-        forecast = "sunny"
-        print(f'Station: {station_name:30}    '
-              f'Time: {formatted_time:19}    '
-              f'Temperature: {temperature:5.1F} °C')
-        print(f'Daily forecast: {forecast:23}    '
-              f'Daily min. temp.: {daily_min:5.1F} °C    '
-              f'Daily max. temp.: {daily_max:5.1F} °C')
+        # Get the data for display.
+        d = self.get_display_data()
+
+        # Print the data to the console.
+        print(f'Station: {d["station_name"]:30}    '
+              f'Time: {d["formatted_time"]:19}    '
+              f'Temperature: {d["temperature"]:5.1F} °C')
+        print(f'Daily forecast: {d["forecast"]:23}    '
+              f'Daily min. temp.: {d["daily_min"]:5.1F} °C    '
+              f'Daily max. temp.: {d["daily_max"]:5.1F} °C')
