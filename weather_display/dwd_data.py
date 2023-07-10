@@ -105,21 +105,11 @@ class DwdData:
 
         return {}
 
-    @staticmethod
-    def get_display_data(station_info, station_data):
+    def get_display_data(self):
         """
-        Method that extracts the weather data that will be displayed for
-        the station specified by station_info from the provided station_data.
-        The formatted data used for display is returned in a new dictionary.
-
-        Parameters
-        ----------
-        station_info (dict):
-            A dictionary containing all informations of the station.
-
-        station_data (dict):
-            A dictionary containing all current weather data from the
-            station specified by the station_info.
+        Method that extracts the weather data that will be displayed from
+        the saved station_info and station_data. The formatted data used for
+        display is returned in a new dictionary.
 
         Returns
         -------
@@ -129,11 +119,11 @@ class DwdData:
         """
 
         # Extract the station identifier and name.
-        stationId = station_info.get("Stations-kennung", "0")
-        station_name = station_info.get("Stationsname", "Error")
+        stationId = self.station_info.get("Stations-kennung", "0")
+        station_name = self.station_info.get("Stationsname", "Error")
 
         # Check whether forecast data is available.
-        forecast_dict = station_data.get(stationId, {}).get("forecast1", {})
+        forecast_dict = self.station_data.get(stationId, {}).get("forecast1", {})
         if not forecast_dict:
             # Error values for time and temperature.
             formatted_time = "--:--"
@@ -160,7 +150,7 @@ class DwdData:
             temperature = date_temp[1]
 
         # Check whether days data is available.
-        days_list = station_data.get(stationId, {}).get("days", [])
+        days_list = self.station_data.get(stationId, {}).get("days", [])
         if not days_list:
             forecast = "Error"
             daily_min = float("nan")
