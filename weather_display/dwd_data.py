@@ -63,16 +63,11 @@ class DwdData:
             station specified by the station_info.
         """
 
-    def get_station_data(self, station_info):
+    def get_station_data(self):
         """
-        Method that retrieves the current weather data for a station specified by
-        its informations from the DWD-API. The recieved data is return in form
+        Method that retrieves the current weather data for the station specified by
+        the saved station_info from the DWD-API. The recieved data is return in form
         of a deserialized json file.
-
-        Parameters
-        ----------
-        station_info (dict):
-            A dictionary containing all informations of the station.
 
         Returns
         -------
@@ -86,7 +81,7 @@ class DwdData:
         url = self.url + "/stationOverviewExtended"
 
         # Build the parameters and the headers for the get request.
-        params = {"stationIds": station_info.get("Stations-kennung", "0")}
+        params = {"stationIds": self.station_info.get("Stations-kennung", "0")}
         headers = {"accept": "application/json"}
 
         # Try to reach the server multiple times and handle occuring exceptions.
