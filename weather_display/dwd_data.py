@@ -127,16 +127,6 @@ class DwdData:
 
         return {}
 
-    def print_raw_data(self):
-        """
-        Function that tries to print out the currently stored raw data.
-        """
-
-        if self.raw_data is None or not self.raw_data:
-            print("There is no data that could be printed.")
-        else:
-            pprint(self.raw_data)
-
     @staticmethod
     def get_display_data(station_info, station_data):
         """
