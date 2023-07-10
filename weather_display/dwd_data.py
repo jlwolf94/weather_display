@@ -228,9 +228,9 @@ class DwdData:
         d = self.get_display_data()
 
         # Print the data to the console.
-        print(f'Station: {d["station_name"]:30}    '
-              f'Time: {d["formatted_time"]:19}    '
+        print(f'Station: {d["station_name"]:37}    '
+              f'Time: {d["formatted_time"]:20}    '
               f'Temperature: {d["temperature"]:5.1F} °C')
-        print(f'Daily forecast: {d["forecast"]:23}    '
+        print(f'Daily forecast: {d["forecast"]:30}    '
               f'Daily min. temp.: {d["daily_min"]:5.1F} °C    '
               f'Daily max. temp.: {d["daily_max"]:5.1F} °C')
