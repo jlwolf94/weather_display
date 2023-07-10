@@ -198,6 +198,27 @@ class DwdData:
                 "daily_max": daily_max
                }
 
+    def update(self):
+        """
+        Method that updates or retrieves the station_data from the DWD-API with
+        the informations saved in station_info.
+
+        Returns
+        -------
+        success (bool):
+            Indicates whether the update process was a success or not.
+        """
+
+        # Try to get station data from the DWD-API.
+        station_data = self.get_station_data()
+
+        # Check whether there is data for an update.
+        if station_data:
+            self.station_data = station_data
+            return True
+        else:
+            return False
+
     def test_print(self):
         """
         Method to test the formatted print for the saved station_info and station_data.
