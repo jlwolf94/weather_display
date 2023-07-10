@@ -127,53 +127,6 @@ class DwdData:
 
         return {}
 
-    def get_data(self):
-        """
-        Function that tries to retrieve new data for the saved station from the API.
-
-        Returns
-        -------
-        success (bool):
-            Indicates wheter the API call was a success or not.
-        """
-
-        # Enter a context with an instance of the API client.
-        with dwd.ApiClient() as api_client:
-            # Create an instance of the API class.
-            api_instance = default_api.DefaultApi(api_client)
-
-            # The stations_ids parameter uses the
-            # StationOverviewExtendedGetStationIdsParameterInner class and the DWD
-            # weather station identifier that can be found in the list on:
-            # https://www.dwd.de/DE/leistungen/klimadatendeutschland/stationsliste.html
-            station_ids = [
-                StationOverviewExtendedGetStationIdsParameterInner(
-                    station_ids=self.station_identifier),
-            ]
-
-            # Line 892 of the api_client.py needed to be modified to:
-            # >>> param_value_full = (base_name, [d[param_name] for d in param_value])
-            # Without the modification the response is empty.
-            try:
-                self.raw_data = api_instance.station_overview_extended_get(
-                    station_ids=station_ids)
-
-                # Check the content of the data response.
-                if self.raw_data is None or not self.raw_data:
-                    self.error_state = True
-                    self.raw_data = None
-                    print(f'No data could be retrieved for the '
-                          f'station {self.station_identifier}')
-                else:
-                    self.error_state = False
-
-            except dwd.ApiException as e:
-                self.error_state = True
-                self.raw_data = None
-                print(f'Exception when calling DWD-API: {e}')
-
-        return not self.error_state
-
     def print_raw_data(self):
         """
         Function that tries to print out the currently stored raw data.
