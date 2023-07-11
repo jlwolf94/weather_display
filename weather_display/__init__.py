@@ -12,6 +12,11 @@ dependencies that are listed in the `requirements.txt`.
 All dependencies can be installed with pip using the provided
 `requirements.txt` and the command `pip install -r requirements.txt`.
 
+# Usage
+
+The weather_display package can be executed directly with the
+command `python -m weather_display` from its parent directory.
+
 # Further remarks
 
 Generating a documentation in HTML format can be achieved by using
