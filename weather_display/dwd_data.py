@@ -7,6 +7,8 @@ purposes.
 import datetime
 import requests
 
+from .display_data import DisplayData
+
 
 class DwdData:
     """
@@ -108,14 +110,14 @@ class DwdData:
     def get_display_data(self):
         """
         Method that extracts the weather data that will be displayed from
-        the saved station_info and station_data. The formatted data used for
-        display is returned in a new dictionary.
+        the saved station_info and station_data. The data used for display
+        is returned in a new DisplayData object.
 
         Returns
         -------
-        display_data (dict):
-            A dictionary containing all weather data for the given station
-            formatted for display purposes.
+        display_data (DisplayData):
+            A DisplayData object containing all weather data for the given
+            station formatted for display purposes.
         """
 
         # Extract the station identifier and name.
@@ -126,7 +128,7 @@ class DwdData:
         forecast_dict = self.station_data.get(stationId, {}).get("forecast1", {})
         if not forecast_dict:
             # Error values for time and temperature.
-            formatted_time = "--:--"
+            date_time = None
             temperature = float("nan")
         else:
             # Extract start date and date step.
@@ -146,13 +148,13 @@ class DwdData:
             date_temp = min([dt for dt in date_temp_list if dt[0] <= curr_date],
                             key=lambda t: abs(curr_date - t[0]))
 
-            formatted_time = date_temp[0].strftime("%H:%M")
+            date_time = date_temp[0]
             temperature = date_temp[1]
 
         # Check whether days data is available.
         days_list = self.station_data.get(stationId, {}).get("days", [])
         if not days_list:
-            forecast = "Error"
+            forecast = 0
             daily_min = float("nan")
             daily_max = float("nan")
         else:
@@ -163,21 +165,7 @@ class DwdData:
                       key=lambda d: abs(curr_date -
                                         datetime.datetime.strptime(d["dayDate"], "%Y-%m-%d")))
 
-            icon_dict = {1: "sun", 2: "sun, slightly cloudy", 3: "sun, cloudy", 4: "clouds",
-                         5: "fog", 6: "fog, risk of slipping", 7: "light rain", 8: "rain",
-                         9: "heavy rain", 10: "light rain, risk of slipping",
-                         11: "heavy rain, risk of slipping", 12: "rain, sporadic snowfall",
-                         13: "rain, increased snowfall", 14: "light snowfall", 15: "snowfall",
-                         16: "heavy snowfall", 17: "clouds, hail", 18: "sun, light rain",
-                         19: "sun, heavy rain", 20: "sun, rain, sporadic snowfall",
-                         21: "sun, rain, increased snowfall", 22: "sun, sporadic snowfall",
-                         23: "sun, increased snowfall", 24: "sun, hail", 25: "sun, heavy hail",
-                         26: "thunderstorm", 27: "thunderstorm, rain",
-                         28: "thunderstorm, heavy rain", 29: "thunderstorm, hail",
-                         30: "thunderstorm, heavy hail", 31: "wind"
-                        }
-
-            forecast = icon_dict.get(day["icon"], "Error")
+            forecast = day["icon"]
 
             if day["temperatureMin"] < -999 or day["temperatureMin"] > 999:
                 daily_min = float("nan")
@@ -189,14 +177,10 @@ class DwdData:
             else:
                 daily_max = day["temperatureMax"] / 10
 
-        # Return all gathered data in a dictionary.
-        return {"station_name": station_name,
-                "formatted_time": formatted_time,
-                "temperature": temperature,
-                "forecast": forecast,
-                "daily_min": daily_min,
-                "daily_max": daily_max
-               }
+        # Return all gathered data in a DisplayData object.
+        return DisplayData(station_name=station_name, date_time=date_time,
+                           temperature=temperature, forecast=forecast,
+                           daily_min=daily_min, daily_max=daily_max)
 
     def update(self):
         """
@@ -225,12 +209,18 @@ class DwdData:
         """
 
         # Get the data for display.
-        d = self.get_display_data()
+        dd = self.get_display_data()
+
+        # Truncate to long station names.
+        name = \
+            (dd.station_name[:36] + ".") if len(dd.station_name) > 37 else dd.station_name
 
         # Print the data to the console.
-        print(f'Station: {d["station_name"]:37}    '
-              f'Time: {d["formatted_time"]:20}    '
-              f'Temperature: {d["temperature"]:5.1F} °C')
-        print(f'Daily forecast: {d["forecast"]:30}    '
-              f'Daily min. temp.: {d["daily_min"]:5.1F} °C    '
-              f'Daily max. temp.: {d["daily_max"]:5.1F} °C')
+        print(f"Station: {name:37}    "
+              f"Time: {dd.formatted_time:20}    "
+              f"Temperature: {dd.temperature:5.1F} °C"
+              "\n"
+              f"Daily forecast: {dd.formatted_forecast:30}    "
+              f"Daily min. temp.: {dd.daily_min:5.1F} °C    "
+              f"Daily max. temp.: {dd.daily_max:5.1F} °C"
+             )
