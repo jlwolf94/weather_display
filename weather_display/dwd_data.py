@@ -202,25 +202,3 @@ class DwdData:
             return True
         else:
             return False
-
-    def test_print(self):
-        """
-        Method to test the formatted print for the saved station_info and station_data.
-        """
-
-        # Get the data for display.
-        dd = self.get_display_data()
-
-        # Truncate to long station names.
-        name = \
-            (dd.station_name[:36] + ".") if len(dd.station_name) > 37 else dd.station_name
-
-        # Print the data to the console.
-        print(f"Station: {name:37}    "
-              f"Time: {dd.formatted_time:20}    "
-              f"Temperature: {dd.temperature:5.1F} °C"
-              "\n"
-              f"Daily forecast: {dd.formatted_forecast:30}    "
-              f"Daily min. temp.: {dd.daily_min:5.1F} °C    "
-              f"Daily max. temp.: {dd.daily_max:5.1F} °C"
-             )
