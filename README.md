@@ -1,7 +1,7 @@
 # Weather Display
 
-A simple Python program that retrieves weather data from a specified weather
-station over the internet and displays the data in the current terminal.
+A simple Python program that retrieves weather data from different sources
+and displays the data on the console or on a display.
 
 ## Installation
 
@@ -22,11 +22,18 @@ pdoc ./weather_display -o docs
 
 ## Usage
 
-**ToDo**
+The weather_display package can be executed directly with the following
+python command from its parent directory:
+
+```bash
+python -m weather_display
+```
 
 ## Acknowledgments
 
-I would like to thank Marco Sudbrock for the idea to this project.
+I would like to thank Marco Sudbrock for the idea to this project and
+the [Deutscher Wetterdienst](https://www.dwd.de/) for providing their
+weather data and API free of charge.
 
 ## License
 
