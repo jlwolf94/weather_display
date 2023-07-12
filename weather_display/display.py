@@ -4,8 +4,6 @@ weather data handed to the class or its methods on the selected output channel.
 The weather data is formatted to align with the chosen output channel.
 """
 
-from .display_data import DisplayData
-
 
 class Display:
     """

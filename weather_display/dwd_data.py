@@ -7,7 +7,7 @@ purposes.
 import datetime
 import requests
 
-from .display_data import DisplayData
+from weather_display.display_data import DisplayData
 
 
 class DwdData:

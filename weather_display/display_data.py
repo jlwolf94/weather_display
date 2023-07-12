@@ -5,8 +5,6 @@ of the Display class. Additional it stores mapping dictionaries to convert
 data to strings that are human readable.
 """
 
-import datetime
-
 
 class DisplayData:
     """
