@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "weather_display"
+version = "1.0.0"
+authors = [
+    {name = "Jan-Lukas Wolf"},
+]
+description = "A simple program to display weather data."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.2",
+    "lxml>=4.9.3",
+]
+
+[project.optional-dependencies]
+docs = ["pdoc>=14.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/jlwolf94/weather_display/"
+Repository = "https://github.com/jlwolf94/weather_display.git"
+
+[project.scripts]
+weather_display = "weather_display.__main__:main"
