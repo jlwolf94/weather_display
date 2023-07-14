@@ -54,7 +54,15 @@ def main():
         station_info = dwd_stations.get_station_info_by_name(args.name)
 
     # Get the station data.
-    dwd_data = DwdData(station_info)
+    if station_info:
+        station_tuple = list(station_info.items())[0]
+        station_name = station_tuple[0]
+        station_info = station_tuple[1]
+    else:
+        station_name = "Error"
+        station_info = {}
+
+    dwd_data = DwdData(station_name=station_name, station_info=station_info)
     dwd_data.update()
 
     # Show the station data on the console.
