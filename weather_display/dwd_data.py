@@ -12,18 +12,21 @@ from weather_display.display_data import DisplayData
 
 class DwdData:
     """
-    Class that contains the DWD-API base url, stores the station information
-    used for the data requests and stores the received data for later use or display.
+    Class that contains the DWD-API base url, stores the station name and informations
+    used for the data requests. It stores the received data for later use or display.
     """
 
-    def __init__(self, station_info, attempts=3, timeout=10):
+    def __init__(self, station_name, station_info, attempts=3, timeout=10):
         """
         Constructor for the DwdData objects.
 
         Parameters
         ----------
+        station_name (str):
+            Name of the station.
+
         station_info (dict):
-            A dictionary containing all informations of a station.
+            A dictionary containing the informations of the station.
 
         attempts (int):
             Number of connection attempts. Default value is 3.
@@ -33,10 +36,16 @@ class DwdData:
             Default value is 10 seconds.
         """
 
+        self.station_name = station_name
+        """
+        station_name (str):
+            Name of the station.
+        """
+
         self.station_info = station_info
         """
         station_info (dict):
-            A dictionary containing all informations of a station.
+            A dictionary containing the informations of the station.
         """
 
         self.url = "https://app-prod-ws.warnwetter.de/v30"
@@ -67,9 +76,9 @@ class DwdData:
 
     def get_station_data(self):
         """
-        Method that retrieves the current weather data for the station specified by
-        the saved station_info from the DWD-API. The recieved data is return in form
-        of a deserialized json file.
+        Method that retrieves the current weather data for the station
+        specified by the saved station_info from the DWD-API.
+        The recieved data is returned in form of a deserialized json file.
 
         Returns
         -------
@@ -110,8 +119,8 @@ class DwdData:
     def get_display_data(self):
         """
         Method that extracts the weather data that will be displayed from
-        the saved station_info and station_data. The data used for display
-        is returned in a new DisplayData object.
+        the saved station_name, station_info and station_data.
+        The data used for display is returned in a new DisplayData object.
 
         Returns
         -------
@@ -120,9 +129,8 @@ class DwdData:
             station formatted for display purposes.
         """
 
-        # Extract the station identifier and name.
+        # Try to get the station identifier.
         stationId = self.station_info.get("Stations-kennung", "0")
-        station_name = self.station_info.get("Stationsname", "Error")
 
         # Check whether forecast data is available.
         forecast_dict = self.station_data.get(stationId, {}).get("forecast1", {})
@@ -178,7 +186,7 @@ class DwdData:
                 daily_max = day["temperatureMax"] / 10
 
         # Return all gathered data in a DisplayData object.
-        return DisplayData(station_name=station_name, date_time=date_time,
+        return DisplayData(station_name=self.station_name, date_time=date_time,
                            temperature=temperature, forecast=forecast,
                            daily_min=daily_min, daily_max=daily_max)
 
