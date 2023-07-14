@@ -125,7 +125,7 @@ class DwdStations:
         stations_page = BeautifulSoup(response.content, features="lxml")
 
         # Extract the table rows from the table in the stations page.
-        table_rows = stations_page.table.tbody.contents
+        table_rows = stations_page.find("table").find_all("tr", recursive=False)
 
         # Get all column names in a list.
         column_names = [th.get_text()
