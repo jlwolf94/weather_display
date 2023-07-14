@@ -1,22 +1,22 @@
 """
 The dwd_stations module contains the DwdStations class that is used to retrieve
-all stations listed on the corresponding DWD website and to convert this list
+all stations listed on the corresponding DWD website and to convert the table
 to a processable json file. The class handles all needed request and I/O processes.
 """
 
-import math
 import datetime
 import json
+import math
 import requests
 
-from bs4 import BeautifulSoup
 from pathlib import Path
+from bs4 import BeautifulSoup
 
 
 class DwdStations:
     """
     Class that contains all methods and data necessary to retrieve the latest
-    DWD stations list. The stations list is saved to a json file and is
+    DWD stations table. The stations table is saved to a json file and is
     updated after the set amount of time.
     """
 
@@ -91,18 +91,21 @@ class DwdStations:
             Default name is dwd_stations.json.
         """
 
-        self.table_entries = []
+        self.table_entries = {}
         """
-        table_entries (list):
-            A list containing all rows from the stations table as
-            individual dictionaries.
+        table_entries (dict):
+            A dictionary containing all stations from the stations table.
+            The dictionary uses the station names as keys and the
+            corresponding values are dictionaries filled with the
+            additional station informations.
         """
 
     @staticmethod
     def process_stations_page(response):
         """
-        Method that processes the response content of a request to the standard url
-        and returns a formatted list of the stations with their informations.
+        Method that processes the response content of a request to the
+        standard url and returns a formatted dictionary of the stations
+        with their informations.
 
         Parameters
         ----------
@@ -111,32 +114,39 @@ class DwdStations:
 
         Returns
         -------
-        table_entries (list):
-            A list containing all rows from the stations table as
-            individual dictionaries.
+        table_entries (dict):
+            A dictionary containing all stations from the stations table.
+            The dictionary uses the station names as keys and the
+            corresponding values are dictionaries filled with the
+            additional station informations.
         """
 
         # Convert the response content to a searchable object.
         stations_page = BeautifulSoup(response.content, features="lxml")
 
-        # Extract the table from the page and convert it to a json file.
-        table = stations_page.find("table")
-        column_names = []
-        table_entries = []
+        # Extract the table rows from the table in the stations page.
+        table_rows = stations_page.table.tbody.contents
 
-        # Find all column names.
-        for tr in table.find_all("tr", recursive=False):
-            for th in tr.find_all("th", recursive=False):
-                if th.text != "Stationslexikon":
-                    column_names.append(th.text)
+        # Get all column names in a list.
+        column_names = [th.get_text()
+                        for th in table_rows[1].find_all("th", recursive=False)]
 
-        # Find all column entries and add them to the list of entries.
-        for tr in table.find_all("tr", recursive=False):
-            entry = {}
+        # Find all column entries and add them with their column name
+        # to the dictionary with all table entries.
+        table_entries = {}
+        for tr in table_rows[2:]:
+
+            station_name = ""
+            station_info = {}
             for i, td in enumerate(tr.find_all("td", recursive=False)):
-                entry[column_names[i]] = str(td.text).replace(u"\xa0", u" ")
-            if entry:
-                table_entries.append(entry)
+                if i == 0:
+                    station_name = td.get_text().replace("\xa0", " ")
+                else:
+                    station_info.update(
+                        {column_names[i]: td.get_text().replace("\xa0", " ")})
+
+            if station_info.get("Kennung", "") == "SY":
+                table_entries.update({station_name: station_info})
 
         return table_entries
 
@@ -179,9 +189,12 @@ class DwdStations:
 
         Returns
         -------
-        table_entries (list):
-            A list containing all rows from the stations table as
-            individual dictionaries or an empty list.
+        table_entries (dict):
+            A dictionary containing all stations from the stations table.
+            The dictionary uses the station names as keys and the
+            corresponding values are dictionaries filled with the
+            additional station informations. With no data an empty
+            dictionary is returned.
         """
 
         # Get the table entries by processing the server response.
@@ -189,12 +202,13 @@ class DwdStations:
         if response is not None:
             return self.process_stations_page(response)
         else:
-            return []
+            return {}
 
     def get_station_info_by_name(self, station_name):
         """
-        Method that searches a station identified by its name in the stations table
-        and returns the informations of the station if it is found.
+        Method that searches a station identified by its name in the
+        saved stations table and returns the informations of the station
+        if it is found.
 
         Parameters
         ----------
@@ -204,23 +218,14 @@ class DwdStations:
         Returns
         -------
         station_info (dict):
-            A dictionary containing all informations of the station or
-            an empty dictionary if the station is not found.
+            A dictionary containing the station name together with the
+            informations of the station or an empty dictionary
+            if the station is not found.
         """
 
-        # Check whether data for a search is available.
-        if self.table_entries:
-            # Get stations with automated hourly measurements and the correct name.
-            stations = [st for st in self.table_entries if st["Kennung"] == "SY"
-                        and st["Stationsname"] == station_name]
-
-            # Check whether an entry could be found.
-            if stations:
-                return stations[0]
-            else:
-                return {}
-        else:
-            return {}
+        # Try to get the informations for the searched station.
+        info = self.table_entries.get(station_name, {})
+        return {station_name: info} if info else {}
 
     def get_station_info_by_distance(self, latitude, longitude):
         """
@@ -239,24 +244,24 @@ class DwdStations:
         Returns
         -------
         station_info (dict):
-            A dictionary containing all informations of the station or
-            an empty dictionary if no station is found.
+            A dictionary containing the station name together with the
+            informations of the station or an empty dictionary
+            if the station is not found.
         """
 
         # Check whether data for a search is available.
         if self.table_entries:
-            # Get stations with automated hourly measurements.
-            stations = [st for st in self.table_entries if st["Kennung"] == "SY"]
-
             # Search for the closest station.
             min_distance = float("inf")
             min_station = {}
-            for st in stations:
-                curr_distance = math.dist((latitude, longitude),
-                                          (float(st["Breite"]), float(st["Länge"])))
+            for stn, sti in self.table_entries.items():
+                curr_distance = \
+                    math.dist((latitude, longitude),
+                              (float(sti["Breite"]), float(sti["Länge"])))
+
                 if curr_distance < min_distance:
                     min_distance = curr_distance
-                    min_station = st
+                    min_station = {stn: sti}
 
             return min_station
         else:
@@ -265,13 +270,15 @@ class DwdStations:
     def save_table_as_json(self, table_entries):
         """
         Method that saves the given table entries to a json file
-        with the set file name. The file is placed in a data directory.
+        with the set file name. The file is placed in the data directory.
 
         Parameters
         ----------
-        table_entries (list):
-            A list containing all rows from the stations table as
-            individual dictionaries.
+        table_entries (dict):
+            A dictionary containing all stations from the stations table.
+            The dictionary uses the station names as keys and the
+            corresponding values are dictionaries filled with the
+            additional station informations.
 
         Returns
         -------
@@ -307,9 +314,11 @@ class DwdStations:
 
         Returns
         -------
-        table_entries (list):
-            A list containing all rows from the stations table as
-            individual dictionaries or an empty list.
+        table_entries (dict):
+            A dictionary containing all stations from the stations table.
+            The dictionary uses the station names as keys and the
+            corresponding values are dictionaries filled with the
+            additional station informations.
         """
 
         # Get the path to the json file.
@@ -322,10 +331,10 @@ class DwdStations:
                     return json.load(file)
             except OSError as err_os:
                 print("I/O Error:", err_os)
-                return []
+                return {}
         else:
             print("I/O Error: File does not exist.")
-            return []
+            return {}
 
     def update(self):
         """
