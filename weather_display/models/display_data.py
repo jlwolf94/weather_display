@@ -16,8 +16,8 @@ class DisplayData:
 
     TIME_FORMAT = ("%H:%M", "--:--")
     """
-    TIME_FORMAT (tuple):
-        A tuple defining the time format and default output for the format.
+    TIME_FORMAT (tuple[str, str]):
+        A tuple defining the time format and default output string for the format.
     """
 
     ICON_DICT = {1: "sun", 2: "sun, slightly cloudy", 3: "sun, cloudy", 4: "clouds",
@@ -34,7 +34,7 @@ class DisplayData:
                  30: "thunderstorm, heavy hail", 31: "wind"
                 }
     """
-    ICON_DICT (dict):
+    ICON_DICT (dict[int, str]):
         A dictionary that contains the mapping of forecast icon numbers
         to human readable string representations.
     """
@@ -49,7 +49,7 @@ class DisplayData:
         station_name (str):
             Name of the weather station. Default value is Error.
 
-        date_time (datetime):
+        date_time (Optional[datetime]):
             A datetime object with the date and time of the provided
             weather data. Default value is None.
 
@@ -72,14 +72,14 @@ class DisplayData:
         self.station_name = station_name
         """
         station_name (str):
-            Name of the weather station. Default value is Error.
+            Name of the weather station.
         """
 
         self.date_time = date_time
         """
-        date_time (datetime):
+        date_time (Optional[datetime]):
             A datetime object with the date and time of the provided
-            weather data. Default value is None.
+            weather data.
         """
 
         self.formatted_time = self.create_formatted_time(date_time)
@@ -91,14 +91,13 @@ class DisplayData:
         self.temperature = temperature
         """
         temperature (float):
-            The temperature in degree celsius. Default value is NAN.
+            The temperature in degree celsius.
         """
 
         self.forecast = forecast
         """
         forecast (int):
             A number representing the weather forecast of the day.
-            Default value is 0.
         """
 
         self.formatted_forecast = self.create_formatted_forecast(forecast)
@@ -111,14 +110,12 @@ class DisplayData:
         """
         daily_min (float):
             Minimum temperature of the day in degree celsius.
-            Default value is NAN.
         """
 
         self.daily_max = daily_max
         """
         daily_max (float):
             Maximum temperature of the day in degree celsius.
-            Default value is NAN.
         """
 
     @classmethod
@@ -129,7 +126,7 @@ class DisplayData:
 
         Parameters
         ----------
-        dto (datetime):
+        dto (Optional[datetime]):
             A datetime object with the date and time of the provided
             weather data.
 

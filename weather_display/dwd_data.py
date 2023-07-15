@@ -7,7 +7,7 @@ purposes.
 import requests
 
 from datetime import datetime, timedelta
-from weather_display.display_data import DisplayData
+from weather_display.models.display_data import DisplayData
 
 
 class DwdData:
