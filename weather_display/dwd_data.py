@@ -4,29 +4,26 @@ to the DWD-API, save the received data and preprocess the received data for disp
 purposes.
 """
 
-import datetime
 import requests
 
+from datetime import datetime, timedelta
 from weather_display.display_data import DisplayData
 
 
 class DwdData:
     """
-    Class that contains the DWD-API base url, stores the station name and informations
-    used for the data requests. It stores the received data for later use or display.
+    Class that contains the DWD-API base url and stores the station used for
+    the data requests. It stores the received data for later use or display.
     """
 
-    def __init__(self, station_name, station_info, attempts=3, timeout=10):
+    def __init__(self, station, attempts=3, timeout=10):
         """
         Constructor for the DwdData objects.
 
         Parameters
         ----------
-        station_name (str):
-            Name of the station.
-
-        station_info (dict):
-            A dictionary containing the informations of the station.
+        station (Station):
+            Station object containing all informations of the station.
 
         attempts (int):
             Number of connection attempts. Default value is 3.
@@ -36,16 +33,10 @@ class DwdData:
             Default value is 10 seconds.
         """
 
-        self.station_name = station_name
+        self.station = station
         """
-        station_name (str):
-            Name of the station.
-        """
-
-        self.station_info = station_info
-        """
-        station_info (dict):
-            A dictionary containing the informations of the station.
+        station (Station):
+            Station object containing all informations of the station.
         """
 
         self.url = "https://app-prod-ws.warnwetter.de/v30"
@@ -57,34 +48,33 @@ class DwdData:
         self.attempts = attempts
         """
         attempts (int):
-            Number of connection attempts. Default value is 3.
+            Number of connection attempts.
         """
 
         self.timeout = timeout
         """
         timeout (int):
             Connection timeout for a server answer in seconds.
-            Default value is 10 seconds.
         """
 
         self.station_data = {}
         """
         station_data (dict):
             A dictionary containing all current weather data from the
-            station specified by the station_info.
+            station specified by station.
         """
 
     def get_station_data(self):
         """
         Method that retrieves the current weather data for the station
-        specified by the saved station_info from the DWD-API.
+        specified by the saved station from the DWD-API.
         The recieved data is returned in form of a deserialized json file.
 
         Returns
         -------
         station_data (dict):
             A dictionary containing all current weather data from the
-            station specified by the station_info. An empty dictionary
+            station specified by the station. An empty dictionary
             is returned if their is no data.
         """
 
@@ -92,7 +82,7 @@ class DwdData:
         url = self.url + "/stationOverviewExtended"
 
         # Build the parameters and the headers for the get request.
-        params = {"stationIds": self.station_info.get("Stations-kennung", "0")}
+        params = {"stationIds": self.station.identifier}
         headers = {"accept": "application/json"}
 
         # Try to reach the server multiple times and handle occuring exceptions.
@@ -119,8 +109,8 @@ class DwdData:
     def get_display_data(self):
         """
         Method that extracts the weather data that will be displayed from
-        the saved station_name, station_info and station_data.
-        The data used for display is returned in a new DisplayData object.
+        the saved station and station_data. The data used for display is
+        returned in a new DisplayData object.
 
         Returns
         -------
@@ -129,8 +119,8 @@ class DwdData:
             station formatted for display purposes.
         """
 
-        # Try to get the station identifier.
-        stationId = self.station_info.get("Stations-kennung", "0")
+        # Get the station identifier.
+        stationId = self.station.identifier
 
         # Check whether forecast data is available.
         forecast_dict = self.station_data.get(stationId, {}).get("forecast1", {})
@@ -140,8 +130,8 @@ class DwdData:
             temperature = float("nan")
         else:
             # Extract start date and date step.
-            start_date = datetime.datetime.fromtimestamp(forecast_dict["start"] / 1000)
-            date_step = datetime.timedelta(milliseconds=forecast_dict["timeStep"])
+            start_date = datetime.fromtimestamp(forecast_dict["start"] / 1000)
+            date_step = timedelta(milliseconds=forecast_dict["timeStep"])
 
             # Process the temperature list by adding the time to each temperature.
             date_temp_list = []
@@ -152,7 +142,7 @@ class DwdData:
                     date_temp_list.append((start_date + (step * date_step), temp / 10))
 
             # Find the date closest to the current date.
-            curr_date = datetime.datetime.now()
+            curr_date = datetime.now()
             date_temp = min([dt for dt in date_temp_list if dt[0] <= curr_date],
                             key=lambda t: abs(curr_date - t[0]))
 
@@ -167,11 +157,11 @@ class DwdData:
             daily_max = float("nan")
         else:
             # Find the date in days list closest to the current date.
-            curr_date = datetime.datetime.now()
+            curr_date = datetime.now()
             day = min([da for da in days_list
-                       if datetime.datetime.strptime(da["dayDate"], "%Y-%m-%d") <= curr_date],
+                       if datetime.strptime(da["dayDate"], "%Y-%m-%d") <= curr_date],
                       key=lambda d: abs(curr_date -
-                                        datetime.datetime.strptime(d["dayDate"], "%Y-%m-%d")))
+                                        datetime.strptime(d["dayDate"], "%Y-%m-%d")))
 
             forecast = day["icon"]
 
@@ -186,14 +176,14 @@ class DwdData:
                 daily_max = day["temperatureMax"] / 10
 
         # Return all gathered data in a DisplayData object.
-        return DisplayData(station_name=self.station_name, date_time=date_time,
+        return DisplayData(station_name=self.station.name, date_time=date_time,
                            temperature=temperature, forecast=forecast,
                            daily_min=daily_min, daily_max=daily_max)
 
     def update(self):
         """
         Method that updates or retrieves the station_data from the DWD-API with
-        the informations saved in station_info.
+        the informations saved in station.
 
         Returns
         -------
