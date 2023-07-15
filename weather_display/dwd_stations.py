@@ -11,6 +11,7 @@ import requests
 from datetime import datetime, timedelta
 from pathlib import Path
 from bs4 import BeautifulSoup
+from weather_display.models.station import Station
 
 
 class DwdStations:
@@ -195,11 +196,11 @@ class DwdStations:
         # Get the table entries by processing the server response.
         return self.process_stations_page(self.get_stations_page())
 
-    def get_station_info_by_name(self, station_name):
+    def get_station_by_name(self, station_name):
         """
         Method that searches a station identified by its name in the
         saved stations table and returns the informations of the station
-        if it is found.
+        in form of a Station object.
 
         Parameters
         ----------
@@ -208,15 +209,26 @@ class DwdStations:
 
         Returns
         -------
-        station_info (dict):
-            A dictionary containing the station name together with the
-            informations of the station or an empty dictionary
-            if the station is not found.
+        station (Station):
+            A Station object containing all informations of the station.
         """
 
         # Try to get the informations for the searched station.
         info = self.table_entries.get(station_name, {})
-        return {station_name: info} if info else {}
+        if info:
+            return Station(station_name,
+                           number=int(info["Stations_ID"]),
+                           type=info["Kennung"],
+                           identifier=info["Stationskennung"],
+                           latitude=float(info["Breite"]),
+                           longitude=float(info["Länge"]),
+                           altitude=int(info["Stationshöhe"]),
+                           river_basin=info["Flussgebiet"],
+                           state=info["Bundesland"],
+                           start=datetime.strptime(info["Beginn"], "%d.%m.%Y"),
+                           end=datetime.strptime(info["Ende"], "%d.%m.%Y"))
+        else:
+            return Station(station_name)
 
     def get_station_info_by_distance(self, latitude, longitude):
         """
