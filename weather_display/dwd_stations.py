@@ -265,11 +265,8 @@ class DwdStations:
 
         Parameters
         ----------
-        table_entries (dict):
+        table_entries (dict[str, dict[str, str]]):
             A dictionary containing all stations from the stations table.
-            The dictionary uses the station names as keys and the
-            corresponding values are dictionaries filled with the
-            additional station informations.
 
         Returns
         -------
@@ -282,11 +279,6 @@ class DwdStations:
 
         # Create parent directory if necessary.
         file_path.parent.mkdir(parents=True, exist_ok=True)
-
-        # Check whether data is available.
-        if not table_entries:
-            print("Data Error: No data available to write to json file.")
-            return False
 
         # Write all table entries to the json file.
         try:
@@ -305,11 +297,9 @@ class DwdStations:
 
         Returns
         -------
-        table_entries (dict):
-            A dictionary containing all stations from the stations table.
-            The dictionary uses the station names as keys and the
-            corresponding values are dictionaries filled with the
-            additional station informations.
+        table_entries (dict[str, dict[str, str]]):
+            A dictionary containing all stations from the stations table
+            or an empty dictionary if no data could be loaded.
         """
 
         # Get the path to the json file.
@@ -324,7 +314,7 @@ class DwdStations:
                 print("I/O Error:", err_os)
                 return {}
         else:
-            print("I/O Error: File does not exist.")
+            print(f"I/O Error: File {self.file_name} does not exist.")
             return {}
 
     def update(self):
