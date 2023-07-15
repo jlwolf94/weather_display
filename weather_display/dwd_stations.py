@@ -336,38 +336,35 @@ class DwdStations:
             mod_date = datetime.fromtimestamp(file_path.stat().st_mtime)
             curr_date = datetime.now()
 
-            # Check whether the file is already updated and get the stations from the file.
+            # Check whether the file is already updated.
             if curr_date - mod_date <= timedelta(hours=self.refresh):
                 table_entries = self.load_table_from_json()
 
-                # Check whether data is available.
+                # Check whether the load was successful.
+                if table_entries:
+                    self.table_entries = table_entries
+                    return True
+
+            # An Update to the table entries and the json file is necessary.
+            table_entries = self.get_table_entries()
+            if table_entries:
+                self.table_entries = table_entries
+                return self.save_table_as_json(table_entries)
+            else:
+                # Try to fall back to existing file.
+                table_entries = self.load_table_from_json()
+
+                # Check whether the load was successful.
                 if table_entries:
                     self.table_entries = table_entries
                     return True
                 else:
-                    print("Data Error: No data available from json file.")
                     return False
-            else:
-                # Update the table entries and the json file.
-                table_entries = self.get_table_entries()
-                self.table_entries = table_entries
-
-                if self.save_table_as_json(table_entries):
-                    # Update was successful.
-                    return True
-                else:
-                    # Fall back to existing file if saving failed.
-                    table_entries = self.load_table_from_json()
-
-                    # Check whether data is available.
-                    if table_entries:
-                        self.table_entries = table_entries
-                        return True
-                    else:
-                        print("Data Error: No data available from json file.")
-                        return False
         else:
             # Update the table entries and the json file.
             table_entries = self.get_table_entries()
-            self.table_entries = table_entries
-            return self.save_table_as_json(table_entries)
+            if table_entries:
+                self.table_entries = table_entries
+                return self.save_table_as_json(table_entries)
+            else:
+                return False
