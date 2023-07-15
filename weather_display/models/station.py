@@ -9,8 +9,9 @@ class Station:
     Class that contains all informations of a weather station.
     """
 
-    def __init__(self, name, number, type, identifier, latitude, longitude,
-                 altitude, river_basin, state, start, end):
+    def __init__(self, name, number=0, type="", identifier="", latitude=0.0,
+                 longitude=0.0, altitude=0, river_basin="", state="",
+                 start=None, end=None):
         """
         Constructor for the Station objects.
 
@@ -20,34 +21,35 @@ class Station:
             Name of the station.
 
         number (int):
-            Number of the station.
+            Number of the station. Default value is 0.
 
         type (str):
-            Type of the station.
+            Type of the station. Default value is the empty string.
 
         identifier (str):
-            Identifier of the station.
+            Identifier of the station. Default value is the empty string.
 
         latitude (float):
-            Latitude of the station.
+            Latitude of the station. Default value is 0.0.
 
         longitude (float):
-            Longitude of the station.
+            Longitude of the station. Default value is 0.0.
 
         altitude (int):
-            Altitude of the station in meter over normal zero.
+            Altitude of the station in meters over normal zero.
+            Default value is 0.
 
         river_basin (str):
-            River basin near the station.
+            River basin near the station. Default value is the empty string.
 
         state (str):
-            State in which the station stands.
+            State in which the station stands. Default value is the empty string.
 
-        start (datetime):
-            The start date of the data set.
+        start (Optional[datetime]):
+            The start date of the data set. Default value is None.
 
-        end (datetime):
-            The end date of the data set.
+        end (Optional[datetime]):
+            The end date of the data set. Default value is None.
         """
 
         self.name = name
@@ -106,12 +108,12 @@ class Station:
 
         self.start = start
         """
-        start (datetime):
+        start (Optional[datetime]):
             The start date of the data set.
         """
 
         self.end = end
         """
-        end (datetime):
+        end (Optional[datetime]):
             The end date of the data set.
         """
