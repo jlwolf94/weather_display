@@ -9,7 +9,7 @@ class Station:
     Class that contains all informations of a weather station.
     """
 
-    def __init__(self, name, number=0, type="", identifier="", latitude=0.0,
+    def __init__(self, name, number=0, type="", identifier="0", latitude=0.0,
                  longitude=0.0, altitude=0, river_basin="", state="",
                  start=None, end=None):
         """
