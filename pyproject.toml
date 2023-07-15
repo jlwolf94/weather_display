@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "weather_display"
-version = "1.0.0"
+version = "1.1.0"
 authors = [
     {name = "Jan-Lukas Wolf"},
 ]
 description = "A simple program to display weather data."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 license = {file = "LICENSE"}
 dependencies = [
     "requests>=2.31.0",
@@ -26,4 +26,4 @@ Homepage = "https://github.com/jlwolf94/weather_display/"
 Repository = "https://github.com/jlwolf94/weather_display.git"
 
 [project.scripts]
-weather_display = "weather_display.__main__:main"
+weather_display = "weather_display.start:main"
