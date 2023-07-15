@@ -4,71 +4,9 @@ package is called directly through the python command `python -m weather_display
 from the parent directory.
 """
 
-import argparse
-import textwrap
+import sys
 
-from weather_display.dwd_stations import DwdStations
-from weather_display.dwd_data import DwdData
-from weather_display.display import Display
+from weather_display.start import main
 
 
-def main():
-    """
-    Main function of the weather_display package and command line script.
-    """
-
-    # Set up a parser for command line argument parsing.
-    parser = argparse.ArgumentParser(
-        prog="weather_display",
-        description=textwrap.dedent("""
-            A simple Python program that retrieves weather data from different sources
-            and displays the data on the console or on a display.
-            """),
-        epilog=textwrap.dedent("""
-            Home page: <https://github.com/jlwolf94/weather_display/>
-            Author: Jan-Lukas Wolf
-            """),
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-
-    # Fill the parser with arguments.
-    parser.add_argument("-n", "--name", action="store", default="",
-                        help="name of the weather station")
-    parser.add_argument("-x", "--lat", action="store", type=float,
-                        help="geographic coordinate latitude")
-    parser.add_argument("-y", "--lon", action="store", type=float,
-                        help="geographic coordinate longitude")
-    parser.add_argument("-v", "--version", action="version",
-                        version="%(prog)s 1.0.0")
-
-    # Process the command line arguments.
-    args = parser.parse_args()
-
-    # Get the stations table.
-    dwd_stations = DwdStations()
-    dwd_stations.update()
-
-    # If latitude and longitude is available use the geographic coordinates.
-    if args.lat is not None and args.lon is not None:
-        station_info = dwd_stations.get_station_info_by_distance(args.lat, args.lon)
-    else:
-        station_info = dwd_stations.get_station_info_by_name(args.name)
-
-    # Get the station data.
-    if station_info:
-        station_tuple = list(station_info.items())[0]
-        station_name = station_tuple[0]
-        station_info = station_tuple[1]
-    else:
-        station_name = "Error"
-        station_info = {}
-
-    dwd_data = DwdData(station_name=station_name, station_info=station_info)
-    dwd_data.update()
-
-    # Show the station data on the console.
-    display = Display()
-    display.show(dwd_data.get_display_data())
-
-
-if __name__ == "__main__":
-    main()
+sys.exit(main())
