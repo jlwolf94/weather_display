@@ -230,7 +230,7 @@ class DwdStations:
         else:
             return Station(station_name)
 
-    def get_station_info_by_distance(self, latitude, longitude):
+    def get_station_by_distance(self, latitude, longitude):
         """
         Method that searches the station closest to the current position which
         is represented by the latitude and longitude value. The informations
@@ -246,29 +246,42 @@ class DwdStations:
 
         Returns
         -------
-        station_info (dict):
-            A dictionary containing the station name together with the
-            informations of the station or an empty dictionary
-            if the station is not found.
+        station (Station):
+            A Station object containing all informations of the station.
         """
+
+        # Build the coordinates tuple.
+        coordinates = (latitude, longitude)
 
         # Check whether data for a search is available.
         if self.table_entries:
             # Search for the closest station.
             min_distance = float("inf")
-            min_station = {}
+            min_name = "Error"
+            min_info = {}
             for stn, sti in self.table_entries.items():
                 curr_distance = \
-                    math.dist((latitude, longitude),
+                    math.dist(coordinates,
                               (float(sti["Breite"]), float(sti["Länge"])))
 
                 if curr_distance < min_distance:
                     min_distance = curr_distance
-                    min_station = {stn: sti}
+                    min_name = stn
+                    min_info = sti
 
-            return min_station
+            return Station(min_name,
+                           number=int(min_info["Stations_ID"]),
+                           type=min_info["Kennung"],
+                           identifier=min_info["Stationskennung"],
+                           latitude=float(min_info["Breite"]),
+                           longitude=float(min_info["Länge"]),
+                           altitude=int(min_info["Stationshöhe"]),
+                           river_basin=min_info["Flussgebiet"],
+                           state=min_info["Bundesland"],
+                           start=datetime.strptime(min_info["Beginn"], "%d.%m.%Y"),
+                           end=datetime.strptime(min_info["Ende"], "%d.%m.%Y"))
         else:
-            return {}
+            return Station("Error")
 
     def save_table_as_json(self, table_entries):
         """
