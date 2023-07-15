@@ -5,7 +5,7 @@ and displays the data on the console or on a display.
 
 ## Installation
 
-A [Python](https://www.python.org/) version of 3.11 or higher is needed.
+A [Python](https://www.python.org/) version of 3.9 or higher is needed.
 The additional packages can be installed with
 [pip](https://pip.pypa.io/en/stable/) using the following command:
 
@@ -13,11 +13,18 @@ The additional packages can be installed with
 pip install -r requirements.txt
 ```
 
+The package as a whole can be installed from the released `.tar.gz` or `.whl`
+file by using [pip](https://pip.pypa.io/en/stable/) as an install tool:
+
+```bash
+pip install weather_display-1.1.0.tar.gz
+```
+
 The project documentation can be found in the docs folder and is generated
 using [pdoc](https://pdoc.dev/) and the following command:
 
 ```bash
-pdoc ./weather_display -o docs
+pdoc weather_display -o docs
 ```
 
 ## Usage
