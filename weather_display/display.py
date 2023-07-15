@@ -14,14 +14,14 @@ class Display:
 
     OUTPUTS = (0, 1)
     """
-    OUTPUTS (tuple):
+    OUTPUTS (tuple[int, int]):
         A tuple containing the numbers of available output channels.
         Zero stands for the default console output.
     """
 
     COLOR_MODES = ("bw", "c")
     """
-    COLOR_MODES (tuple):
+    COLOR_MODES (tuple[str, str]):
         A tuple containing strings that represent the accepted color modes.
         Two color modes are accepted in form of the black and white (bw) and
         color (c) color mode.
@@ -132,7 +132,12 @@ class Display:
             the configurated output channel.
         """
 
-        if self.output == self.OUTPUTS[1]:
-            self.output_to_display(display_data)
+        # Check whether a DisplayData object is available.
+        if display_data is None:
+            return
         else:
-            self.output_to_console(display_data)
+            # Show the display_data.
+            if self.output == self.OUTPUTS[1]:
+                self.output_to_display(display_data)
+            else:
+                self.output_to_console(display_data)
