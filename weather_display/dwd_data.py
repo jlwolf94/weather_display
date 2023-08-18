@@ -125,9 +125,11 @@ class DwdData:
         # Check whether forecast data is available.
         forecast_dict = self.station_data.get(stationId, {}).get("forecast1", {})
         if not forecast_dict:
-            # Error values for time and temperature.
+            # Error values for time, temperature, dew point and precipitation.
             date_time = None
             temperature = float("nan")
+            dew_point = float("nan")
+            precipitation = float("nan")
         else:
             # Extract start date and date step.
             start_date = datetime.fromtimestamp(forecast_dict["start"] / 1000)
@@ -141,13 +143,34 @@ class DwdData:
                 else:
                     date_temp_list.append((start_date + (step * date_step), temp / 10))
 
-            # Find the date closest to the current date.
+            # Process the dew point list by adding the time to each dew_point.
+            date_dew_list = []
+            for step, dew in enumerate(forecast_dict["dewPoint2m"]):
+                if dew < -999 or dew > 999:
+                    date_dew_list.append((start_date + (step * date_step), float("nan")))
+                else:
+                    date_dew_list.append((start_date + (step * date_step), dew / 10))
+
+            # Process the precipitation list by adding the time to each precipitation.
+            date_pre_list = []
+            for step, pre in enumerate(forecast_dict["precipitationTotal"]):
+                if pre < -999 or pre > 999:
+                    date_pre_list.append((start_date + (step * date_step), float("nan")))
+                else:
+                    date_pre_list.append((start_date + (step * date_step), pre / 10))
+
+            # Find the temperature closest to the current date.
             curr_date = datetime.now()
             date_temp = min([dt for dt in date_temp_list if dt[0] <= curr_date],
                             key=lambda t: abs(curr_date - t[0]))
-
             date_time = date_temp[0]
             temperature = date_temp[1]
+
+            # Use the found date_time for dew point and precipitation.
+            dew_point = next((dd[1] for dd in date_dew_list if dd[0] == date_time),
+                             float("nan"))
+            precipitation = next((dp[1] for dp in date_pre_list if dp[0] == date_time),
+                                 float("nan"))
 
         # Check whether days data is available.
         days_list = self.station_data.get(stationId, {}).get("days", [])
@@ -178,7 +201,8 @@ class DwdData:
         # Return all gathered data in a DisplayData object.
         return DisplayData(station_name=self.station.name, date_time=date_time,
                            temperature=temperature, forecast=forecast,
-                           daily_min=daily_min, daily_max=daily_max)
+                           daily_min=daily_min, daily_max=daily_max,
+                           dew_point=dew_point, precipitation=precipitation)
 
     def update(self):
         """
