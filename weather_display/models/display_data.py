@@ -14,7 +14,13 @@ class DisplayData:
     dictionary is stored as well.
     """
 
-    TIME_FORMAT = ("%H:%M", "--:--")
+    DATE_FORMAT = ("%a., %d.%m.%Y", "Thu., 01.01.1970")
+    """
+    DATE_FORMAT (tuple[str, str]):
+        A tuple defining the date format and default output string for the format.
+    """
+
+    TIME_FORMAT = ("%H:%M", "00:00")
     """
     TIME_FORMAT (tuple[str, str]):
         A tuple defining the time format and default output string for the format.
@@ -40,7 +46,8 @@ class DisplayData:
     """
 
     def __init__(self, station_name="Error", date_time=None, temperature=float("nan"),
-                 forecast=0, daily_min=float("nan"), daily_max=float("nan")):
+                 forecast=0, daily_min=float("nan"), daily_max=float("nan"),
+                 dew_point=float("nan"), precipitation=float("nan")):
         """
         Constructor for the DisplayData objects.
 
@@ -67,6 +74,13 @@ class DisplayData:
         daily_max (float):
             Maximum temperature of the day in degree celsius.
             Default value is NAN.
+
+        dew_point (float):
+            The dew point in degree celsius. Default value is NAN.
+
+        precipitation (float):
+            The current precipitation in millimeter.
+            Default value is NAN.
         """
 
         self.station_name = station_name
@@ -82,10 +96,16 @@ class DisplayData:
             weather data.
         """
 
+        self.formatted_date = self.create_formatted_date(date_time)
+        """
+        formatted_date (str):
+            A formatted date representation of the date_time object.
+        """
+
         self.formatted_time = self.create_formatted_time(date_time)
         """
         formatted_time (str):
-            A formatted representation of the date_time object.
+            A formatted time representation of the date_time object.
         """
 
         self.temperature = temperature
@@ -118,6 +138,38 @@ class DisplayData:
             Maximum temperature of the day in degree celsius.
         """
 
+        self.dew_point = dew_point
+        """
+        dew_point (float):
+            The dew point in degree celsius.
+        """
+
+        self.precipitation = precipitation
+        """
+        precipitation (float):
+            The current precipitation in millimeter.
+        """
+
+    @classmethod
+    def create_formatted_date(cls, dto):
+        """
+        Method that uses the class constant DATE_FORMAT to convert the
+        given datetime object to formatted date string.
+
+        Parameters
+        ----------
+        dto (Optional[datetime]):
+            A datetime object with the date and time of the provided
+            weather data.
+
+        Returns
+        -------
+        formatted_date (str):
+            A formatted date representation of the datetime object.
+        """
+
+        return dto.strftime(cls.DATE_FORMAT[0]) if dto is not None else cls.DATE_FORMAT[1]
+
     @classmethod
     def create_formatted_time(cls, dto):
         """
@@ -133,7 +185,7 @@ class DisplayData:
         Returns
         -------
         formatted_time (str):
-            A formatted representation of the datetime object.
+            A formatted time representation of the datetime object.
         """
 
         return dto.strftime(cls.TIME_FORMAT[0]) if dto is not None else cls.TIME_FORMAT[1]
