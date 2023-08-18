@@ -93,17 +93,21 @@ class Display:
         """
 
         # Truncate station names that are to long.
-        station_name = (display_data.station_name[:36] + ".") \
-            if len(display_data.station_name) > 37 else display_data.station_name
+        station_name = (display_data.station_name[:35] + ".") \
+            if len(display_data.station_name) > 36 else display_data.station_name
 
         # Print the weather data to the console.
-        print(f"Station: {station_name:37}    "
-              f"Time: {display_data.formatted_time:20}    "
-              f"Temperature: {display_data.temperature:5.1F} °C"
-              "\n"
-              f"Daily forecast: {display_data.formatted_forecast:30}    "
-              f"Daily min. temp.: {display_data.daily_min:5.1F} °C    "
-              f"Daily max. temp.: {display_data.daily_max:5.1F} °C"
+        print(f"Station: {station_name}\n"
+              f"----------------------------------------------\n"
+              f"Date: {display_data.formatted_date}\n"
+              f"Daily forecast: {display_data.formatted_forecast}\n"
+              f"Daily max. temp.: {display_data.daily_max:5.1F} °C\n"
+              f"Daily min. temp.: {display_data.daily_min:5.1F} °C\n"
+              f"----------------------------------------------\n"
+              f"Time: {display_data.formatted_time}\n"
+              f"Temperature: {display_data.temperature:5.1F} °C\n"
+              f"Dew point: {display_data.dew_point:5.1F} °C\n"
+              f"Precipitation: {display_data.precipitation:4.1F} mm"
              )
 
     def output_to_display(self, display_data):
