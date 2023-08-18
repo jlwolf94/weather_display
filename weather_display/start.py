@@ -45,6 +45,11 @@ def main():
     # Process the command line arguments.
     args = parser.parse_args()
 
+    # Check for arguments and print the help if no arguments are present.
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return
+
     # Get the stations table.
     dwd_stations = DwdStations()
     dwd_stations.update()
