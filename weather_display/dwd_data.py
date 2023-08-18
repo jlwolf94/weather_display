@@ -154,7 +154,7 @@ class DwdData:
             # Process the precipitation list by adding the time to each precipitation.
             date_pre_list = []
             for step, pre in enumerate(forecast_dict["precipitationTotal"]):
-                if pre < -999 or pre > 999:
+                if pre < 0 or pre > 999:
                     date_pre_list.append((start_date + (step * date_step), float("nan")))
                 else:
                     date_pre_list.append((start_date + (step * date_step), pre / 10))
