@@ -96,18 +96,6 @@ class DisplayData:
             weather data.
         """
 
-        self.formatted_date = self.create_formatted_date(date_time)
-        """
-        formatted_date (str):
-            A formatted date representation of the date_time object.
-        """
-
-        self.formatted_time = self.create_formatted_time(date_time)
-        """
-        formatted_time (str):
-            A formatted time representation of the date_time object.
-        """
-
         self.temperature = temperature
         """
         temperature (float):
@@ -118,12 +106,6 @@ class DisplayData:
         """
         forecast (int):
             A number representing the weather forecast of the day.
-        """
-
-        self.formatted_forecast = self.create_formatted_forecast(forecast)
-        """
-        formatted_forecast (str):
-            A formatted string representing the weather forecast of the day.
         """
 
         self.daily_min = daily_min
@@ -150,17 +132,10 @@ class DisplayData:
             The current precipitation in millimeter.
         """
 
-    @classmethod
-    def create_formatted_date(cls, dto):
+    def get_formatted_date(self):
         """
         Method that uses the class constant DATE_FORMAT to convert the
-        given datetime object to formatted date string.
-
-        Parameters
-        ----------
-        dto (Optional[datetime]):
-            A datetime object with the date and time of the provided
-            weather data.
+        current datetime object to a formatted date string.
 
         Returns
         -------
@@ -168,19 +143,13 @@ class DisplayData:
             A formatted date representation of the datetime object.
         """
 
-        return dto.strftime(cls.DATE_FORMAT[0]) if dto is not None else cls.DATE_FORMAT[1]
+        return self.date_time.strftime(self.DATE_FORMAT[0]) \
+            if self.date_time is not None else self.DATE_FORMAT[1]
 
-    @classmethod
-    def create_formatted_time(cls, dto):
+    def get_formatted_time(self):
         """
         Method that uses the class constant TIME_FORMAT to convert the
-        given datetime object to formatted time string.
-
-        Parameters
-        ----------
-        dto (Optional[datetime]):
-            A datetime object with the date and time of the provided
-            weather data.
+        current datetime object to a formatted time string.
 
         Returns
         -------
@@ -188,18 +157,13 @@ class DisplayData:
             A formatted time representation of the datetime object.
         """
 
-        return dto.strftime(cls.TIME_FORMAT[0]) if dto is not None else cls.TIME_FORMAT[1]
+        return self.date_time.strftime(self.TIME_FORMAT[0]) \
+            if self.date_time is not None else self.TIME_FORMAT[1]
 
-    @classmethod
-    def create_formatted_forecast(cls, forecast):
+    def get_formatted_forecast(self):
         """
         Method that converts the forecast number to a human readable string
         by using the ICON_DICT dictionary.
-
-        Parameters
-        ----------
-        forecast (int):
-            A number representing the weather forecast of the day.
 
         Returns
         -------
@@ -207,4 +171,4 @@ class DisplayData:
             A formatted string representing the weather forecast of the day.
         """
 
-        return cls.ICON_DICT.get(forecast, "Error")
+        return self.ICON_DICT.get(self.forecast, "Error")
