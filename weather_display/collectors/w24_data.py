@@ -174,14 +174,15 @@ class W24Data:
                 daily_min = float("inf")
                 daily_max = float("-inf")
                 for temp in reversed(temp_list):
-                    if datetime.fromtimestamp(temp[0] / 1000) < curr_date:
-                        break
-                    elif temp[1] is not None:
-                        curr_temp = float(temp[1])
-                        if curr_temp < daily_min:
-                            daily_min = curr_temp
-                        if curr_temp > daily_max:
-                            daily_max = curr_temp
+                    if temp[1] is not None:
+                        if datetime.fromtimestamp(temp[0] / 1000) < curr_date:
+                            break
+                        else:
+                            curr_temp = float(temp[1])
+                            if curr_temp < daily_min:
+                                daily_min = curr_temp
+                            if curr_temp > daily_max:
+                                daily_max = curr_temp
 
                 if daily_min != float("inf"):
                     display_data.daily_min = daily_min
