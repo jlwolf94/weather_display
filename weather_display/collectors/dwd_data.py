@@ -68,14 +68,11 @@ class DwdData:
         """
         Method that retrieves the current weather data for the station
         specified by the saved station from the DWD-API.
-        The recieved data is returned in form of a deserialized json file.
 
         Returns
         -------
-        station_data (dict):
-            A dictionary containing all current weather data from the
-            station specified by the station. An empty dictionary
-            is returned if their is no data.
+        response (Optional[Response]):
+            The response object of the request to the standard url or None.
         """
 
         # Add url for a station data get request to the base url.
@@ -102,9 +99,9 @@ class DwdData:
             except requests.exceptions.RequestException as err_req:
                 print("Request Error:", err_req)
             else:
-                return response.json()
+                return response
 
-        return {}
+        return None
 
     def get_display_data(self):
         """
@@ -217,6 +214,10 @@ class DwdData:
 
         # Try to get station data from the DWD-API.
         station_data = self.get_station_data()
+        if station_data is not None:
+            station_data = station_data.json()
+        else:
+            station_data = {}
 
         # Check whether there is data for an update.
         if station_data:
