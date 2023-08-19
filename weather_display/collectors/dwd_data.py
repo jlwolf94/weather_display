@@ -116,18 +116,12 @@ class DwdData:
             station formatted for display purposes.
         """
 
-        # Get the station identifier.
-        stationId = self.station.identifier
+        # Create the result DisplayData object.
+        display_data = DisplayData(station_name=self.station.name)
 
         # Check whether forecast data is available.
-        forecast_dict = self.station_data.get(stationId, {}).get("forecast1", {})
-        if not forecast_dict:
-            # Error values for time, temperature, dew point and precipitation.
-            date_time = None
-            temperature = float("nan")
-            dew_point = float("nan")
-            precipitation = float("nan")
-        else:
+        forecast_dict = self.station_data.get(self.station.identifier, {}).get("forecast1", {})
+        if forecast_dict:
             # Extract start date and date step.
             start_date = datetime.fromtimestamp(forecast_dict["start"] / 1000)
             date_step = timedelta(milliseconds=forecast_dict["timeStep"])
@@ -160,46 +154,37 @@ class DwdData:
             curr_date = datetime.now()
             date_temp = min([dt for dt in date_temp_list if dt[0] <= curr_date],
                             key=lambda t: abs(curr_date - t[0]))
-            date_time = date_temp[0]
-            temperature = date_temp[1]
+            display_data.date_time = date_temp[0]
+            display_data.temperature = date_temp[1]
 
             # Use the found date_time for dew point and precipitation.
-            dew_point = next((dd[1] for dd in date_dew_list if dd[0] == date_time),
-                             float("nan"))
-            precipitation = next((dp[1] for dp in date_pre_list if dp[0] == date_time),
-                                 float("nan"))
+            display_data.dew_point = next((dd[1] for dd in date_dew_list
+                                           if dd[0] == date_temp[0]),
+                                           float("nan"))
+            display_data.precipitation = next((dp[1] for dp in date_pre_list
+                                               if dp[0] == date_temp[0]),
+                                               float("nan"))
 
         # Check whether days data is available.
-        days_list = self.station_data.get(stationId, {}).get("days", [])
-        if not days_list:
-            forecast = 0
-            daily_min = float("nan")
-            daily_max = float("nan")
-        else:
-            # Find the date in days list closest to the current date.
+        days_list = self.station_data.get(self.station.identifier, {}).get("days", [])
+        if days_list:
+            # Find the date in the days list closest to the current date.
             curr_date = datetime.now()
             day = min([da for da in days_list
                        if datetime.strptime(da["dayDate"], "%Y-%m-%d") <= curr_date],
                       key=lambda d: abs(curr_date -
                                         datetime.strptime(d["dayDate"], "%Y-%m-%d")))
 
-            forecast = day["icon"]
+            display_data.forecast = day["icon"]
 
-            if day["temperatureMin"] < -999 or day["temperatureMin"] > 999:
-                daily_min = float("nan")
-            else:
-                daily_min = day["temperatureMin"] / 10
+            if day["temperatureMin"] >= -999 and day["temperatureMin"] <= 999:
+                display_data.daily_min = day["temperatureMin"] / 10
 
-            if day["temperatureMax"] < -999 or day["temperatureMax"] > 999:
-                daily_max = float("nan")
-            else:
-                daily_max = day["temperatureMax"] / 10
+            if day["temperatureMax"] >= -999 and day["temperatureMax"] <= 999:
+                display_data.daily_max = day["temperatureMax"] / 10
 
         # Return all gathered data in a DisplayData object.
-        return DisplayData(station_name=self.station.name, date_time=date_time,
-                           temperature=temperature, forecast=forecast,
-                           daily_min=daily_min, daily_max=daily_max,
-                           dew_point=dew_point, precipitation=precipitation)
+        return display_data
 
     def update(self):
         """
