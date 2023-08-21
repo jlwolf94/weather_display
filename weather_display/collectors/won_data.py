@@ -4,6 +4,7 @@ the wetteronline website, save the data and preprocess the extracted data for
 display purposes.
 """
 
+import math
 import requests
 
 from datetime import datetime, date
@@ -72,6 +73,41 @@ class WonData:
             A dictionary containing all current weather data from the
             station specified by station.
         """
+
+    @staticmethod
+    def calc_dew_point(humidity, temperature):
+        """
+        Method that calculates the dew point for a given humidity and temperature.
+        For the calculation an approximation formula based on the Magnus formula
+        with empirically determined parameters is used. The formula is usable between
+        -45 degree Celsius and +60 degree Celsius.
+
+        Parameters
+        ----------
+        humidity (float):
+            The relative humidity of the air in percent.
+
+        temperature (float):
+            The current temperature in degree Celsius.
+
+        Returns
+        -------
+        dew_point (float):
+            The calculated dew point in degree Celsius for the given
+            relative humidity and temperature.
+        """
+
+        # Check whether humidity and temperature are available.
+        if humidity == float("nan") or temperature == float("nan"):
+            return float("nan")
+
+        # Calculate dew point for given humidity and temperature.
+        k_two = 17.62
+        k_three = 243.12
+        f_one = (k_two * temperature) / (k_three + temperature)
+        f_two = (k_two * k_three) / (k_three + temperature)
+        return k_three * ((f_one + math.log(humidity / 100))
+                          / (f_two - math.log(humidity / 100)))
 
     @staticmethod
     def convert_datetime_string(date_time):
@@ -291,53 +327,45 @@ class WonData:
         display_data = DisplayData(station_name=self.station.name)
 
         # Check whether temperature data is available.
-        temp_dict = self.station_data.get("temperatures", {})
-        if temp_dict:
-            # Extract the current temperature with its date.
-            temp_list = temp_dict.get("measuredTemperature", [])
-            for temp in reversed(temp_list):
-                if temp[1] is not None:
-                    display_data.date_time = datetime.fromtimestamp(temp[0] / 1000)
-                    display_data.temperature = float(temp[1])
-                    break
+        temp_list = self.station_data.get("temperatures", [])
+        if temp_list:
+            # Extract the current temperature with its date and time.
+            display_data.date_time = temp_list[0][0]
+            display_data.temperature = temp_list[0][1]
 
             # Search for min and max temperature of the day.
             if display_data.date_time is not None:
                 curr_date = display_data.date_time.replace(hour=0, minute=0)
                 daily_min = float("inf")
                 daily_max = float("-inf")
-                for temp in reversed(temp_list):
-                    if temp[1] is not None:
-                        if datetime.fromtimestamp(temp[0] / 1000) < curr_date:
-                            break
-                        else:
-                            curr_temp = float(temp[1])
-                            if curr_temp < daily_min:
-                                daily_min = curr_temp
-                            if curr_temp > daily_max:
-                                daily_max = curr_temp
+                for temp in temp_list:
+                    if temp[0] < curr_date:
+                        break
+                    else:
+                        curr_temp = temp[1]
+                        if curr_temp < daily_min:
+                            daily_min = curr_temp
+                        if curr_temp > daily_max:
+                            daily_max = curr_temp
 
                 if daily_min != float("inf"):
                     display_data.daily_min = daily_min
                 if daily_max != float("-inf"):
                     display_data.daily_max = daily_max
 
-            # Extract current dew point.
-            dew_point_list = temp_dict.get("dewpoints", [])
-            for dew_point in reversed(dew_point_list):
-                if dew_point[1] is not None:
-                    display_data.dew_point = float(dew_point[1])
-                    break
+        # Check whether humidity data is available.
+        humi_list = self.station_data.get("humidities", [])
+        if humi_list:
+            # Calculate the current dew point.
+            display_data.dew_point = \
+                self.calc_dew_point(humidity=humi_list[0][1],
+                                    temperature=display_data.temperature)
 
         # Check whether precipitation data is available.
-        prec_dict = self.station_data.get("precipitation", {})
-        if prec_dict:
+        prec_list = self.station_data.get("precipitations", [])
+        if prec_list:
             # Extract the current precipitation.
-            prec_list = prec_dict.get("hourly", [])
-            for prec in reversed(prec_list):
-                if prec[1] is not None:
-                    display_data.precipitation = float(prec[1])
-                    break
+            display_data.precipitation = prec_list[0][1]
 
         # Return all gathered data in a DisplayData object.
         return display_data
