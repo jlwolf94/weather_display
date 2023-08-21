@@ -173,7 +173,12 @@ class WonData:
             or precipitation == "keine Meldung"):
             return float("nan")
         else:
-            return float(precipitation.split(" ")[0])
+            # Split the unit and check whether there is a sign for the number.
+            number_string = precipitation.split(" ")[0]
+            if number_string[0].isdigit():
+                return float(number_string)
+            else:
+                return float(number_string[1:])
 
     @staticmethod
     def process_stations_page(response):
