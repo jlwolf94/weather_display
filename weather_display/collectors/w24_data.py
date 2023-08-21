@@ -118,7 +118,7 @@ class W24Data:
         """
 
         # Add station name and number to the base url for the get request.
-        url = self.url + "/" + self.station.name + "/" + str(self.station.number)
+        url = self.url + "/" + self.station.name.lower() + "/" + str(self.station.number)
 
         # Try to reach the server multiple times and handle occuring exceptions.
         for i in range(self.attempts):
