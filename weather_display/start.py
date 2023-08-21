@@ -7,10 +7,10 @@ import sys
 import argparse
 import textwrap
 
-from weather_display.models.display_data import DisplayData
 from weather_display.models.station import Station
 from weather_display.collectors.dwd_data import DwdData
 from weather_display.collectors.w24_data import W24Data
+from weather_display.collectors.won_data import WonData
 from weather_display.dwd_stations import DwdStations
 from weather_display.display import Display
 
@@ -38,7 +38,7 @@ def main():
     # Fill the parser with arguments.
     parser.add_argument("-n", "--name", action="store", default="Error",
                         help="name of the weather station")
-    parser.add_argument("-i", "--id", action="store", type=int,
+    parser.add_argument("-i", "--id", action="store",
                         help="identifier of the weather station")
     parser.add_argument("-x", "--lat", action="store", type=float,
                         help="geographic coordinate latitude")
@@ -58,22 +58,39 @@ def main():
         return
 
     # Check which data source is selected.
-    if args.src >= 1:
-        # Initialize the display.
-        display = Display()
+    if args.src == 1:
+        # Check whether an identifier is present and convertible.
+        if args.id is not None:
+            try:
+                converted_id = int(args.id)
+            except ValueError:
+                converted_id = 0
 
-        # Check whether a name and an identifier is present.
-        if args.name == "Error" or args.id is None:
-            # Show empty Data.
-            display.show(DisplayData())
+            station = Station(name=args.name, number=converted_id)
         else:
-            # Get the station data.
-            station = Station(name=args.name, number=args.id)
-            w24_data = W24Data(station)
-            w24_data.update()
+            station = Station(name=args.name)
 
-            # Show the retrieved data.
-            display.show(w24_data.get_display_data())
+        # Get the station data.
+        w24_data = W24Data(station)
+        w24_data.update()
+
+        # Show the retrieved data.
+        display = Display()
+        display.show(w24_data.get_display_data())
+    elif args.src == 2:
+        # Check whether an identifier is present.
+        if args.id is not None:
+            station = Station(name=args.name, identifier=args.id)
+        else:
+            station = Station(name=args.name)
+
+        # Get the station data.
+        won_data = WonData(station)
+        won_data.update()
+
+        # Show the retrieved data.
+        display = Display()
+        display.show(won_data.get_display_data())
     else:
         # Get the stations table.
         dwd_stations = DwdStations()
@@ -89,7 +106,7 @@ def main():
         dwd_data = DwdData(station)
         dwd_data.update()
 
-        # Show the station data on the console.
+        # Show the retrieved data.
         display = Display()
         display.show(dwd_data.get_display_data())
 
