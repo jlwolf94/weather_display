@@ -372,8 +372,8 @@ class WonData:
 
     def update(self):
         """
-        Method that updates or retrieves the station_data from the wetter24 website
-        with the informations saved in station.
+        Method that updates or retrieves the station_data from the wetteronline
+        website with the informations saved in station.
 
         Returns
         -------
@@ -381,7 +381,7 @@ class WonData:
             Indicates whether the update process was a success or not.
         """
 
-        # Try to get station data from the wetter24 website.
+        # Try to get station data from the wetteronline website.
         station_data = self.process_stations_page(self.get_station_data())
 
         # Check whether there is data for an update.
