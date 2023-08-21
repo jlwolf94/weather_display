@@ -47,7 +47,7 @@ def main():
     parser.add_argument("-s", "--src", action="store", default=0,
                         type=int, help="number of the data source")
     parser.add_argument("-v", "--version", action="version",
-                        version="%(prog)s 1.1.0")
+                        version="%(prog)s 1.2.0")
 
     # Process the command line arguments.
     args = parser.parse_args()
