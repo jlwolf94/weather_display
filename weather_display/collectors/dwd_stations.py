@@ -300,7 +300,7 @@ class DwdStations:
         """
 
         # Get the path to the json file.
-        file_path = Path(__file__).parents[1].joinpath("data", self.file_name)
+        file_path = Path(__file__).parents[2].joinpath("data", self.file_name)
 
         # Create parent directory if necessary.
         file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -328,7 +328,7 @@ class DwdStations:
         """
 
         # Get the path to the json file.
-        file_path = Path(__file__).parents[1].joinpath("data", self.file_name)
+        file_path = Path(__file__).parents[2].joinpath("data", self.file_name)
 
         # Try to load the data if the file exists.
         if file_path.is_file():
@@ -354,7 +354,7 @@ class DwdStations:
         """
 
         # Get the path to the json file.
-        file_path = Path(__file__).parents[1].joinpath("data", self.file_name)
+        file_path = Path(__file__).parents[2].joinpath("data", self.file_name)
 
         # Check whether the file already exists.
         if file_path.is_file():
