@@ -1,4 +1,9 @@
 beautifulsoup4>=4.12.2
+build>=0.10.0
 lxml>=4.9.3
+numpy>=1.25.2
 pdoc>=14.0.0
+Pillow>=10.0.0
 requests>=2.31.0
+RPi.GPIO>=0.7.1
+spidev>=3.6

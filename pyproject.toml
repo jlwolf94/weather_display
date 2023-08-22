@@ -13,9 +13,13 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
 dependencies = [
-    "requests>=2.31.0",
     "beautifulsoup4>=4.12.2",
     "lxml>=4.9.3",
+    "numpy>=1.25.2",
+    "Pillow>=10.0.0",
+    "requests>=2.31.0",
+    "RPi.GPIO>=0.7.1",
+    "spidev>=3.6",
 ]
 
 [project.optional-dependencies]
