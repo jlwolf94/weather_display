@@ -99,11 +99,15 @@ class W24Data:
         # Convert the response content to a searchable object.
         page = BeautifulSoup(response.content, features="lxml")
 
-        # Extract the first script tag of main.
-        script = page.find("main").find("script", recursive=False)
+        # Extract all script tags of main.
+        scripts = page.find("main").find_all("script", recursive=False)
+
+        # If there are no two script tags, then an error occurred.
+        if len(scripts) != 2:
+            return {}
 
         # The script tag content contains all weather data of the station.
-        data_string = script.get_text().split("initWeatherStation(")[1].split(")")[0]
+        data_string = scripts[0].get_text().split("initWeatherStation(")[1].split(")")[0]
         return json.loads(data_string)
 
     def get_station_data(self):

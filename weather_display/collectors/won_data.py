@@ -242,8 +242,12 @@ class WonData:
         # Convert the response content to a searchable object.
         page = BeautifulSoup(response.content, features="lxml")
 
-        # Extract the div with all tables and the three tables.
+        # Extract the div with all tables and check whether it exists.
         table_div = page.find("div", id="showcase")
+        if table_div is None:
+            return {}
+
+        # Extract the three tables.
         tables = [table_div.find("div", id="temperature", recursive=False),
                   table_div.find("div", id="humidity", recursive=False),
                   table_div.find("div", id="precipitation", recursive=False)]
