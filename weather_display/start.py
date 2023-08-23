@@ -19,6 +19,11 @@ import weather_display.displays.lcd_144_test as lcd_144_test
 def main():
     """
     Main function of the weather_display package and command line script.
+
+    Returns
+    -------
+    success (int):
+        A successful run returns zero and all other runs return one.
     """
 
     # Set up a parser for command line argument parsing.
@@ -56,7 +61,7 @@ def main():
     # Check for arguments and print the help if no arguments are present.
     if len(sys.argv) == 1:
         parser.print_help()
-        return
+        return 0
 
     # Check which data source is selected.
     if args.src == 1:
@@ -93,7 +98,7 @@ def main():
         display = Display()
         display.show(won_data.get_display_data())
     elif args.src == 3:
-        lcd_144_test.main()
+        return lcd_144_test.main()
     else:
         # Get the stations table.
         dwd_stations = DwdStations()
@@ -112,6 +117,8 @@ def main():
         # Show the retrieved data.
         display = Display()
         display.show(dwd_data.get_display_data())
+
+    return 0
 
 
 if __name__ == "__main__":
