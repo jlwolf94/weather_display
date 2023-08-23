@@ -5,6 +5,7 @@ functionalities of the 1.44inch LCD HAT SPI interface from Waveshare.
 
 import sys
 
+from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 from weather_display.displays.lcd_144 import LCD144
 
@@ -46,7 +47,7 @@ def main():
     LCD.show_image(image)
     LCD.config.delay_driver_ms(500)
 
-    image = Image.open("./displays/sky.bmp")
+    image = Image.open(Path(__file__).joinpath("sky.bmp"))
     LCD.show_image(image)
 
 
