@@ -13,6 +13,7 @@ from weather_display.collectors.dwd_data import DwdData
 from weather_display.collectors.w24_data import W24Data
 from weather_display.collectors.won_data import WonData
 from weather_display.display import Display
+import weather_display.displays.lcd_144_test as lcd_144_test
 
 
 def main():
@@ -91,6 +92,8 @@ def main():
         # Show the retrieved data.
         display = Display()
         display.show(won_data.get_display_data())
+    elif args.src == 3:
+        lcd_144_test.main()
     else:
         # Get the stations table.
         dwd_stations = DwdStations()
