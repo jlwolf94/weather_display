@@ -46,7 +46,7 @@ def main():
     LCD.show_image(image)
     LCD.config.delay_driver_ms(500)
 
-    image = Image.open("sky.bmp")
+    image = Image.open("./displays/sky.bmp")
     LCD.show_image(image)
 
 
