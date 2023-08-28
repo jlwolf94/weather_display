@@ -41,25 +41,73 @@ class LCD144Config:
     LCD_RST_PIN = 27
     """
     LCD_RST_PIN (int):
-        LCD RST pin definition.
+        LCD RST pin number.
     """
 
     LCD_DC_PIN = 25
     """
     LCD_DC_PIN (int):
-        LCD DC pin definition.
+        LCD DC pin number.
     """
 
     LCD_CS_PIN = 8
     """
     LCD_CS_PIN (int):
-        LCD CS pin definition.
+        LCD CS pin number.
     """
 
     LCD_BL_PIN = 24
     """
     LCD_BL_PIN (int):
-        LCD BL pin definition.
+        LCD BL pin number.
+    """
+
+    KEY_UP_PIN = 6
+    """
+    KEY_UP_PIN (int):
+        Key up pin number.
+    """
+
+    KEY_DOWN_PIN = 19
+    """
+    KEY_DOWN_PIN (int):
+        Key down pin number.
+    """
+
+    KEY_LEFT_PIN = 5
+    """
+    KEY_LEFT_PIN (int):
+        Key left pin number.
+    """
+
+    KEY_RIGHT_PIN = 26
+    """
+    KEY_RIGHT_PIN (int):
+        Key right pin number.
+    """
+
+    KEY_PRESS_PIN = 13
+    """
+    KEY_PRESS_PIN (int):
+        Key press pin number.
+    """
+
+    KEY1_PIN = 21
+    """
+    KEY1_PIN (int):
+        Key 1 pin number.
+    """
+
+    KEY2_PIN = 20
+    """
+    KEY2_PIN (int):
+        Key 2 pin number.
+    """
+
+    KEY3_PIN = 16
+    """
+    KEY3_PIN (int):
+        Key 3 pin number.
     """
 
     LCD_WIDTH = 128
