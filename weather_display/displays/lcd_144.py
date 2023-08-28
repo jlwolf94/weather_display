@@ -81,6 +81,14 @@ class LCD144:
             Adjustment in y-direction.
         """
 
+    @staticmethod
+    def cleanup_GPIO():
+        """
+        Method that calls the GPIO cleanup from the LCD144Config class.
+        """
+
+        LCD144Config.cleanup_GPIO()
+
     def reset(self):
         """
         Method that performs a hardware reset.
