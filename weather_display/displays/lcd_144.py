@@ -319,12 +319,12 @@ class LCD144:
         Returns
         -------
         success (Optional[int]):
-            On failure -1 is returned and None in all other cases.
+            On failure one is returned and None in all other cases.
         """
 
         if self.config.init_GPIO(with_warnings=with_warnings,
                                  with_keys=with_keys) != 0:
-            return -1
+            return 1
 
         # Turn on the backlight.
         GPIO.output(self.config.LCD_BL_PIN, GPIO.HIGH)
