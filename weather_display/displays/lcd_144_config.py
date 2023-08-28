@@ -62,6 +62,96 @@ class LCD144Config:
         LCD BL pin definition.
     """
 
+    LCD_WIDTH = 128
+    """
+    LCD_WIDTH (int):
+        Width of the display in pixel.
+    """
+
+    LCD_HEIGHT = 128
+    """
+    LCD_HEIGHT (int):
+        Height of the display in pixel.
+    """
+
+    LCD_X = 2
+    """
+    LCD_X (int):
+        Display adjustment in x-direction.
+    """
+
+    LCD_Y = 1
+    """
+    LCD_Y (int):
+        Display adjustment in y-direction.
+    """
+
+    LCD_X_MAXPIXEL = 132
+    """
+    LCD_X_MAXPIXEL (int):
+        Display width maximum memory in pixel.
+    """
+
+    LCD_Y_MAXPIXEL = 162
+    """
+    LCD_Y_MAXPIXEL (int):
+        Display height maximum memory in pixel.
+    """
+
+    L2R_U2D = 1
+    """
+    L2R_U2D (int):
+        Left to right, up to down scanning method.
+    """
+
+    L2R_D2U = 2
+    """
+    L2R_D2U (int):
+        Left to right, down to up scanning method.
+    """
+
+    R2L_U2D = 3
+    """
+    R2L_U2D (int):
+        Right to left, up to down scanning method.
+    """
+
+    R2L_D2U = 4
+    """
+    R2L_D2U (int):
+        Right to left, down to up scanning method.
+    """
+
+    U2D_L2R = 5
+    """
+    U2D_L2R (int):
+        Up to down, left to right scanning method.
+    """
+
+    U2D_R2L = 6
+    """
+    U2D_R2L (int):
+        Up to down, right to left scanning method.
+    """
+
+    D2U_L2R = 7
+    """
+    D2U_L2R (int):
+        Down to up, left to right scanning method.
+    """
+
+    D2U_R2L = 8
+    """
+    D2U_R2L (int):
+        Down to up, right to left scanning method.
+    """
+
+    SCAN_DIR_DFT = 6
+    """
+    SCAN_DIR_DFT (int):
+        Default scan direction.
+    """
+
     def __init__(self):
         """
         Constructor for the LCD144Config object.
@@ -106,7 +196,7 @@ class LCD144Config:
 
         time.sleep(delay / 1000.0)
 
-    def write_GPIO_digital(self, pin, value):
+    def write_GPIO_output(self, pin, value):
         """
         Method that writes the given value to the given pin.
 
