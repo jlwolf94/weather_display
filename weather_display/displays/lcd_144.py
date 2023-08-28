@@ -140,7 +140,7 @@ class LCD144:
         Method to initialize the common registers.
         """
 
-        # ST7735R Frame Rate
+        # ST7735R Frame Rate.
         self.write_reg(0xB1)
         self.write_data_8bit(0x01)
         self.write_data_8bit(0x2C)
@@ -159,11 +159,11 @@ class LCD144:
         self.write_data_8bit(0x2C)
         self.write_data_8bit(0x2D)
 
-        # Column inversion
+        # Column inversion.
         self.write_reg(0xB4)
         self.write_data_8bit(0x07)
 
-        # ST7735R Power Sequence
+        # ST7735R Power Sequence.
         self.write_reg(0xC0)
         self.write_data_8bit(0xA2)
         self.write_data_8bit(0x02)
@@ -182,11 +182,11 @@ class LCD144:
         self.write_data_8bit(0x8A)
         self.write_data_8bit(0xEE)
 
-        # VCOM
+        # VCOM.
         self.write_reg(0xC5)
         self.write_data_8bit(0x0E)
 
-        # ST7735R Gamma Sequence
+        # ST7735R Gamma Sequence.
         self.write_reg(0xe0)
         self.write_data_8bit(0x0f)
         self.write_data_8bit(0x1a)
@@ -223,15 +223,15 @@ class LCD144:
         self.write_data_8bit(0x03)
         self.write_data_8bit(0x10)
 
-        # Enable test command
+        # Enable test command.
         self.write_reg(0xF0)
         self.write_data_8bit(0x01)
 
-        # Disable ram power save mode
+        # Disable ram power save mode.
         self.write_reg(0xF6)
         self.write_data_8bit(0x00)
 
-        # 65k mode
+        # 65k mode.
         self.write_reg(0x3A)
         self.write_data_8bit(0x05)
 
@@ -245,10 +245,10 @@ class LCD144:
             Number for the new scan direction.
         """
 
-        # Save the new screen scan direction
+        # Save the new screen scan direction.
         self.scan_dir = scan_dir
 
-        # Get GRAM and LCD width and height
+        # Get GRAM and LCD width and height.
         if ((scan_dir == self.config.L2R_U2D) or (scan_dir == self.config.L2R_D2U)
             or (scan_dir == self.config.R2L_U2D) or (scan_dir == self.config.R2L_D2U)):
             self.width = self.config.LCD_HEIGHT
@@ -272,10 +272,10 @@ class LCD144:
             elif scan_dir == self.config.D2U_L2R:
                 memory_access_reg_data = 0x80 | 0x00 | 0x20
             else:
-                # R2L_D2U:
+                # D2U_R2L:
                 memory_access_reg_data = 0x40 | 0x80 | 0x20
 
-        # Please set (memory_access_reg_data & 0x10) != 1
+        # Please set (memory_access_reg_data & 0x10) != 1.
         if (memory_access_reg_data & 0x10) != 1:
             self.x_adjust = self.config.LCD_Y
             self.y_adjust = self.config.LCD_X
@@ -283,20 +283,30 @@ class LCD144:
             self.x_adjust = self.config.LCD_X
             self.y_adjust = self.config.LCD_Y
 
-        # Set the read and write scan direction of the frame memory
-        # MX, MY, RGB mode
+        # Set the read and write scan direction of the frame memory with
+        # MX, MY, RGB mode and 0x08 set RGB.
         self.write_reg(0x36)
-        # 0x08 set RGB
         self.write_data_8bit(memory_access_reg_data | 0x08)
 
-    def init_LCD(self, scan_dir):
+    def init_LCD(self, scan_dir=LCD144Config.SCAN_DIR_DFT,
+                 with_warnings=False, with_keys=False):
         """
-        Method that initializes the whole display.
+        Method that initializes the whole display with the given scan direction
+        and activation state of warnings and keys.
 
         Parameters
         ----------
         scan_dir (int):
             Number for the new scan direction.
+            Default value is the default scan direction from the config class.
+
+        with_warnings (bool):
+            Sets whether warnings are displayed on the console.
+            Default value is False.
+
+        with_keys (bool):
+            Sets whether the keys of the display should be initialized.
+            Default value is False.
 
         Returns
         -------
@@ -304,27 +314,28 @@ class LCD144:
             On failure -1 is returned and None in all other cases.
         """
 
-        if (self.config.init_GPIO() != 0):
+        if (self.config.init_GPIO(with_warnings=with_warnings,
+                                  with_keys=with_keys) != 0):
             return -1
 
-        # Turn on the backlight
+        # Turn on the backlight.
         GPIO.output(self.config.LCD_BL_PIN, GPIO.HIGH)
 
-        # Hardware reset
+        # Hardware reset.
         self.reset()
 
-        # Set the initialization register
+        # Set the initialization register.
         self.init_reg()
 
-        # Set the display scan and color transfer modes
+        # Set the display scan and color transfer modes.
         self.set_gram_scan_way(scan_dir)
         self.config.delay_driver_ms(200)
 
-        # Sleep out
+        # Sleep out.
         self.write_reg(0x11)
         self.config.delay_driver_ms(120)
 
-        # Turn on the LCD display
+        # Turn on the LCD display.
         self.write_reg(0x29)
 
     def set_windows(self, x_start, y_start, x_end, y_end):
@@ -346,14 +357,14 @@ class LCD144:
             End position in y-direction.
         """
 
-        # Set the x-coordinates
+        # Set the x-coordinates.
         self.write_reg(0x2A)
         self.write_data_8bit(0x00)
         self.write_data_8bit((x_start & 0xff) + self.x_adjust)
         self.write_data_8bit(0x00)
         self.write_data_8bit(((x_end - 1) & 0xff) + self.x_adjust)
 
-        # Set the y-coordinates
+        # Set the y-coordinates.
         self.write_reg(0x2B)
         self.write_data_8bit(0x00)
         self.write_data_8bit((y_start & 0xff) + self.y_adjust)
@@ -386,7 +397,7 @@ class LCD144:
         """
 
         # Check whether an image exists.
-        if (image == None):
+        if image is None:
             return
 
         # Get the image dimensions and compare them with the display size.
