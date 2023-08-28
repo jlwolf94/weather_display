@@ -211,6 +211,28 @@ class LCD144Config:
             SPI device with bus 0 and device 0.
         """
 
+    @staticmethod
+    def delay_driver_ms(delay):
+        """
+        Method that delays the driver execution by the given number
+        of milliseconds.
+
+        Parameters
+        ----------
+        delay (int):
+            Number of milliseconds for the delay.
+        """
+
+        time.sleep(delay / 1000.0)
+
+    @staticmethod
+    def cleanup_GPIO():
+        """
+        Method that initializes the GPIO cleanup.
+        """
+
+        GPIO.cleanup()
+
     def init_GPIO(self, with_warnings=False, with_keys=False):
         """
         Method that initializes the GPIO object for the LCD display with
@@ -232,8 +254,7 @@ class LCD144Config:
             On success 0 is returned and None in all other cases.
         """
 
-        # Initial cleanup and mode setup.
-        GPIO.cleanup()
+        # Initial mode setup.
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(with_warnings)
 
@@ -259,19 +280,6 @@ class LCD144Config:
         self.SPI.mode = 0b00
 
         return 0
-
-    def delay_driver_ms(self, delay):
-        """
-        Method that delays the driver execution by the given number
-        of milliseconds.
-
-        Parameters
-        ----------
-        delay (int):
-            Number of milliseconds for the delay.
-        """
-
-        time.sleep(delay / 1000.0)
 
     def write_SPI_bytes(self, data):
         """
