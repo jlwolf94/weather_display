@@ -273,39 +273,6 @@ class LCD144Config:
 
         time.sleep(delay / 1000.0)
 
-    def read_GPIO_input(self, pin):
-        """
-        Method that reads the input value on the given pin and returns
-        the found input value.
-
-        Parameters
-        ----------
-        pin (int):
-            Number of the addressed pin.
-
-        Returns
-        -------
-        input (int):
-            Value read from the given input pin.
-        """
-
-        return GPIO.input(pin)
-
-    def write_GPIO_output(self, pin, value):
-        """
-        Method that writes the given output value to the selected pin.
-
-        Parameters
-        ----------
-        pin (int):
-            Number of the addressed pin.
-
-        value (int):
-            Number that should be written on the pin.
-        """
-
-        GPIO.output(pin, value)
-
     def write_SPI_bytes(self, data):
         """
         Method that writes the given byte data to the SPI interface.
