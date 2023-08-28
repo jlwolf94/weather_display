@@ -34,28 +34,6 @@ import numpy as np
 from weather_display.displays.lcd_144_config import LCD144Config
 
 
-LCD_1IN44 = 1
-
-LCD_WIDTH = 128  # LCD width
-LCD_HEIGHT = 128  # LCD height
-LCD_X = 2
-LCD_Y = 1
-
-LCD_X_MAXPIXEL = 132  # LCD width maximum memory
-LCD_Y_MAXPIXEL = 162  # LCD height maximum memory
-
-# Scanning method
-L2R_U2D = 1
-L2R_D2U = 2
-R2L_U2D = 3
-R2L_D2U = 4
-U2D_L2R = 5
-U2D_R2L = 6
-D2U_L2R = 7
-D2U_R2L = 8
-SCAN_DIR_DFT = 6
-
-
 class LCD144:
     """
     Class that is responsible for all input, output and setting methods
@@ -73,31 +51,31 @@ class LCD144:
             Configurations object for the display.
         """
 
-        self.width = LCD_WIDTH
+        self.width = LCD144Config.LCD_WIDTH
         """
         width (int):
             Width of the display in pixel.
         """
 
-        self.height = LCD_HEIGHT
+        self.height = LCD144Config.LCD_HEIGHT
         """
         height (int):
             Height of the display in pixel.
         """
 
-        self.scan_dir = SCAN_DIR_DFT
+        self.scan_dir = LCD144Config.SCAN_DIR_DFT
         """
         scan_dir (int):
             Scan direction of the display.
         """
 
-        self.x_adjust = LCD_X
+        self.x_adjust = LCD144Config.LCD_X
         """
         x_adjust (int):
             Adjustment in x-direction.
         """
 
-        self.y_adjust = LCD_Y
+        self.y_adjust = LCD144Config.LCD_Y
         """
         y_adjust (int):
             Adjustment in y-direction.
@@ -271,27 +249,27 @@ class LCD144:
         self.scan_dir = scan_dir
 
         # Get GRAM and LCD width and height
-        if ((scan_dir == L2R_U2D) or (scan_dir == L2R_D2U)
-            or (scan_dir == R2L_U2D) or (scan_dir == R2L_D2U)):
-            self.width = LCD_HEIGHT
-            self.height = LCD_WIDTH
-            if scan_dir == L2R_U2D:
+        if ((scan_dir == self.config.L2R_U2D) or (scan_dir == self.config.L2R_D2U)
+            or (scan_dir == self.config.R2L_U2D) or (scan_dir == self.config.R2L_D2U)):
+            self.width = self.config.LCD_HEIGHT
+            self.height = self.config.LCD_WIDTH
+            if scan_dir == self.config.L2R_U2D:
                 memory_access_reg_data = 0X00 | 0x00
-            elif scan_dir == L2R_D2U:
+            elif scan_dir == self.config.L2R_D2U:
                 memory_access_reg_data = 0X00 | 0x80
-            elif scan_dir == R2L_U2D:
+            elif scan_dir == self.config.R2L_U2D:
                 memory_access_reg_data = 0x40 | 0x00
             else:
                 # R2L_D2U:
                 memory_access_reg_data = 0x40 | 0x80
         else:
-            self.width = LCD_WIDTH
-            self.height = LCD_HEIGHT
-            if scan_dir == U2D_L2R:
+            self.width = self.config.LCD_WIDTH
+            self.height = self.config.LCD_HEIGHT
+            if scan_dir == self.config.U2D_L2R:
                 memory_access_reg_data = 0X00 | 0x00 | 0x20
-            elif scan_dir == U2D_R2L:
+            elif scan_dir == self.config.U2D_R2L:
                 memory_access_reg_data = 0X00 | 0x40 | 0x20
-            elif scan_dir == D2U_L2R:
+            elif scan_dir == self.config.D2U_L2R:
                 memory_access_reg_data = 0x80 | 0x00 | 0x20
             else:
                 # R2L_D2U:
@@ -299,21 +277,17 @@ class LCD144:
 
         # Please set (memory_access_reg_data & 0x10) != 1
         if (memory_access_reg_data & 0x10) != 1:
-            self.x_adjust = LCD_Y
-            self.y_adjust = LCD_X
+            self.x_adjust = self.config.LCD_Y
+            self.y_adjust = self.config.LCD_X
         else:
-            self.x_adjust = LCD_X
-            self.y_adjust = LCD_Y
+            self.x_adjust = self.config.LCD_X
+            self.y_adjust = self.config.LCD_Y
 
         # Set the read and write scan direction of the frame memory
         # MX, MY, RGB mode
         self.write_reg(0x36)
-        if LCD_1IN44 == 1:
-            # 0x08 set RGB
-            self.write_data_8bit(memory_access_reg_data | 0x08)
-        else:
-            # RGB color filter panel
-            self.write_data_8bit(memory_access_reg_data & 0xf7)
+        # 0x08 set RGB
+        self.write_data_8bit(memory_access_reg_data | 0x08)
 
     def init_LCD(self, scan_dir):
         """
