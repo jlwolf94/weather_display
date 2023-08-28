@@ -101,6 +101,23 @@ class LCD144:
         GPIO.output(self.config.LCD_RST_PIN, GPIO.HIGH)
         self.config.delay_driver_ms(100)
 
+    def read_key_input(self, key):
+        """
+        Method that returns the input value read from the given key number.
+
+        Parameters
+        ----------
+        key (int):
+            Number of the key that is used for the data read.
+
+        Returns
+        -------
+        data (int):
+            Data read from the given key.
+        """
+
+        return GPIO.input(key)
+
     def write_reg(self, reg):
         """
         Method that writes register data.
