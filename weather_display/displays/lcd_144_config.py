@@ -211,9 +211,20 @@ class LCD144Config:
             SPI device with bus 0 and device 0.
         """
 
-    def init_GPIO(self):
+    def init_GPIO(self, with_warnings=False, with_keys=False):
         """
-        Method that initializes the GPIO object.
+        Method that initializes the GPIO object for the LCD display with
+        or without the input keys.
+
+        Parameters
+        ----------
+        with_warnings (bool):
+            Sets whether warnings are displayed on the console.
+            Default value is False.
+
+        with_keys (bool):
+            Sets whether the keys of the display should be initialized.
+            Default value is False.
 
         Returns
         -------
@@ -221,14 +232,32 @@ class LCD144Config:
             On success 0 is returned and None in all other cases.
         """
 
+        # Initial cleanup and mode setup.
+        GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
+        GPIO.setwarnings(with_warnings)
+
+        # Setup of the display.
         GPIO.setup(self.LCD_RST_PIN, GPIO.OUT)
         GPIO.setup(self.LCD_DC_PIN, GPIO.OUT)
         GPIO.setup(self.LCD_CS_PIN, GPIO.OUT)
         GPIO.setup(self.LCD_BL_PIN, GPIO.OUT)
+
+        # Setup of the display keys.
+        if with_keys:
+            GPIO.setup(self.KEY_UP_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.KEY_DOWN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.KEY_LEFT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.KEY_RIGHT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.KEY_PRESS_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.KEY1_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.KEY2_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.KEY3_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+        # Configuration of the SPI object.
         self.SPI.max_speed_hz = 9000000
         self.SPI.mode = 0b00
+
         return 0
 
     def delay_driver_ms(self, delay):
