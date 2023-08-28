@@ -49,16 +49,85 @@
                                 <a class="variable" href="#LCD144Config.LCD_BL_PIN">LCD_BL_PIN</a>
                         </li>
                         <li>
-                                <a class="variable" href="#LCD144Config.SPI">SPI</a>
+                                <a class="variable" href="#LCD144Config.KEY_UP_PIN">KEY_UP_PIN</a>
                         </li>
                         <li>
-                                <a class="function" href="#LCD144Config.init_GPIO">init_GPIO</a>
+                                <a class="variable" href="#LCD144Config.KEY_DOWN_PIN">KEY_DOWN_PIN</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.KEY_LEFT_PIN">KEY_LEFT_PIN</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.KEY_RIGHT_PIN">KEY_RIGHT_PIN</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.KEY_PRESS_PIN">KEY_PRESS_PIN</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.KEY1_PIN">KEY1_PIN</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.KEY2_PIN">KEY2_PIN</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.KEY3_PIN">KEY3_PIN</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.LCD_WIDTH">LCD_WIDTH</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.LCD_HEIGHT">LCD_HEIGHT</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.LCD_X">LCD_X</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.LCD_Y">LCD_Y</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.LCD_X_MAXPIXEL">LCD_X_MAXPIXEL</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.LCD_Y_MAXPIXEL">LCD_Y_MAXPIXEL</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.L2R_U2D">L2R_U2D</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.L2R_D2U">L2R_D2U</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.R2L_U2D">R2L_U2D</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.R2L_D2U">R2L_D2U</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.U2D_L2R">U2D_L2R</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.U2D_R2L">U2D_R2L</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.D2U_L2R">D2U_L2R</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.D2U_R2L">D2U_R2L</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.SCAN_DIR_DFT">SCAN_DIR_DFT</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#LCD144Config.SPI">SPI</a>
                         </li>
                         <li>
                                 <a class="function" href="#LCD144Config.delay_driver_ms">delay_driver_ms</a>
                         </li>
                         <li>
-                                <a class="function" href="#LCD144Config.write_GPIO_digital">write_GPIO_digital</a>
+                                <a class="function" href="#LCD144Config.cleanup_GPIO">cleanup_GPIO</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#LCD144Config.init_GPIO">init_GPIO</a>
                         </li>
                         <li>
                                 <a class="function" href="#LCD144Config.write_SPI_bytes">write_SPI_bytes</a>
@@ -157,97 +226,257 @@ THE SOFTWARE.</p>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="n">LCD_RST_PIN</span> <span class="o">=</span> <span class="mi">27</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="sd">    LCD_RST_PIN (int):</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="sd">        LCD RST pin definition.</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="sd">        LCD RST pin number.</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>    <span class="n">LCD_DC_PIN</span> <span class="o">=</span> <span class="mi">25</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="sd">    LCD_DC_PIN (int):</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">        LCD DC pin definition.</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">        LCD DC pin number.</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>    <span class="n">LCD_CS_PIN</span> <span class="o">=</span> <span class="mi">8</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">    LCD_CS_PIN (int):</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">        LCD CS pin definition.</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="sd">        LCD CS pin number.</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>
 </span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>    <span class="n">LCD_BL_PIN</span> <span class="o">=</span> <span class="mi">24</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="sd">    LCD_BL_PIN (int):</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">        LCD BL pin definition.</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">        LCD BL pin number.</span>
 </span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="sd">        Constructor for the LCD144Config object.</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span> <span class="o">=</span> <span class="n">spidev</span><span class="o">.</span><span class="n">SpiDev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        SPI (Any):</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">            SPI device with bus 0 and device 0.</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>    <span class="k">def</span> <span class="nf">init_GPIO</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">        Method that initializes the GPIO object.</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">        Returns</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">        -------</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">        success (Optional[int]):</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">            On success 0 is returned and None in all other cases.</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_RST_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_DC_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_CS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_BL_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">max_speed_hz</span> <span class="o">=</span> <span class="mi">9000000</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="mb">0b00</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="k">return</span> <span class="mi">0</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="k">def</span> <span class="nf">delay_driver_ms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delay</span><span class="p">):</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">        Method that delays the driver execution by the given number</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">        of milliseconds.</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="n">KEY_UP_PIN</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="sd">    KEY_UP_PIN (int):</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="sd">        Key up pin number.</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>    <span class="n">KEY_DOWN_PIN</span> <span class="o">=</span> <span class="mi">19</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">    KEY_DOWN_PIN (int):</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">        Key down pin number.</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>    <span class="n">KEY_LEFT_PIN</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">    KEY_LEFT_PIN (int):</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">        Key left pin number.</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>    <span class="n">KEY_RIGHT_PIN</span> <span class="o">=</span> <span class="mi">26</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">    KEY_RIGHT_PIN (int):</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">        Key right pin number.</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="n">KEY_PRESS_PIN</span> <span class="o">=</span> <span class="mi">13</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    KEY_PRESS_PIN (int):</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">        Key press pin number.</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>    <span class="n">KEY1_PIN</span> <span class="o">=</span> <span class="mi">21</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">    KEY1_PIN (int):</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">        Key 1 pin number.</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">        Parameters</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">        ----------</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">        delay (int):</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">            Number of milliseconds for the delay.</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="n">KEY2_PIN</span> <span class="o">=</span> <span class="mi">20</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">    KEY2_PIN (int):</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">        Key 2 pin number.</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="k">def</span> <span class="nf">write_GPIO_digital</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">        Method that writes the given value to the given pin.</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="n">KEY3_PIN</span> <span class="o">=</span> <span class="mi">16</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="sd">    KEY3_PIN (int):</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="sd">        Key 3 pin number.</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">        Parameters</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="sd">        ----------</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">        pin (int):</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">            Number of the addressed pin.</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="sd">        value (int):</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">            Number that should be written on the pin.</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>    <span class="k">def</span> <span class="nf">write_SPI_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="sd">        Method that writes the given byte data to the SPI interface.</span>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="sd">        Parameters</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="sd">        ----------</span>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="sd">        data (list[int]):</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="sd">            Byte data that will be written to the SPI interface.</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">writebytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="n">LCD_WIDTH</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">    LCD_WIDTH (int):</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">        Width of the display in pixel.</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>    <span class="n">LCD_HEIGHT</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="sd">    LCD_HEIGHT (int):</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="sd">        Height of the display in pixel.</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>    <span class="n">LCD_X</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a><span class="sd">    LCD_X (int):</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a><span class="sd">        Display adjustment in x-direction.</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>    <span class="n">LCD_Y</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="sd">    LCD_Y (int):</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="sd">        Display adjustment in y-direction.</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>    <span class="n">LCD_X_MAXPIXEL</span> <span class="o">=</span> <span class="mi">132</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="sd">    LCD_X_MAXPIXEL (int):</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="sd">        Display width maximum memory in pixel.</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>    <span class="n">LCD_Y_MAXPIXEL</span> <span class="o">=</span> <span class="mi">162</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">    LCD_Y_MAXPIXEL (int):</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="sd">        Display height maximum memory in pixel.</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>    <span class="n">L2R_U2D</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a><span class="sd">    L2R_U2D (int):</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="sd">        Left to right, up to down scanning method.</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>    <span class="n">L2R_D2U</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="sd">    L2R_D2U (int):</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="sd">        Left to right, down to up scanning method.</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>    <span class="n">R2L_U2D</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    R2L_U2D (int):</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">        Right to left, up to down scanning method.</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="n">R2L_D2U</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">    R2L_D2U (int):</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a><span class="sd">        Right to left, down to up scanning method.</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>    <span class="n">U2D_L2R</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">    U2D_L2R (int):</span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="sd">        Up to down, left to right scanning method.</span>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>    <span class="n">U2D_R2L</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">    U2D_R2L (int):</span>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="sd">        Up to down, right to left scanning method.</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>    <span class="n">D2U_L2R</span> <span class="o">=</span> <span class="mi">7</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a><span class="sd">    D2U_L2R (int):</span>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="sd">        Down to up, left to right scanning method.</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>    <span class="n">D2U_R2L</span> <span class="o">=</span> <span class="mi">8</span>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="sd">    D2U_R2L (int):</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="sd">        Down to up, right to left scanning method.</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>
+</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>    <span class="n">SCAN_DIR_DFT</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a><span class="sd">    SCAN_DIR_DFT (int):</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a><span class="sd">        Default scan direction.</span>
+</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="sd">        Constructor for the LCD144Config object.</span>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span> <span class="o">=</span> <span class="n">spidev</span><span class="o">.</span><span class="n">SpiDev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="sd">        SPI (Any):</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="sd">            SPI device with bus 0 and device 0.</span>
+</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>    <span class="k">def</span> <span class="nf">delay_driver_ms</span><span class="p">(</span><span class="n">delay</span><span class="p">):</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="sd">        Method that delays the driver execution by the given number</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="sd">        of milliseconds.</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="sd">        Parameters</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="sd">        ----------</span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="sd">        delay (int):</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a><span class="sd">            Number of milliseconds for the delay.</span>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>
+</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>
+</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>    <span class="k">def</span> <span class="nf">cleanup_GPIO</span><span class="p">():</span>
+</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a><span class="sd">        Method that initializes the GPIO cleanup.</span>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>
+</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>    <span class="k">def</span> <span class="nf">init_GPIO</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a><span class="sd">        Method that initializes the GPIO object for the LCD display with</span>
+</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="sd">        or without the input keys.</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>
+</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a><span class="sd">        Parameters</span>
+</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a><span class="sd">        ----------</span>
+</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a><span class="sd">        with_warnings (bool):</span>
+</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a><span class="sd">            Sets whether warnings are displayed on the console.</span>
+</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a><span class="sd">            Default value is False.</span>
+</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>
+</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a><span class="sd">        with_keys (bool):</span>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a><span class="sd">            Sets whether the keys of the display should be initialized.</span>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a><span class="sd">            Default value is False.</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="sd">        Returns</span>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">        -------</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        success (Optional[int]):</span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">            On success 0 is returned and None in all other cases.</span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>        <span class="c1"># Initial mode setup.</span>
+</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="n">with_warnings</span><span class="p">)</span>
+</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>        <span class="c1"># Setup of the display.</span>
+</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_RST_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_DC_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_CS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_BL_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a>
+</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a>        <span class="c1"># Setup of the display keys.</span>
+</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a>        <span class="k">if</span> <span class="n">with_keys</span><span class="p">:</span>
+</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_UP_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_DOWN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_LEFT_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_RIGHT_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_PRESS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY1_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY2_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY3_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a>
+</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a>        <span class="c1"># Configuration of the SPI object.</span>
+</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">max_speed_hz</span> <span class="o">=</span> <span class="mi">9000000</span>
+</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="mb">0b00</span>
+</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a>
+</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a>        <span class="k">return</span> <span class="mi">0</span>
+</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a>
+</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a>    <span class="k">def</span> <span class="nf">write_SPI_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a><span class="sd">        Method that writes the given byte data to the SPI interface.</span>
+</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>
+</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a><span class="sd">        Parameters</span>
+</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a><span class="sd">        ----------</span>
+</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a><span class="sd">        data (list[int]):</span>
+</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a><span class="sd">            Byte data that will be written to the SPI interface.</span>
+</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a>
+</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">writebytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -272,97 +501,257 @@ THE SOFTWARE.</p>
 </span><span id="LCD144Config-42"><a href="#LCD144Config-42"><span class="linenos"> 42</span></a>    <span class="n">LCD_RST_PIN</span> <span class="o">=</span> <span class="mi">27</span>
 </span><span id="LCD144Config-43"><a href="#LCD144Config-43"><span class="linenos"> 43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="LCD144Config-44"><a href="#LCD144Config-44"><span class="linenos"> 44</span></a><span class="sd">    LCD_RST_PIN (int):</span>
-</span><span id="LCD144Config-45"><a href="#LCD144Config-45"><span class="linenos"> 45</span></a><span class="sd">        LCD RST pin definition.</span>
+</span><span id="LCD144Config-45"><a href="#LCD144Config-45"><span class="linenos"> 45</span></a><span class="sd">        LCD RST pin number.</span>
 </span><span id="LCD144Config-46"><a href="#LCD144Config-46"><span class="linenos"> 46</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="LCD144Config-47"><a href="#LCD144Config-47"><span class="linenos"> 47</span></a>
 </span><span id="LCD144Config-48"><a href="#LCD144Config-48"><span class="linenos"> 48</span></a>    <span class="n">LCD_DC_PIN</span> <span class="o">=</span> <span class="mi">25</span>
 </span><span id="LCD144Config-49"><a href="#LCD144Config-49"><span class="linenos"> 49</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="LCD144Config-50"><a href="#LCD144Config-50"><span class="linenos"> 50</span></a><span class="sd">    LCD_DC_PIN (int):</span>
-</span><span id="LCD144Config-51"><a href="#LCD144Config-51"><span class="linenos"> 51</span></a><span class="sd">        LCD DC pin definition.</span>
+</span><span id="LCD144Config-51"><a href="#LCD144Config-51"><span class="linenos"> 51</span></a><span class="sd">        LCD DC pin number.</span>
 </span><span id="LCD144Config-52"><a href="#LCD144Config-52"><span class="linenos"> 52</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="LCD144Config-53"><a href="#LCD144Config-53"><span class="linenos"> 53</span></a>
 </span><span id="LCD144Config-54"><a href="#LCD144Config-54"><span class="linenos"> 54</span></a>    <span class="n">LCD_CS_PIN</span> <span class="o">=</span> <span class="mi">8</span>
 </span><span id="LCD144Config-55"><a href="#LCD144Config-55"><span class="linenos"> 55</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="LCD144Config-56"><a href="#LCD144Config-56"><span class="linenos"> 56</span></a><span class="sd">    LCD_CS_PIN (int):</span>
-</span><span id="LCD144Config-57"><a href="#LCD144Config-57"><span class="linenos"> 57</span></a><span class="sd">        LCD CS pin definition.</span>
+</span><span id="LCD144Config-57"><a href="#LCD144Config-57"><span class="linenos"> 57</span></a><span class="sd">        LCD CS pin number.</span>
 </span><span id="LCD144Config-58"><a href="#LCD144Config-58"><span class="linenos"> 58</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="LCD144Config-59"><a href="#LCD144Config-59"><span class="linenos"> 59</span></a>
 </span><span id="LCD144Config-60"><a href="#LCD144Config-60"><span class="linenos"> 60</span></a>    <span class="n">LCD_BL_PIN</span> <span class="o">=</span> <span class="mi">24</span>
 </span><span id="LCD144Config-61"><a href="#LCD144Config-61"><span class="linenos"> 61</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="LCD144Config-62"><a href="#LCD144Config-62"><span class="linenos"> 62</span></a><span class="sd">    LCD_BL_PIN (int):</span>
-</span><span id="LCD144Config-63"><a href="#LCD144Config-63"><span class="linenos"> 63</span></a><span class="sd">        LCD BL pin definition.</span>
+</span><span id="LCD144Config-63"><a href="#LCD144Config-63"><span class="linenos"> 63</span></a><span class="sd">        LCD BL pin number.</span>
 </span><span id="LCD144Config-64"><a href="#LCD144Config-64"><span class="linenos"> 64</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="LCD144Config-65"><a href="#LCD144Config-65"><span class="linenos"> 65</span></a>
-</span><span id="LCD144Config-66"><a href="#LCD144Config-66"><span class="linenos"> 66</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LCD144Config-67"><a href="#LCD144Config-67"><span class="linenos"> 67</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config-68"><a href="#LCD144Config-68"><span class="linenos"> 68</span></a><span class="sd">        Constructor for the LCD144Config object.</span>
-</span><span id="LCD144Config-69"><a href="#LCD144Config-69"><span class="linenos"> 69</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config-70"><a href="#LCD144Config-70"><span class="linenos"> 70</span></a>
-</span><span id="LCD144Config-71"><a href="#LCD144Config-71"><span class="linenos"> 71</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span> <span class="o">=</span> <span class="n">spidev</span><span class="o">.</span><span class="n">SpiDev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="LCD144Config-72"><a href="#LCD144Config-72"><span class="linenos"> 72</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config-73"><a href="#LCD144Config-73"><span class="linenos"> 73</span></a><span class="sd">        SPI (Any):</span>
-</span><span id="LCD144Config-74"><a href="#LCD144Config-74"><span class="linenos"> 74</span></a><span class="sd">            SPI device with bus 0 and device 0.</span>
-</span><span id="LCD144Config-75"><a href="#LCD144Config-75"><span class="linenos"> 75</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config-76"><a href="#LCD144Config-76"><span class="linenos"> 76</span></a>
-</span><span id="LCD144Config-77"><a href="#LCD144Config-77"><span class="linenos"> 77</span></a>    <span class="k">def</span> <span class="nf">init_GPIO</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LCD144Config-78"><a href="#LCD144Config-78"><span class="linenos"> 78</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config-79"><a href="#LCD144Config-79"><span class="linenos"> 79</span></a><span class="sd">        Method that initializes the GPIO object.</span>
-</span><span id="LCD144Config-80"><a href="#LCD144Config-80"><span class="linenos"> 80</span></a>
-</span><span id="LCD144Config-81"><a href="#LCD144Config-81"><span class="linenos"> 81</span></a><span class="sd">        Returns</span>
-</span><span id="LCD144Config-82"><a href="#LCD144Config-82"><span class="linenos"> 82</span></a><span class="sd">        -------</span>
-</span><span id="LCD144Config-83"><a href="#LCD144Config-83"><span class="linenos"> 83</span></a><span class="sd">        success (Optional[int]):</span>
-</span><span id="LCD144Config-84"><a href="#LCD144Config-84"><span class="linenos"> 84</span></a><span class="sd">            On success 0 is returned and None in all other cases.</span>
-</span><span id="LCD144Config-85"><a href="#LCD144Config-85"><span class="linenos"> 85</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config-86"><a href="#LCD144Config-86"><span class="linenos"> 86</span></a>
-</span><span id="LCD144Config-87"><a href="#LCD144Config-87"><span class="linenos"> 87</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-</span><span id="LCD144Config-88"><a href="#LCD144Config-88"><span class="linenos"> 88</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="LCD144Config-89"><a href="#LCD144Config-89"><span class="linenos"> 89</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_RST_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config-90"><a href="#LCD144Config-90"><span class="linenos"> 90</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_DC_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config-91"><a href="#LCD144Config-91"><span class="linenos"> 91</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_CS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config-92"><a href="#LCD144Config-92"><span class="linenos"> 92</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_BL_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config-93"><a href="#LCD144Config-93"><span class="linenos"> 93</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">max_speed_hz</span> <span class="o">=</span> <span class="mi">9000000</span>
-</span><span id="LCD144Config-94"><a href="#LCD144Config-94"><span class="linenos"> 94</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="mb">0b00</span>
-</span><span id="LCD144Config-95"><a href="#LCD144Config-95"><span class="linenos"> 95</span></a>        <span class="k">return</span> <span class="mi">0</span>
-</span><span id="LCD144Config-96"><a href="#LCD144Config-96"><span class="linenos"> 96</span></a>
-</span><span id="LCD144Config-97"><a href="#LCD144Config-97"><span class="linenos"> 97</span></a>    <span class="k">def</span> <span class="nf">delay_driver_ms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delay</span><span class="p">):</span>
-</span><span id="LCD144Config-98"><a href="#LCD144Config-98"><span class="linenos"> 98</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config-99"><a href="#LCD144Config-99"><span class="linenos"> 99</span></a><span class="sd">        Method that delays the driver execution by the given number</span>
-</span><span id="LCD144Config-100"><a href="#LCD144Config-100"><span class="linenos">100</span></a><span class="sd">        of milliseconds.</span>
+</span><span id="LCD144Config-66"><a href="#LCD144Config-66"><span class="linenos"> 66</span></a>    <span class="n">KEY_UP_PIN</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="LCD144Config-67"><a href="#LCD144Config-67"><span class="linenos"> 67</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-68"><a href="#LCD144Config-68"><span class="linenos"> 68</span></a><span class="sd">    KEY_UP_PIN (int):</span>
+</span><span id="LCD144Config-69"><a href="#LCD144Config-69"><span class="linenos"> 69</span></a><span class="sd">        Key up pin number.</span>
+</span><span id="LCD144Config-70"><a href="#LCD144Config-70"><span class="linenos"> 70</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-71"><a href="#LCD144Config-71"><span class="linenos"> 71</span></a>
+</span><span id="LCD144Config-72"><a href="#LCD144Config-72"><span class="linenos"> 72</span></a>    <span class="n">KEY_DOWN_PIN</span> <span class="o">=</span> <span class="mi">19</span>
+</span><span id="LCD144Config-73"><a href="#LCD144Config-73"><span class="linenos"> 73</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-74"><a href="#LCD144Config-74"><span class="linenos"> 74</span></a><span class="sd">    KEY_DOWN_PIN (int):</span>
+</span><span id="LCD144Config-75"><a href="#LCD144Config-75"><span class="linenos"> 75</span></a><span class="sd">        Key down pin number.</span>
+</span><span id="LCD144Config-76"><a href="#LCD144Config-76"><span class="linenos"> 76</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-77"><a href="#LCD144Config-77"><span class="linenos"> 77</span></a>
+</span><span id="LCD144Config-78"><a href="#LCD144Config-78"><span class="linenos"> 78</span></a>    <span class="n">KEY_LEFT_PIN</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="LCD144Config-79"><a href="#LCD144Config-79"><span class="linenos"> 79</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-80"><a href="#LCD144Config-80"><span class="linenos"> 80</span></a><span class="sd">    KEY_LEFT_PIN (int):</span>
+</span><span id="LCD144Config-81"><a href="#LCD144Config-81"><span class="linenos"> 81</span></a><span class="sd">        Key left pin number.</span>
+</span><span id="LCD144Config-82"><a href="#LCD144Config-82"><span class="linenos"> 82</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-83"><a href="#LCD144Config-83"><span class="linenos"> 83</span></a>
+</span><span id="LCD144Config-84"><a href="#LCD144Config-84"><span class="linenos"> 84</span></a>    <span class="n">KEY_RIGHT_PIN</span> <span class="o">=</span> <span class="mi">26</span>
+</span><span id="LCD144Config-85"><a href="#LCD144Config-85"><span class="linenos"> 85</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-86"><a href="#LCD144Config-86"><span class="linenos"> 86</span></a><span class="sd">    KEY_RIGHT_PIN (int):</span>
+</span><span id="LCD144Config-87"><a href="#LCD144Config-87"><span class="linenos"> 87</span></a><span class="sd">        Key right pin number.</span>
+</span><span id="LCD144Config-88"><a href="#LCD144Config-88"><span class="linenos"> 88</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-89"><a href="#LCD144Config-89"><span class="linenos"> 89</span></a>
+</span><span id="LCD144Config-90"><a href="#LCD144Config-90"><span class="linenos"> 90</span></a>    <span class="n">KEY_PRESS_PIN</span> <span class="o">=</span> <span class="mi">13</span>
+</span><span id="LCD144Config-91"><a href="#LCD144Config-91"><span class="linenos"> 91</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-92"><a href="#LCD144Config-92"><span class="linenos"> 92</span></a><span class="sd">    KEY_PRESS_PIN (int):</span>
+</span><span id="LCD144Config-93"><a href="#LCD144Config-93"><span class="linenos"> 93</span></a><span class="sd">        Key press pin number.</span>
+</span><span id="LCD144Config-94"><a href="#LCD144Config-94"><span class="linenos"> 94</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-95"><a href="#LCD144Config-95"><span class="linenos"> 95</span></a>
+</span><span id="LCD144Config-96"><a href="#LCD144Config-96"><span class="linenos"> 96</span></a>    <span class="n">KEY1_PIN</span> <span class="o">=</span> <span class="mi">21</span>
+</span><span id="LCD144Config-97"><a href="#LCD144Config-97"><span class="linenos"> 97</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-98"><a href="#LCD144Config-98"><span class="linenos"> 98</span></a><span class="sd">    KEY1_PIN (int):</span>
+</span><span id="LCD144Config-99"><a href="#LCD144Config-99"><span class="linenos"> 99</span></a><span class="sd">        Key 1 pin number.</span>
+</span><span id="LCD144Config-100"><a href="#LCD144Config-100"><span class="linenos">100</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="LCD144Config-101"><a href="#LCD144Config-101"><span class="linenos">101</span></a>
-</span><span id="LCD144Config-102"><a href="#LCD144Config-102"><span class="linenos">102</span></a><span class="sd">        Parameters</span>
-</span><span id="LCD144Config-103"><a href="#LCD144Config-103"><span class="linenos">103</span></a><span class="sd">        ----------</span>
-</span><span id="LCD144Config-104"><a href="#LCD144Config-104"><span class="linenos">104</span></a><span class="sd">        delay (int):</span>
-</span><span id="LCD144Config-105"><a href="#LCD144Config-105"><span class="linenos">105</span></a><span class="sd">            Number of milliseconds for the delay.</span>
-</span><span id="LCD144Config-106"><a href="#LCD144Config-106"><span class="linenos">106</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-102"><a href="#LCD144Config-102"><span class="linenos">102</span></a>    <span class="n">KEY2_PIN</span> <span class="o">=</span> <span class="mi">20</span>
+</span><span id="LCD144Config-103"><a href="#LCD144Config-103"><span class="linenos">103</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-104"><a href="#LCD144Config-104"><span class="linenos">104</span></a><span class="sd">    KEY2_PIN (int):</span>
+</span><span id="LCD144Config-105"><a href="#LCD144Config-105"><span class="linenos">105</span></a><span class="sd">        Key 2 pin number.</span>
+</span><span id="LCD144Config-106"><a href="#LCD144Config-106"><span class="linenos">106</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="LCD144Config-107"><a href="#LCD144Config-107"><span class="linenos">107</span></a>
-</span><span id="LCD144Config-108"><a href="#LCD144Config-108"><span class="linenos">108</span></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
-</span><span id="LCD144Config-109"><a href="#LCD144Config-109"><span class="linenos">109</span></a>
-</span><span id="LCD144Config-110"><a href="#LCD144Config-110"><span class="linenos">110</span></a>    <span class="k">def</span> <span class="nf">write_GPIO_digital</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span id="LCD144Config-111"><a href="#LCD144Config-111"><span class="linenos">111</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config-112"><a href="#LCD144Config-112"><span class="linenos">112</span></a><span class="sd">        Method that writes the given value to the given pin.</span>
+</span><span id="LCD144Config-108"><a href="#LCD144Config-108"><span class="linenos">108</span></a>    <span class="n">KEY3_PIN</span> <span class="o">=</span> <span class="mi">16</span>
+</span><span id="LCD144Config-109"><a href="#LCD144Config-109"><span class="linenos">109</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-110"><a href="#LCD144Config-110"><span class="linenos">110</span></a><span class="sd">    KEY3_PIN (int):</span>
+</span><span id="LCD144Config-111"><a href="#LCD144Config-111"><span class="linenos">111</span></a><span class="sd">        Key 3 pin number.</span>
+</span><span id="LCD144Config-112"><a href="#LCD144Config-112"><span class="linenos">112</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="LCD144Config-113"><a href="#LCD144Config-113"><span class="linenos">113</span></a>
-</span><span id="LCD144Config-114"><a href="#LCD144Config-114"><span class="linenos">114</span></a><span class="sd">        Parameters</span>
-</span><span id="LCD144Config-115"><a href="#LCD144Config-115"><span class="linenos">115</span></a><span class="sd">        ----------</span>
-</span><span id="LCD144Config-116"><a href="#LCD144Config-116"><span class="linenos">116</span></a><span class="sd">        pin (int):</span>
-</span><span id="LCD144Config-117"><a href="#LCD144Config-117"><span class="linenos">117</span></a><span class="sd">            Number of the addressed pin.</span>
-</span><span id="LCD144Config-118"><a href="#LCD144Config-118"><span class="linenos">118</span></a>
-</span><span id="LCD144Config-119"><a href="#LCD144Config-119"><span class="linenos">119</span></a><span class="sd">        value (int):</span>
-</span><span id="LCD144Config-120"><a href="#LCD144Config-120"><span class="linenos">120</span></a><span class="sd">            Number that should be written on the pin.</span>
-</span><span id="LCD144Config-121"><a href="#LCD144Config-121"><span class="linenos">121</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config-122"><a href="#LCD144Config-122"><span class="linenos">122</span></a>
-</span><span id="LCD144Config-123"><a href="#LCD144Config-123"><span class="linenos">123</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span id="LCD144Config-124"><a href="#LCD144Config-124"><span class="linenos">124</span></a>
-</span><span id="LCD144Config-125"><a href="#LCD144Config-125"><span class="linenos">125</span></a>    <span class="k">def</span> <span class="nf">write_SPI_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-</span><span id="LCD144Config-126"><a href="#LCD144Config-126"><span class="linenos">126</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config-127"><a href="#LCD144Config-127"><span class="linenos">127</span></a><span class="sd">        Method that writes the given byte data to the SPI interface.</span>
-</span><span id="LCD144Config-128"><a href="#LCD144Config-128"><span class="linenos">128</span></a>
-</span><span id="LCD144Config-129"><a href="#LCD144Config-129"><span class="linenos">129</span></a><span class="sd">        Parameters</span>
-</span><span id="LCD144Config-130"><a href="#LCD144Config-130"><span class="linenos">130</span></a><span class="sd">        ----------</span>
-</span><span id="LCD144Config-131"><a href="#LCD144Config-131"><span class="linenos">131</span></a><span class="sd">        data (list[int]):</span>
-</span><span id="LCD144Config-132"><a href="#LCD144Config-132"><span class="linenos">132</span></a><span class="sd">            Byte data that will be written to the SPI interface.</span>
-</span><span id="LCD144Config-133"><a href="#LCD144Config-133"><span class="linenos">133</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config-134"><a href="#LCD144Config-134"><span class="linenos">134</span></a>
-</span><span id="LCD144Config-135"><a href="#LCD144Config-135"><span class="linenos">135</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">writebytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="LCD144Config-114"><a href="#LCD144Config-114"><span class="linenos">114</span></a>    <span class="n">LCD_WIDTH</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="LCD144Config-115"><a href="#LCD144Config-115"><span class="linenos">115</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-116"><a href="#LCD144Config-116"><span class="linenos">116</span></a><span class="sd">    LCD_WIDTH (int):</span>
+</span><span id="LCD144Config-117"><a href="#LCD144Config-117"><span class="linenos">117</span></a><span class="sd">        Width of the display in pixel.</span>
+</span><span id="LCD144Config-118"><a href="#LCD144Config-118"><span class="linenos">118</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-119"><a href="#LCD144Config-119"><span class="linenos">119</span></a>
+</span><span id="LCD144Config-120"><a href="#LCD144Config-120"><span class="linenos">120</span></a>    <span class="n">LCD_HEIGHT</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="LCD144Config-121"><a href="#LCD144Config-121"><span class="linenos">121</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-122"><a href="#LCD144Config-122"><span class="linenos">122</span></a><span class="sd">    LCD_HEIGHT (int):</span>
+</span><span id="LCD144Config-123"><a href="#LCD144Config-123"><span class="linenos">123</span></a><span class="sd">        Height of the display in pixel.</span>
+</span><span id="LCD144Config-124"><a href="#LCD144Config-124"><span class="linenos">124</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-125"><a href="#LCD144Config-125"><span class="linenos">125</span></a>
+</span><span id="LCD144Config-126"><a href="#LCD144Config-126"><span class="linenos">126</span></a>    <span class="n">LCD_X</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="LCD144Config-127"><a href="#LCD144Config-127"><span class="linenos">127</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-128"><a href="#LCD144Config-128"><span class="linenos">128</span></a><span class="sd">    LCD_X (int):</span>
+</span><span id="LCD144Config-129"><a href="#LCD144Config-129"><span class="linenos">129</span></a><span class="sd">        Display adjustment in x-direction.</span>
+</span><span id="LCD144Config-130"><a href="#LCD144Config-130"><span class="linenos">130</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-131"><a href="#LCD144Config-131"><span class="linenos">131</span></a>
+</span><span id="LCD144Config-132"><a href="#LCD144Config-132"><span class="linenos">132</span></a>    <span class="n">LCD_Y</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="LCD144Config-133"><a href="#LCD144Config-133"><span class="linenos">133</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-134"><a href="#LCD144Config-134"><span class="linenos">134</span></a><span class="sd">    LCD_Y (int):</span>
+</span><span id="LCD144Config-135"><a href="#LCD144Config-135"><span class="linenos">135</span></a><span class="sd">        Display adjustment in y-direction.</span>
+</span><span id="LCD144Config-136"><a href="#LCD144Config-136"><span class="linenos">136</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-137"><a href="#LCD144Config-137"><span class="linenos">137</span></a>
+</span><span id="LCD144Config-138"><a href="#LCD144Config-138"><span class="linenos">138</span></a>    <span class="n">LCD_X_MAXPIXEL</span> <span class="o">=</span> <span class="mi">132</span>
+</span><span id="LCD144Config-139"><a href="#LCD144Config-139"><span class="linenos">139</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-140"><a href="#LCD144Config-140"><span class="linenos">140</span></a><span class="sd">    LCD_X_MAXPIXEL (int):</span>
+</span><span id="LCD144Config-141"><a href="#LCD144Config-141"><span class="linenos">141</span></a><span class="sd">        Display width maximum memory in pixel.</span>
+</span><span id="LCD144Config-142"><a href="#LCD144Config-142"><span class="linenos">142</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-143"><a href="#LCD144Config-143"><span class="linenos">143</span></a>
+</span><span id="LCD144Config-144"><a href="#LCD144Config-144"><span class="linenos">144</span></a>    <span class="n">LCD_Y_MAXPIXEL</span> <span class="o">=</span> <span class="mi">162</span>
+</span><span id="LCD144Config-145"><a href="#LCD144Config-145"><span class="linenos">145</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-146"><a href="#LCD144Config-146"><span class="linenos">146</span></a><span class="sd">    LCD_Y_MAXPIXEL (int):</span>
+</span><span id="LCD144Config-147"><a href="#LCD144Config-147"><span class="linenos">147</span></a><span class="sd">        Display height maximum memory in pixel.</span>
+</span><span id="LCD144Config-148"><a href="#LCD144Config-148"><span class="linenos">148</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-149"><a href="#LCD144Config-149"><span class="linenos">149</span></a>
+</span><span id="LCD144Config-150"><a href="#LCD144Config-150"><span class="linenos">150</span></a>    <span class="n">L2R_U2D</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="LCD144Config-151"><a href="#LCD144Config-151"><span class="linenos">151</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-152"><a href="#LCD144Config-152"><span class="linenos">152</span></a><span class="sd">    L2R_U2D (int):</span>
+</span><span id="LCD144Config-153"><a href="#LCD144Config-153"><span class="linenos">153</span></a><span class="sd">        Left to right, up to down scanning method.</span>
+</span><span id="LCD144Config-154"><a href="#LCD144Config-154"><span class="linenos">154</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-155"><a href="#LCD144Config-155"><span class="linenos">155</span></a>
+</span><span id="LCD144Config-156"><a href="#LCD144Config-156"><span class="linenos">156</span></a>    <span class="n">L2R_D2U</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="LCD144Config-157"><a href="#LCD144Config-157"><span class="linenos">157</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-158"><a href="#LCD144Config-158"><span class="linenos">158</span></a><span class="sd">    L2R_D2U (int):</span>
+</span><span id="LCD144Config-159"><a href="#LCD144Config-159"><span class="linenos">159</span></a><span class="sd">        Left to right, down to up scanning method.</span>
+</span><span id="LCD144Config-160"><a href="#LCD144Config-160"><span class="linenos">160</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-161"><a href="#LCD144Config-161"><span class="linenos">161</span></a>
+</span><span id="LCD144Config-162"><a href="#LCD144Config-162"><span class="linenos">162</span></a>    <span class="n">R2L_U2D</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="LCD144Config-163"><a href="#LCD144Config-163"><span class="linenos">163</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-164"><a href="#LCD144Config-164"><span class="linenos">164</span></a><span class="sd">    R2L_U2D (int):</span>
+</span><span id="LCD144Config-165"><a href="#LCD144Config-165"><span class="linenos">165</span></a><span class="sd">        Right to left, up to down scanning method.</span>
+</span><span id="LCD144Config-166"><a href="#LCD144Config-166"><span class="linenos">166</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-167"><a href="#LCD144Config-167"><span class="linenos">167</span></a>
+</span><span id="LCD144Config-168"><a href="#LCD144Config-168"><span class="linenos">168</span></a>    <span class="n">R2L_D2U</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span id="LCD144Config-169"><a href="#LCD144Config-169"><span class="linenos">169</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-170"><a href="#LCD144Config-170"><span class="linenos">170</span></a><span class="sd">    R2L_D2U (int):</span>
+</span><span id="LCD144Config-171"><a href="#LCD144Config-171"><span class="linenos">171</span></a><span class="sd">        Right to left, down to up scanning method.</span>
+</span><span id="LCD144Config-172"><a href="#LCD144Config-172"><span class="linenos">172</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-173"><a href="#LCD144Config-173"><span class="linenos">173</span></a>
+</span><span id="LCD144Config-174"><a href="#LCD144Config-174"><span class="linenos">174</span></a>    <span class="n">U2D_L2R</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="LCD144Config-175"><a href="#LCD144Config-175"><span class="linenos">175</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-176"><a href="#LCD144Config-176"><span class="linenos">176</span></a><span class="sd">    U2D_L2R (int):</span>
+</span><span id="LCD144Config-177"><a href="#LCD144Config-177"><span class="linenos">177</span></a><span class="sd">        Up to down, left to right scanning method.</span>
+</span><span id="LCD144Config-178"><a href="#LCD144Config-178"><span class="linenos">178</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-179"><a href="#LCD144Config-179"><span class="linenos">179</span></a>
+</span><span id="LCD144Config-180"><a href="#LCD144Config-180"><span class="linenos">180</span></a>    <span class="n">U2D_R2L</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="LCD144Config-181"><a href="#LCD144Config-181"><span class="linenos">181</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-182"><a href="#LCD144Config-182"><span class="linenos">182</span></a><span class="sd">    U2D_R2L (int):</span>
+</span><span id="LCD144Config-183"><a href="#LCD144Config-183"><span class="linenos">183</span></a><span class="sd">        Up to down, right to left scanning method.</span>
+</span><span id="LCD144Config-184"><a href="#LCD144Config-184"><span class="linenos">184</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-185"><a href="#LCD144Config-185"><span class="linenos">185</span></a>
+</span><span id="LCD144Config-186"><a href="#LCD144Config-186"><span class="linenos">186</span></a>    <span class="n">D2U_L2R</span> <span class="o">=</span> <span class="mi">7</span>
+</span><span id="LCD144Config-187"><a href="#LCD144Config-187"><span class="linenos">187</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-188"><a href="#LCD144Config-188"><span class="linenos">188</span></a><span class="sd">    D2U_L2R (int):</span>
+</span><span id="LCD144Config-189"><a href="#LCD144Config-189"><span class="linenos">189</span></a><span class="sd">        Down to up, left to right scanning method.</span>
+</span><span id="LCD144Config-190"><a href="#LCD144Config-190"><span class="linenos">190</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-191"><a href="#LCD144Config-191"><span class="linenos">191</span></a>
+</span><span id="LCD144Config-192"><a href="#LCD144Config-192"><span class="linenos">192</span></a>    <span class="n">D2U_R2L</span> <span class="o">=</span> <span class="mi">8</span>
+</span><span id="LCD144Config-193"><a href="#LCD144Config-193"><span class="linenos">193</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-194"><a href="#LCD144Config-194"><span class="linenos">194</span></a><span class="sd">    D2U_R2L (int):</span>
+</span><span id="LCD144Config-195"><a href="#LCD144Config-195"><span class="linenos">195</span></a><span class="sd">        Down to up, right to left scanning method.</span>
+</span><span id="LCD144Config-196"><a href="#LCD144Config-196"><span class="linenos">196</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-197"><a href="#LCD144Config-197"><span class="linenos">197</span></a>
+</span><span id="LCD144Config-198"><a href="#LCD144Config-198"><span class="linenos">198</span></a>    <span class="n">SCAN_DIR_DFT</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="LCD144Config-199"><a href="#LCD144Config-199"><span class="linenos">199</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-200"><a href="#LCD144Config-200"><span class="linenos">200</span></a><span class="sd">    SCAN_DIR_DFT (int):</span>
+</span><span id="LCD144Config-201"><a href="#LCD144Config-201"><span class="linenos">201</span></a><span class="sd">        Default scan direction.</span>
+</span><span id="LCD144Config-202"><a href="#LCD144Config-202"><span class="linenos">202</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-203"><a href="#LCD144Config-203"><span class="linenos">203</span></a>
+</span><span id="LCD144Config-204"><a href="#LCD144Config-204"><span class="linenos">204</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LCD144Config-205"><a href="#LCD144Config-205"><span class="linenos">205</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-206"><a href="#LCD144Config-206"><span class="linenos">206</span></a><span class="sd">        Constructor for the LCD144Config object.</span>
+</span><span id="LCD144Config-207"><a href="#LCD144Config-207"><span class="linenos">207</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-208"><a href="#LCD144Config-208"><span class="linenos">208</span></a>
+</span><span id="LCD144Config-209"><a href="#LCD144Config-209"><span class="linenos">209</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span> <span class="o">=</span> <span class="n">spidev</span><span class="o">.</span><span class="n">SpiDev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="LCD144Config-210"><a href="#LCD144Config-210"><span class="linenos">210</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-211"><a href="#LCD144Config-211"><span class="linenos">211</span></a><span class="sd">        SPI (Any):</span>
+</span><span id="LCD144Config-212"><a href="#LCD144Config-212"><span class="linenos">212</span></a><span class="sd">            SPI device with bus 0 and device 0.</span>
+</span><span id="LCD144Config-213"><a href="#LCD144Config-213"><span class="linenos">213</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-214"><a href="#LCD144Config-214"><span class="linenos">214</span></a>
+</span><span id="LCD144Config-215"><a href="#LCD144Config-215"><span class="linenos">215</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="LCD144Config-216"><a href="#LCD144Config-216"><span class="linenos">216</span></a>    <span class="k">def</span> <span class="nf">delay_driver_ms</span><span class="p">(</span><span class="n">delay</span><span class="p">):</span>
+</span><span id="LCD144Config-217"><a href="#LCD144Config-217"><span class="linenos">217</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-218"><a href="#LCD144Config-218"><span class="linenos">218</span></a><span class="sd">        Method that delays the driver execution by the given number</span>
+</span><span id="LCD144Config-219"><a href="#LCD144Config-219"><span class="linenos">219</span></a><span class="sd">        of milliseconds.</span>
+</span><span id="LCD144Config-220"><a href="#LCD144Config-220"><span class="linenos">220</span></a>
+</span><span id="LCD144Config-221"><a href="#LCD144Config-221"><span class="linenos">221</span></a><span class="sd">        Parameters</span>
+</span><span id="LCD144Config-222"><a href="#LCD144Config-222"><span class="linenos">222</span></a><span class="sd">        ----------</span>
+</span><span id="LCD144Config-223"><a href="#LCD144Config-223"><span class="linenos">223</span></a><span class="sd">        delay (int):</span>
+</span><span id="LCD144Config-224"><a href="#LCD144Config-224"><span class="linenos">224</span></a><span class="sd">            Number of milliseconds for the delay.</span>
+</span><span id="LCD144Config-225"><a href="#LCD144Config-225"><span class="linenos">225</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-226"><a href="#LCD144Config-226"><span class="linenos">226</span></a>
+</span><span id="LCD144Config-227"><a href="#LCD144Config-227"><span class="linenos">227</span></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
+</span><span id="LCD144Config-228"><a href="#LCD144Config-228"><span class="linenos">228</span></a>
+</span><span id="LCD144Config-229"><a href="#LCD144Config-229"><span class="linenos">229</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="LCD144Config-230"><a href="#LCD144Config-230"><span class="linenos">230</span></a>    <span class="k">def</span> <span class="nf">cleanup_GPIO</span><span class="p">():</span>
+</span><span id="LCD144Config-231"><a href="#LCD144Config-231"><span class="linenos">231</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-232"><a href="#LCD144Config-232"><span class="linenos">232</span></a><span class="sd">        Method that initializes the GPIO cleanup.</span>
+</span><span id="LCD144Config-233"><a href="#LCD144Config-233"><span class="linenos">233</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-234"><a href="#LCD144Config-234"><span class="linenos">234</span></a>
+</span><span id="LCD144Config-235"><a href="#LCD144Config-235"><span class="linenos">235</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+</span><span id="LCD144Config-236"><a href="#LCD144Config-236"><span class="linenos">236</span></a>
+</span><span id="LCD144Config-237"><a href="#LCD144Config-237"><span class="linenos">237</span></a>    <span class="k">def</span> <span class="nf">init_GPIO</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="LCD144Config-238"><a href="#LCD144Config-238"><span class="linenos">238</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-239"><a href="#LCD144Config-239"><span class="linenos">239</span></a><span class="sd">        Method that initializes the GPIO object for the LCD display with</span>
+</span><span id="LCD144Config-240"><a href="#LCD144Config-240"><span class="linenos">240</span></a><span class="sd">        or without the input keys.</span>
+</span><span id="LCD144Config-241"><a href="#LCD144Config-241"><span class="linenos">241</span></a>
+</span><span id="LCD144Config-242"><a href="#LCD144Config-242"><span class="linenos">242</span></a><span class="sd">        Parameters</span>
+</span><span id="LCD144Config-243"><a href="#LCD144Config-243"><span class="linenos">243</span></a><span class="sd">        ----------</span>
+</span><span id="LCD144Config-244"><a href="#LCD144Config-244"><span class="linenos">244</span></a><span class="sd">        with_warnings (bool):</span>
+</span><span id="LCD144Config-245"><a href="#LCD144Config-245"><span class="linenos">245</span></a><span class="sd">            Sets whether warnings are displayed on the console.</span>
+</span><span id="LCD144Config-246"><a href="#LCD144Config-246"><span class="linenos">246</span></a><span class="sd">            Default value is False.</span>
+</span><span id="LCD144Config-247"><a href="#LCD144Config-247"><span class="linenos">247</span></a>
+</span><span id="LCD144Config-248"><a href="#LCD144Config-248"><span class="linenos">248</span></a><span class="sd">        with_keys (bool):</span>
+</span><span id="LCD144Config-249"><a href="#LCD144Config-249"><span class="linenos">249</span></a><span class="sd">            Sets whether the keys of the display should be initialized.</span>
+</span><span id="LCD144Config-250"><a href="#LCD144Config-250"><span class="linenos">250</span></a><span class="sd">            Default value is False.</span>
+</span><span id="LCD144Config-251"><a href="#LCD144Config-251"><span class="linenos">251</span></a>
+</span><span id="LCD144Config-252"><a href="#LCD144Config-252"><span class="linenos">252</span></a><span class="sd">        Returns</span>
+</span><span id="LCD144Config-253"><a href="#LCD144Config-253"><span class="linenos">253</span></a><span class="sd">        -------</span>
+</span><span id="LCD144Config-254"><a href="#LCD144Config-254"><span class="linenos">254</span></a><span class="sd">        success (Optional[int]):</span>
+</span><span id="LCD144Config-255"><a href="#LCD144Config-255"><span class="linenos">255</span></a><span class="sd">            On success 0 is returned and None in all other cases.</span>
+</span><span id="LCD144Config-256"><a href="#LCD144Config-256"><span class="linenos">256</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-257"><a href="#LCD144Config-257"><span class="linenos">257</span></a>
+</span><span id="LCD144Config-258"><a href="#LCD144Config-258"><span class="linenos">258</span></a>        <span class="c1"># Initial mode setup.</span>
+</span><span id="LCD144Config-259"><a href="#LCD144Config-259"><span class="linenos">259</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+</span><span id="LCD144Config-260"><a href="#LCD144Config-260"><span class="linenos">260</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="n">with_warnings</span><span class="p">)</span>
+</span><span id="LCD144Config-261"><a href="#LCD144Config-261"><span class="linenos">261</span></a>
+</span><span id="LCD144Config-262"><a href="#LCD144Config-262"><span class="linenos">262</span></a>        <span class="c1"># Setup of the display.</span>
+</span><span id="LCD144Config-263"><a href="#LCD144Config-263"><span class="linenos">263</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_RST_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config-264"><a href="#LCD144Config-264"><span class="linenos">264</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_DC_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config-265"><a href="#LCD144Config-265"><span class="linenos">265</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_CS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config-266"><a href="#LCD144Config-266"><span class="linenos">266</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_BL_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config-267"><a href="#LCD144Config-267"><span class="linenos">267</span></a>
+</span><span id="LCD144Config-268"><a href="#LCD144Config-268"><span class="linenos">268</span></a>        <span class="c1"># Setup of the display keys.</span>
+</span><span id="LCD144Config-269"><a href="#LCD144Config-269"><span class="linenos">269</span></a>        <span class="k">if</span> <span class="n">with_keys</span><span class="p">:</span>
+</span><span id="LCD144Config-270"><a href="#LCD144Config-270"><span class="linenos">270</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_UP_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-271"><a href="#LCD144Config-271"><span class="linenos">271</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_DOWN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-272"><a href="#LCD144Config-272"><span class="linenos">272</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_LEFT_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-273"><a href="#LCD144Config-273"><span class="linenos">273</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_RIGHT_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-274"><a href="#LCD144Config-274"><span class="linenos">274</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_PRESS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-275"><a href="#LCD144Config-275"><span class="linenos">275</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY1_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-276"><a href="#LCD144Config-276"><span class="linenos">276</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY2_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-277"><a href="#LCD144Config-277"><span class="linenos">277</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY3_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config-278"><a href="#LCD144Config-278"><span class="linenos">278</span></a>
+</span><span id="LCD144Config-279"><a href="#LCD144Config-279"><span class="linenos">279</span></a>        <span class="c1"># Configuration of the SPI object.</span>
+</span><span id="LCD144Config-280"><a href="#LCD144Config-280"><span class="linenos">280</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">max_speed_hz</span> <span class="o">=</span> <span class="mi">9000000</span>
+</span><span id="LCD144Config-281"><a href="#LCD144Config-281"><span class="linenos">281</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="mb">0b00</span>
+</span><span id="LCD144Config-282"><a href="#LCD144Config-282"><span class="linenos">282</span></a>
+</span><span id="LCD144Config-283"><a href="#LCD144Config-283"><span class="linenos">283</span></a>        <span class="k">return</span> <span class="mi">0</span>
+</span><span id="LCD144Config-284"><a href="#LCD144Config-284"><span class="linenos">284</span></a>
+</span><span id="LCD144Config-285"><a href="#LCD144Config-285"><span class="linenos">285</span></a>    <span class="k">def</span> <span class="nf">write_SPI_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="LCD144Config-286"><a href="#LCD144Config-286"><span class="linenos">286</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config-287"><a href="#LCD144Config-287"><span class="linenos">287</span></a><span class="sd">        Method that writes the given byte data to the SPI interface.</span>
+</span><span id="LCD144Config-288"><a href="#LCD144Config-288"><span class="linenos">288</span></a>
+</span><span id="LCD144Config-289"><a href="#LCD144Config-289"><span class="linenos">289</span></a><span class="sd">        Parameters</span>
+</span><span id="LCD144Config-290"><a href="#LCD144Config-290"><span class="linenos">290</span></a><span class="sd">        ----------</span>
+</span><span id="LCD144Config-291"><a href="#LCD144Config-291"><span class="linenos">291</span></a><span class="sd">        data (list[int]):</span>
+</span><span id="LCD144Config-292"><a href="#LCD144Config-292"><span class="linenos">292</span></a><span class="sd">            Byte data that will be written to the SPI interface.</span>
+</span><span id="LCD144Config-293"><a href="#LCD144Config-293"><span class="linenos">293</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config-294"><a href="#LCD144Config-294"><span class="linenos">294</span></a>
+</span><span id="LCD144Config-295"><a href="#LCD144Config-295"><span class="linenos">295</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">writebytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -381,16 +770,16 @@ THE SOFTWARE.</p>
 
     </div>
     <a class="headerlink" href="#LCD144Config.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.__init__-66"><a href="#LCD144Config.__init__-66"><span class="linenos">66</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LCD144Config.__init__-67"><a href="#LCD144Config.__init__-67"><span class="linenos">67</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config.__init__-68"><a href="#LCD144Config.__init__-68"><span class="linenos">68</span></a><span class="sd">        Constructor for the LCD144Config object.</span>
-</span><span id="LCD144Config.__init__-69"><a href="#LCD144Config.__init__-69"><span class="linenos">69</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config.__init__-70"><a href="#LCD144Config.__init__-70"><span class="linenos">70</span></a>
-</span><span id="LCD144Config.__init__-71"><a href="#LCD144Config.__init__-71"><span class="linenos">71</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span> <span class="o">=</span> <span class="n">spidev</span><span class="o">.</span><span class="n">SpiDev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="LCD144Config.__init__-72"><a href="#LCD144Config.__init__-72"><span class="linenos">72</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config.__init__-73"><a href="#LCD144Config.__init__-73"><span class="linenos">73</span></a><span class="sd">        SPI (Any):</span>
-</span><span id="LCD144Config.__init__-74"><a href="#LCD144Config.__init__-74"><span class="linenos">74</span></a><span class="sd">            SPI device with bus 0 and device 0.</span>
-</span><span id="LCD144Config.__init__-75"><a href="#LCD144Config.__init__-75"><span class="linenos">75</span></a><span class="sd">        &quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.__init__-204"><a href="#LCD144Config.__init__-204"><span class="linenos">204</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LCD144Config.__init__-205"><a href="#LCD144Config.__init__-205"><span class="linenos">205</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config.__init__-206"><a href="#LCD144Config.__init__-206"><span class="linenos">206</span></a><span class="sd">        Constructor for the LCD144Config object.</span>
+</span><span id="LCD144Config.__init__-207"><a href="#LCD144Config.__init__-207"><span class="linenos">207</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config.__init__-208"><a href="#LCD144Config.__init__-208"><span class="linenos">208</span></a>
+</span><span id="LCD144Config.__init__-209"><a href="#LCD144Config.__init__-209"><span class="linenos">209</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span> <span class="o">=</span> <span class="n">spidev</span><span class="o">.</span><span class="n">SpiDev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="LCD144Config.__init__-210"><a href="#LCD144Config.__init__-210"><span class="linenos">210</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config.__init__-211"><a href="#LCD144Config.__init__-211"><span class="linenos">211</span></a><span class="sd">        SPI (Any):</span>
+</span><span id="LCD144Config.__init__-212"><a href="#LCD144Config.__init__-212"><span class="linenos">212</span></a><span class="sd">            SPI device with bus 0 and device 0.</span>
+</span><span id="LCD144Config.__init__-213"><a href="#LCD144Config.__init__-213"><span class="linenos">213</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
@@ -409,7 +798,7 @@ THE SOFTWARE.</p>
     <a class="headerlink" href="#LCD144Config.LCD_RST_PIN"></a>
     
             <div class="docstring"><p>LCD_RST_PIN (int):
-    LCD RST pin definition.</p>
+    LCD RST pin number.</p>
 </div>
 
 
@@ -424,7 +813,7 @@ THE SOFTWARE.</p>
     <a class="headerlink" href="#LCD144Config.LCD_DC_PIN"></a>
     
             <div class="docstring"><p>LCD_DC_PIN (int):
-    LCD DC pin definition.</p>
+    LCD DC pin number.</p>
 </div>
 
 
@@ -439,7 +828,7 @@ THE SOFTWARE.</p>
     <a class="headerlink" href="#LCD144Config.LCD_CS_PIN"></a>
     
             <div class="docstring"><p>LCD_CS_PIN (int):
-    LCD CS pin definition.</p>
+    LCD CS pin number.</p>
 </div>
 
 
@@ -454,7 +843,352 @@ THE SOFTWARE.</p>
     <a class="headerlink" href="#LCD144Config.LCD_BL_PIN"></a>
     
             <div class="docstring"><p>LCD_BL_PIN (int):
-    LCD BL pin definition.</p>
+    LCD BL pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY_UP_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY_UP_PIN</span>        =
+<span class="default_value">6</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY_UP_PIN"></a>
+    
+            <div class="docstring"><p>KEY_UP_PIN (int):
+    Key up pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY_DOWN_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY_DOWN_PIN</span>        =
+<span class="default_value">19</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY_DOWN_PIN"></a>
+    
+            <div class="docstring"><p>KEY_DOWN_PIN (int):
+    Key down pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY_LEFT_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY_LEFT_PIN</span>        =
+<span class="default_value">5</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY_LEFT_PIN"></a>
+    
+            <div class="docstring"><p>KEY_LEFT_PIN (int):
+    Key left pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY_RIGHT_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY_RIGHT_PIN</span>        =
+<span class="default_value">26</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY_RIGHT_PIN"></a>
+    
+            <div class="docstring"><p>KEY_RIGHT_PIN (int):
+    Key right pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY_PRESS_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY_PRESS_PIN</span>        =
+<span class="default_value">13</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY_PRESS_PIN"></a>
+    
+            <div class="docstring"><p>KEY_PRESS_PIN (int):
+    Key press pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY1_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY1_PIN</span>        =
+<span class="default_value">21</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY1_PIN"></a>
+    
+            <div class="docstring"><p>KEY1_PIN (int):
+    Key 1 pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY2_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY2_PIN</span>        =
+<span class="default_value">20</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY2_PIN"></a>
+    
+            <div class="docstring"><p>KEY2_PIN (int):
+    Key 2 pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.KEY3_PIN" class="classattr">
+                                <div class="attr variable">
+            <span class="name">KEY3_PIN</span>        =
+<span class="default_value">16</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.KEY3_PIN"></a>
+    
+            <div class="docstring"><p>KEY3_PIN (int):
+    Key 3 pin number.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.LCD_WIDTH" class="classattr">
+                                <div class="attr variable">
+            <span class="name">LCD_WIDTH</span>        =
+<span class="default_value">128</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.LCD_WIDTH"></a>
+    
+            <div class="docstring"><p>LCD_WIDTH (int):
+    Width of the display in pixel.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.LCD_HEIGHT" class="classattr">
+                                <div class="attr variable">
+            <span class="name">LCD_HEIGHT</span>        =
+<span class="default_value">128</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.LCD_HEIGHT"></a>
+    
+            <div class="docstring"><p>LCD_HEIGHT (int):
+    Height of the display in pixel.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.LCD_X" class="classattr">
+                                <div class="attr variable">
+            <span class="name">LCD_X</span>        =
+<span class="default_value">2</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.LCD_X"></a>
+    
+            <div class="docstring"><p>LCD_X (int):
+    Display adjustment in x-direction.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.LCD_Y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">LCD_Y</span>        =
+<span class="default_value">1</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.LCD_Y"></a>
+    
+            <div class="docstring"><p>LCD_Y (int):
+    Display adjustment in y-direction.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.LCD_X_MAXPIXEL" class="classattr">
+                                <div class="attr variable">
+            <span class="name">LCD_X_MAXPIXEL</span>        =
+<span class="default_value">132</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.LCD_X_MAXPIXEL"></a>
+    
+            <div class="docstring"><p>LCD_X_MAXPIXEL (int):
+    Display width maximum memory in pixel.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.LCD_Y_MAXPIXEL" class="classattr">
+                                <div class="attr variable">
+            <span class="name">LCD_Y_MAXPIXEL</span>        =
+<span class="default_value">162</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.LCD_Y_MAXPIXEL"></a>
+    
+            <div class="docstring"><p>LCD_Y_MAXPIXEL (int):
+    Display height maximum memory in pixel.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.L2R_U2D" class="classattr">
+                                <div class="attr variable">
+            <span class="name">L2R_U2D</span>        =
+<span class="default_value">1</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.L2R_U2D"></a>
+    
+            <div class="docstring"><p>L2R_U2D (int):
+    Left to right, up to down scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.L2R_D2U" class="classattr">
+                                <div class="attr variable">
+            <span class="name">L2R_D2U</span>        =
+<span class="default_value">2</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.L2R_D2U"></a>
+    
+            <div class="docstring"><p>L2R_D2U (int):
+    Left to right, down to up scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.R2L_U2D" class="classattr">
+                                <div class="attr variable">
+            <span class="name">R2L_U2D</span>        =
+<span class="default_value">3</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.R2L_U2D"></a>
+    
+            <div class="docstring"><p>R2L_U2D (int):
+    Right to left, up to down scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.R2L_D2U" class="classattr">
+                                <div class="attr variable">
+            <span class="name">R2L_D2U</span>        =
+<span class="default_value">4</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.R2L_D2U"></a>
+    
+            <div class="docstring"><p>R2L_D2U (int):
+    Right to left, down to up scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.U2D_L2R" class="classattr">
+                                <div class="attr variable">
+            <span class="name">U2D_L2R</span>        =
+<span class="default_value">5</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.U2D_L2R"></a>
+    
+            <div class="docstring"><p>U2D_L2R (int):
+    Up to down, left to right scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.U2D_R2L" class="classattr">
+                                <div class="attr variable">
+            <span class="name">U2D_R2L</span>        =
+<span class="default_value">6</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.U2D_R2L"></a>
+    
+            <div class="docstring"><p>U2D_R2L (int):
+    Up to down, right to left scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.D2U_L2R" class="classattr">
+                                <div class="attr variable">
+            <span class="name">D2U_L2R</span>        =
+<span class="default_value">7</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.D2U_L2R"></a>
+    
+            <div class="docstring"><p>D2U_L2R (int):
+    Down to up, left to right scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.D2U_R2L" class="classattr">
+                                <div class="attr variable">
+            <span class="name">D2U_R2L</span>        =
+<span class="default_value">8</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.D2U_R2L"></a>
+    
+            <div class="docstring"><p>D2U_R2L (int):
+    Down to up, right to left scanning method.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.SCAN_DIR_DFT" class="classattr">
+                                <div class="attr variable">
+            <span class="name">SCAN_DIR_DFT</span>        =
+<span class="default_value">6</span>
+
+        
+    </div>
+    <a class="headerlink" href="#LCD144Config.SCAN_DIR_DFT"></a>
+    
+            <div class="docstring"><p>SCAN_DIR_DFT (int):
+    Default scan direction.</p>
 </div>
 
 
@@ -473,72 +1207,31 @@ THE SOFTWARE.</p>
 
 
                             </div>
-                            <div id="LCD144Config.init_GPIO" class="classattr">
-                                        <input id="LCD144Config.init_GPIO-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">init_GPIO</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
-
-                <label class="view-source-button" for="LCD144Config.init_GPIO-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#LCD144Config.init_GPIO"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.init_GPIO-77"><a href="#LCD144Config.init_GPIO-77"><span class="linenos">77</span></a>    <span class="k">def</span> <span class="nf">init_GPIO</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LCD144Config.init_GPIO-78"><a href="#LCD144Config.init_GPIO-78"><span class="linenos">78</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config.init_GPIO-79"><a href="#LCD144Config.init_GPIO-79"><span class="linenos">79</span></a><span class="sd">        Method that initializes the GPIO object.</span>
-</span><span id="LCD144Config.init_GPIO-80"><a href="#LCD144Config.init_GPIO-80"><span class="linenos">80</span></a>
-</span><span id="LCD144Config.init_GPIO-81"><a href="#LCD144Config.init_GPIO-81"><span class="linenos">81</span></a><span class="sd">        Returns</span>
-</span><span id="LCD144Config.init_GPIO-82"><a href="#LCD144Config.init_GPIO-82"><span class="linenos">82</span></a><span class="sd">        -------</span>
-</span><span id="LCD144Config.init_GPIO-83"><a href="#LCD144Config.init_GPIO-83"><span class="linenos">83</span></a><span class="sd">        success (Optional[int]):</span>
-</span><span id="LCD144Config.init_GPIO-84"><a href="#LCD144Config.init_GPIO-84"><span class="linenos">84</span></a><span class="sd">            On success 0 is returned and None in all other cases.</span>
-</span><span id="LCD144Config.init_GPIO-85"><a href="#LCD144Config.init_GPIO-85"><span class="linenos">85</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config.init_GPIO-86"><a href="#LCD144Config.init_GPIO-86"><span class="linenos">86</span></a>
-</span><span id="LCD144Config.init_GPIO-87"><a href="#LCD144Config.init_GPIO-87"><span class="linenos">87</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
-</span><span id="LCD144Config.init_GPIO-88"><a href="#LCD144Config.init_GPIO-88"><span class="linenos">88</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="LCD144Config.init_GPIO-89"><a href="#LCD144Config.init_GPIO-89"><span class="linenos">89</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_RST_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config.init_GPIO-90"><a href="#LCD144Config.init_GPIO-90"><span class="linenos">90</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_DC_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config.init_GPIO-91"><a href="#LCD144Config.init_GPIO-91"><span class="linenos">91</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_CS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config.init_GPIO-92"><a href="#LCD144Config.init_GPIO-92"><span class="linenos">92</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_BL_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
-</span><span id="LCD144Config.init_GPIO-93"><a href="#LCD144Config.init_GPIO-93"><span class="linenos">93</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">max_speed_hz</span> <span class="o">=</span> <span class="mi">9000000</span>
-</span><span id="LCD144Config.init_GPIO-94"><a href="#LCD144Config.init_GPIO-94"><span class="linenos">94</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="mb">0b00</span>
-</span><span id="LCD144Config.init_GPIO-95"><a href="#LCD144Config.init_GPIO-95"><span class="linenos">95</span></a>        <span class="k">return</span> <span class="mi">0</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Method that initializes the GPIO object.</p>
-
-<h2 id="returns">Returns</h2>
-
-<p>success (Optional[int]):
-    On success 0 is returned and None in all other cases.</p>
-</div>
-
-
-                            </div>
                             <div id="LCD144Config.delay_driver_ms" class="classattr">
                                         <input id="LCD144Config.delay_driver_ms-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-            
+                    <div class="decorator">@staticmethod</div>
+
         <span class="def">def</span>
-        <span class="name">delay_driver_ms</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">delay</span></span><span class="return-annotation">):</span></span>
+        <span class="name">delay_driver_ms</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">delay</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="LCD144Config.delay_driver_ms-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#LCD144Config.delay_driver_ms"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.delay_driver_ms-97"><a href="#LCD144Config.delay_driver_ms-97"><span class="linenos"> 97</span></a>    <span class="k">def</span> <span class="nf">delay_driver_ms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delay</span><span class="p">):</span>
-</span><span id="LCD144Config.delay_driver_ms-98"><a href="#LCD144Config.delay_driver_ms-98"><span class="linenos"> 98</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config.delay_driver_ms-99"><a href="#LCD144Config.delay_driver_ms-99"><span class="linenos"> 99</span></a><span class="sd">        Method that delays the driver execution by the given number</span>
-</span><span id="LCD144Config.delay_driver_ms-100"><a href="#LCD144Config.delay_driver_ms-100"><span class="linenos">100</span></a><span class="sd">        of milliseconds.</span>
-</span><span id="LCD144Config.delay_driver_ms-101"><a href="#LCD144Config.delay_driver_ms-101"><span class="linenos">101</span></a>
-</span><span id="LCD144Config.delay_driver_ms-102"><a href="#LCD144Config.delay_driver_ms-102"><span class="linenos">102</span></a><span class="sd">        Parameters</span>
-</span><span id="LCD144Config.delay_driver_ms-103"><a href="#LCD144Config.delay_driver_ms-103"><span class="linenos">103</span></a><span class="sd">        ----------</span>
-</span><span id="LCD144Config.delay_driver_ms-104"><a href="#LCD144Config.delay_driver_ms-104"><span class="linenos">104</span></a><span class="sd">        delay (int):</span>
-</span><span id="LCD144Config.delay_driver_ms-105"><a href="#LCD144Config.delay_driver_ms-105"><span class="linenos">105</span></a><span class="sd">            Number of milliseconds for the delay.</span>
-</span><span id="LCD144Config.delay_driver_ms-106"><a href="#LCD144Config.delay_driver_ms-106"><span class="linenos">106</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config.delay_driver_ms-107"><a href="#LCD144Config.delay_driver_ms-107"><span class="linenos">107</span></a>
-</span><span id="LCD144Config.delay_driver_ms-108"><a href="#LCD144Config.delay_driver_ms-108"><span class="linenos">108</span></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.delay_driver_ms-215"><a href="#LCD144Config.delay_driver_ms-215"><span class="linenos">215</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="LCD144Config.delay_driver_ms-216"><a href="#LCD144Config.delay_driver_ms-216"><span class="linenos">216</span></a>    <span class="k">def</span> <span class="nf">delay_driver_ms</span><span class="p">(</span><span class="n">delay</span><span class="p">):</span>
+</span><span id="LCD144Config.delay_driver_ms-217"><a href="#LCD144Config.delay_driver_ms-217"><span class="linenos">217</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config.delay_driver_ms-218"><a href="#LCD144Config.delay_driver_ms-218"><span class="linenos">218</span></a><span class="sd">        Method that delays the driver execution by the given number</span>
+</span><span id="LCD144Config.delay_driver_ms-219"><a href="#LCD144Config.delay_driver_ms-219"><span class="linenos">219</span></a><span class="sd">        of milliseconds.</span>
+</span><span id="LCD144Config.delay_driver_ms-220"><a href="#LCD144Config.delay_driver_ms-220"><span class="linenos">220</span></a>
+</span><span id="LCD144Config.delay_driver_ms-221"><a href="#LCD144Config.delay_driver_ms-221"><span class="linenos">221</span></a><span class="sd">        Parameters</span>
+</span><span id="LCD144Config.delay_driver_ms-222"><a href="#LCD144Config.delay_driver_ms-222"><span class="linenos">222</span></a><span class="sd">        ----------</span>
+</span><span id="LCD144Config.delay_driver_ms-223"><a href="#LCD144Config.delay_driver_ms-223"><span class="linenos">223</span></a><span class="sd">        delay (int):</span>
+</span><span id="LCD144Config.delay_driver_ms-224"><a href="#LCD144Config.delay_driver_ms-224"><span class="linenos">224</span></a><span class="sd">            Number of milliseconds for the delay.</span>
+</span><span id="LCD144Config.delay_driver_ms-225"><a href="#LCD144Config.delay_driver_ms-225"><span class="linenos">225</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config.delay_driver_ms-226"><a href="#LCD144Config.delay_driver_ms-226"><span class="linenos">226</span></a>
+</span><span id="LCD144Config.delay_driver_ms-227"><a href="#LCD144Config.delay_driver_ms-227"><span class="linenos">227</span></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -553,43 +1246,111 @@ of milliseconds.</p>
 
 
                             </div>
-                            <div id="LCD144Config.write_GPIO_digital" class="classattr">
-                                        <input id="LCD144Config.write_GPIO_digital-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="LCD144Config.cleanup_GPIO" class="classattr">
+                                        <input id="LCD144Config.cleanup_GPIO-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">write_GPIO_digital</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">pin</span>, </span><span class="param"><span class="n">value</span></span><span class="return-annotation">):</span></span>
+                    <div class="decorator">@staticmethod</div>
 
-                <label class="view-source-button" for="LCD144Config.write_GPIO_digital-view-source"><span>View Source</span></label>
+        <span class="def">def</span>
+        <span class="name">cleanup_GPIO</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="LCD144Config.cleanup_GPIO-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#LCD144Config.write_GPIO_digital"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.write_GPIO_digital-110"><a href="#LCD144Config.write_GPIO_digital-110"><span class="linenos">110</span></a>    <span class="k">def</span> <span class="nf">write_GPIO_digital</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span id="LCD144Config.write_GPIO_digital-111"><a href="#LCD144Config.write_GPIO_digital-111"><span class="linenos">111</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config.write_GPIO_digital-112"><a href="#LCD144Config.write_GPIO_digital-112"><span class="linenos">112</span></a><span class="sd">        Method that writes the given value to the given pin.</span>
-</span><span id="LCD144Config.write_GPIO_digital-113"><a href="#LCD144Config.write_GPIO_digital-113"><span class="linenos">113</span></a>
-</span><span id="LCD144Config.write_GPIO_digital-114"><a href="#LCD144Config.write_GPIO_digital-114"><span class="linenos">114</span></a><span class="sd">        Parameters</span>
-</span><span id="LCD144Config.write_GPIO_digital-115"><a href="#LCD144Config.write_GPIO_digital-115"><span class="linenos">115</span></a><span class="sd">        ----------</span>
-</span><span id="LCD144Config.write_GPIO_digital-116"><a href="#LCD144Config.write_GPIO_digital-116"><span class="linenos">116</span></a><span class="sd">        pin (int):</span>
-</span><span id="LCD144Config.write_GPIO_digital-117"><a href="#LCD144Config.write_GPIO_digital-117"><span class="linenos">117</span></a><span class="sd">            Number of the addressed pin.</span>
-</span><span id="LCD144Config.write_GPIO_digital-118"><a href="#LCD144Config.write_GPIO_digital-118"><span class="linenos">118</span></a>
-</span><span id="LCD144Config.write_GPIO_digital-119"><a href="#LCD144Config.write_GPIO_digital-119"><span class="linenos">119</span></a><span class="sd">        value (int):</span>
-</span><span id="LCD144Config.write_GPIO_digital-120"><a href="#LCD144Config.write_GPIO_digital-120"><span class="linenos">120</span></a><span class="sd">            Number that should be written on the pin.</span>
-</span><span id="LCD144Config.write_GPIO_digital-121"><a href="#LCD144Config.write_GPIO_digital-121"><span class="linenos">121</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config.write_GPIO_digital-122"><a href="#LCD144Config.write_GPIO_digital-122"><span class="linenos">122</span></a>
-</span><span id="LCD144Config.write_GPIO_digital-123"><a href="#LCD144Config.write_GPIO_digital-123"><span class="linenos">123</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <a class="headerlink" href="#LCD144Config.cleanup_GPIO"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.cleanup_GPIO-229"><a href="#LCD144Config.cleanup_GPIO-229"><span class="linenos">229</span></a>    <span class="nd">@staticmethod</span>
+</span><span id="LCD144Config.cleanup_GPIO-230"><a href="#LCD144Config.cleanup_GPIO-230"><span class="linenos">230</span></a>    <span class="k">def</span> <span class="nf">cleanup_GPIO</span><span class="p">():</span>
+</span><span id="LCD144Config.cleanup_GPIO-231"><a href="#LCD144Config.cleanup_GPIO-231"><span class="linenos">231</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config.cleanup_GPIO-232"><a href="#LCD144Config.cleanup_GPIO-232"><span class="linenos">232</span></a><span class="sd">        Method that initializes the GPIO cleanup.</span>
+</span><span id="LCD144Config.cleanup_GPIO-233"><a href="#LCD144Config.cleanup_GPIO-233"><span class="linenos">233</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config.cleanup_GPIO-234"><a href="#LCD144Config.cleanup_GPIO-234"><span class="linenos">234</span></a>
+</span><span id="LCD144Config.cleanup_GPIO-235"><a href="#LCD144Config.cleanup_GPIO-235"><span class="linenos">235</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Method that writes the given value to the given pin.</p>
+            <div class="docstring"><p>Method that initializes the GPIO cleanup.</p>
+</div>
+
+
+                            </div>
+                            <div id="LCD144Config.init_GPIO" class="classattr">
+                                        <input id="LCD144Config.init_GPIO-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">init_GPIO</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">with_warnings</span><span class="o">=</span><span class="kc">False</span>, </span><span class="param"><span class="n">with_keys</span><span class="o">=</span><span class="kc">False</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="LCD144Config.init_GPIO-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#LCD144Config.init_GPIO"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.init_GPIO-237"><a href="#LCD144Config.init_GPIO-237"><span class="linenos">237</span></a>    <span class="k">def</span> <span class="nf">init_GPIO</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span><span id="LCD144Config.init_GPIO-238"><a href="#LCD144Config.init_GPIO-238"><span class="linenos">238</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config.init_GPIO-239"><a href="#LCD144Config.init_GPIO-239"><span class="linenos">239</span></a><span class="sd">        Method that initializes the GPIO object for the LCD display with</span>
+</span><span id="LCD144Config.init_GPIO-240"><a href="#LCD144Config.init_GPIO-240"><span class="linenos">240</span></a><span class="sd">        or without the input keys.</span>
+</span><span id="LCD144Config.init_GPIO-241"><a href="#LCD144Config.init_GPIO-241"><span class="linenos">241</span></a>
+</span><span id="LCD144Config.init_GPIO-242"><a href="#LCD144Config.init_GPIO-242"><span class="linenos">242</span></a><span class="sd">        Parameters</span>
+</span><span id="LCD144Config.init_GPIO-243"><a href="#LCD144Config.init_GPIO-243"><span class="linenos">243</span></a><span class="sd">        ----------</span>
+</span><span id="LCD144Config.init_GPIO-244"><a href="#LCD144Config.init_GPIO-244"><span class="linenos">244</span></a><span class="sd">        with_warnings (bool):</span>
+</span><span id="LCD144Config.init_GPIO-245"><a href="#LCD144Config.init_GPIO-245"><span class="linenos">245</span></a><span class="sd">            Sets whether warnings are displayed on the console.</span>
+</span><span id="LCD144Config.init_GPIO-246"><a href="#LCD144Config.init_GPIO-246"><span class="linenos">246</span></a><span class="sd">            Default value is False.</span>
+</span><span id="LCD144Config.init_GPIO-247"><a href="#LCD144Config.init_GPIO-247"><span class="linenos">247</span></a>
+</span><span id="LCD144Config.init_GPIO-248"><a href="#LCD144Config.init_GPIO-248"><span class="linenos">248</span></a><span class="sd">        with_keys (bool):</span>
+</span><span id="LCD144Config.init_GPIO-249"><a href="#LCD144Config.init_GPIO-249"><span class="linenos">249</span></a><span class="sd">            Sets whether the keys of the display should be initialized.</span>
+</span><span id="LCD144Config.init_GPIO-250"><a href="#LCD144Config.init_GPIO-250"><span class="linenos">250</span></a><span class="sd">            Default value is False.</span>
+</span><span id="LCD144Config.init_GPIO-251"><a href="#LCD144Config.init_GPIO-251"><span class="linenos">251</span></a>
+</span><span id="LCD144Config.init_GPIO-252"><a href="#LCD144Config.init_GPIO-252"><span class="linenos">252</span></a><span class="sd">        Returns</span>
+</span><span id="LCD144Config.init_GPIO-253"><a href="#LCD144Config.init_GPIO-253"><span class="linenos">253</span></a><span class="sd">        -------</span>
+</span><span id="LCD144Config.init_GPIO-254"><a href="#LCD144Config.init_GPIO-254"><span class="linenos">254</span></a><span class="sd">        success (Optional[int]):</span>
+</span><span id="LCD144Config.init_GPIO-255"><a href="#LCD144Config.init_GPIO-255"><span class="linenos">255</span></a><span class="sd">            On success 0 is returned and None in all other cases.</span>
+</span><span id="LCD144Config.init_GPIO-256"><a href="#LCD144Config.init_GPIO-256"><span class="linenos">256</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config.init_GPIO-257"><a href="#LCD144Config.init_GPIO-257"><span class="linenos">257</span></a>
+</span><span id="LCD144Config.init_GPIO-258"><a href="#LCD144Config.init_GPIO-258"><span class="linenos">258</span></a>        <span class="c1"># Initial mode setup.</span>
+</span><span id="LCD144Config.init_GPIO-259"><a href="#LCD144Config.init_GPIO-259"><span class="linenos">259</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BCM</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-260"><a href="#LCD144Config.init_GPIO-260"><span class="linenos">260</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="n">with_warnings</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-261"><a href="#LCD144Config.init_GPIO-261"><span class="linenos">261</span></a>
+</span><span id="LCD144Config.init_GPIO-262"><a href="#LCD144Config.init_GPIO-262"><span class="linenos">262</span></a>        <span class="c1"># Setup of the display.</span>
+</span><span id="LCD144Config.init_GPIO-263"><a href="#LCD144Config.init_GPIO-263"><span class="linenos">263</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_RST_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-264"><a href="#LCD144Config.init_GPIO-264"><span class="linenos">264</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_DC_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-265"><a href="#LCD144Config.init_GPIO-265"><span class="linenos">265</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_CS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-266"><a href="#LCD144Config.init_GPIO-266"><span class="linenos">266</span></a>        <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LCD_BL_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-267"><a href="#LCD144Config.init_GPIO-267"><span class="linenos">267</span></a>
+</span><span id="LCD144Config.init_GPIO-268"><a href="#LCD144Config.init_GPIO-268"><span class="linenos">268</span></a>        <span class="c1"># Setup of the display keys.</span>
+</span><span id="LCD144Config.init_GPIO-269"><a href="#LCD144Config.init_GPIO-269"><span class="linenos">269</span></a>        <span class="k">if</span> <span class="n">with_keys</span><span class="p">:</span>
+</span><span id="LCD144Config.init_GPIO-270"><a href="#LCD144Config.init_GPIO-270"><span class="linenos">270</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_UP_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-271"><a href="#LCD144Config.init_GPIO-271"><span class="linenos">271</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_DOWN_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-272"><a href="#LCD144Config.init_GPIO-272"><span class="linenos">272</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_LEFT_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-273"><a href="#LCD144Config.init_GPIO-273"><span class="linenos">273</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_RIGHT_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-274"><a href="#LCD144Config.init_GPIO-274"><span class="linenos">274</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY_PRESS_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-275"><a href="#LCD144Config.init_GPIO-275"><span class="linenos">275</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY1_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-276"><a href="#LCD144Config.init_GPIO-276"><span class="linenos">276</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY2_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-277"><a href="#LCD144Config.init_GPIO-277"><span class="linenos">277</span></a>            <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">KEY3_PIN</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">IN</span><span class="p">,</span> <span class="n">pull_up_down</span><span class="o">=</span><span class="n">GPIO</span><span class="o">.</span><span class="n">PUD_UP</span><span class="p">)</span>
+</span><span id="LCD144Config.init_GPIO-278"><a href="#LCD144Config.init_GPIO-278"><span class="linenos">278</span></a>
+</span><span id="LCD144Config.init_GPIO-279"><a href="#LCD144Config.init_GPIO-279"><span class="linenos">279</span></a>        <span class="c1"># Configuration of the SPI object.</span>
+</span><span id="LCD144Config.init_GPIO-280"><a href="#LCD144Config.init_GPIO-280"><span class="linenos">280</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">max_speed_hz</span> <span class="o">=</span> <span class="mi">9000000</span>
+</span><span id="LCD144Config.init_GPIO-281"><a href="#LCD144Config.init_GPIO-281"><span class="linenos">281</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="mb">0b00</span>
+</span><span id="LCD144Config.init_GPIO-282"><a href="#LCD144Config.init_GPIO-282"><span class="linenos">282</span></a>
+</span><span id="LCD144Config.init_GPIO-283"><a href="#LCD144Config.init_GPIO-283"><span class="linenos">283</span></a>        <span class="k">return</span> <span class="mi">0</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Method that initializes the GPIO object for the LCD display with
+or without the input keys.</p>
 
 <h2 id="parameters">Parameters</h2>
 
-<p>pin (int):
-    Number of the addressed pin.</p>
+<p>with_warnings (bool):
+    Sets whether warnings are displayed on the console.
+    Default value is False.</p>
 
-<p>value (int):
-    Number that should be written on the pin.</p>
+<p>with_keys (bool):
+    Sets whether the keys of the display should be initialized.
+    Default value is False.</p>
+
+<h2 id="returns">Returns</h2>
+
+<p>success (Optional[int]):
+    On success 0 is returned and None in all other cases.</p>
 </div>
 
 
@@ -605,17 +1366,17 @@ of milliseconds.</p>
 
     </div>
     <a class="headerlink" href="#LCD144Config.write_SPI_bytes"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.write_SPI_bytes-125"><a href="#LCD144Config.write_SPI_bytes-125"><span class="linenos">125</span></a>    <span class="k">def</span> <span class="nf">write_SPI_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-</span><span id="LCD144Config.write_SPI_bytes-126"><a href="#LCD144Config.write_SPI_bytes-126"><span class="linenos">126</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LCD144Config.write_SPI_bytes-127"><a href="#LCD144Config.write_SPI_bytes-127"><span class="linenos">127</span></a><span class="sd">        Method that writes the given byte data to the SPI interface.</span>
-</span><span id="LCD144Config.write_SPI_bytes-128"><a href="#LCD144Config.write_SPI_bytes-128"><span class="linenos">128</span></a>
-</span><span id="LCD144Config.write_SPI_bytes-129"><a href="#LCD144Config.write_SPI_bytes-129"><span class="linenos">129</span></a><span class="sd">        Parameters</span>
-</span><span id="LCD144Config.write_SPI_bytes-130"><a href="#LCD144Config.write_SPI_bytes-130"><span class="linenos">130</span></a><span class="sd">        ----------</span>
-</span><span id="LCD144Config.write_SPI_bytes-131"><a href="#LCD144Config.write_SPI_bytes-131"><span class="linenos">131</span></a><span class="sd">        data (list[int]):</span>
-</span><span id="LCD144Config.write_SPI_bytes-132"><a href="#LCD144Config.write_SPI_bytes-132"><span class="linenos">132</span></a><span class="sd">            Byte data that will be written to the SPI interface.</span>
-</span><span id="LCD144Config.write_SPI_bytes-133"><a href="#LCD144Config.write_SPI_bytes-133"><span class="linenos">133</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="LCD144Config.write_SPI_bytes-134"><a href="#LCD144Config.write_SPI_bytes-134"><span class="linenos">134</span></a>
-</span><span id="LCD144Config.write_SPI_bytes-135"><a href="#LCD144Config.write_SPI_bytes-135"><span class="linenos">135</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">writebytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LCD144Config.write_SPI_bytes-285"><a href="#LCD144Config.write_SPI_bytes-285"><span class="linenos">285</span></a>    <span class="k">def</span> <span class="nf">write_SPI_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+</span><span id="LCD144Config.write_SPI_bytes-286"><a href="#LCD144Config.write_SPI_bytes-286"><span class="linenos">286</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LCD144Config.write_SPI_bytes-287"><a href="#LCD144Config.write_SPI_bytes-287"><span class="linenos">287</span></a><span class="sd">        Method that writes the given byte data to the SPI interface.</span>
+</span><span id="LCD144Config.write_SPI_bytes-288"><a href="#LCD144Config.write_SPI_bytes-288"><span class="linenos">288</span></a>
+</span><span id="LCD144Config.write_SPI_bytes-289"><a href="#LCD144Config.write_SPI_bytes-289"><span class="linenos">289</span></a><span class="sd">        Parameters</span>
+</span><span id="LCD144Config.write_SPI_bytes-290"><a href="#LCD144Config.write_SPI_bytes-290"><span class="linenos">290</span></a><span class="sd">        ----------</span>
+</span><span id="LCD144Config.write_SPI_bytes-291"><a href="#LCD144Config.write_SPI_bytes-291"><span class="linenos">291</span></a><span class="sd">        data (list[int]):</span>
+</span><span id="LCD144Config.write_SPI_bytes-292"><a href="#LCD144Config.write_SPI_bytes-292"><span class="linenos">292</span></a><span class="sd">            Byte data that will be written to the SPI interface.</span>
+</span><span id="LCD144Config.write_SPI_bytes-293"><a href="#LCD144Config.write_SPI_bytes-293"><span class="linenos">293</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="LCD144Config.write_SPI_bytes-294"><a href="#LCD144Config.write_SPI_bytes-294"><span class="linenos">294</span></a>
+</span><span id="LCD144Config.write_SPI_bytes-295"><a href="#LCD144Config.write_SPI_bytes-295"><span class="linenos">295</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">SPI</span><span class="o">.</span><span class="n">writebytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </span></pre></div>
 
 
