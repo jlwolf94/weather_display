@@ -103,17 +103,17 @@ class LCD144:
 
     def read_key_input(self, key):
         """
-        Method that returns the input value read from the given key number.
+        Method that returns the input value read from the given key.
 
         Parameters
         ----------
         key (int):
-            Number of the key that is used for the data read.
+            Number of the pin that is connected to the key.
 
         Returns
         -------
         data (int):
-            Data read from the given key.
+            Data read from the given key pin.
         """
 
         return GPIO.input(key)
