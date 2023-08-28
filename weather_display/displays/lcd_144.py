@@ -103,7 +103,7 @@ class LCD144:
 
     def write_reg(self, reg):
         """
-        Method that writes register address and data.
+        Method that writes register data.
 
         Parameters
         ----------
@@ -322,8 +322,8 @@ class LCD144:
             On failure -1 is returned and None in all other cases.
         """
 
-        if (self.config.init_GPIO(with_warnings=with_warnings,
-                                  with_keys=with_keys) != 0):
+        if self.config.init_GPIO(with_warnings=with_warnings,
+                                 with_keys=with_keys) != 0:
             return -1
 
         # Turn on the backlight.
@@ -348,7 +348,7 @@ class LCD144:
 
     def set_windows(self, x_start, y_start, x_end, y_end):
         """
-        Method that sets the start position and size of the display area.
+        Method that sets the start and end position of the display area.
 
         Parameters
         ----------
@@ -421,6 +421,7 @@ class LCD144:
         pix[..., [1]] = np.add(np.bitwise_and(np.left_shift(img[..., [1]], 3), 0xE0),
                                np.right_shift(img[..., [2]], 3))
         pix = pix.flatten().tolist()
+
         self.set_windows(0, 0, self.width, self.height)
         GPIO.output(self.config.LCD_DC_PIN, GPIO.HIGH)
         for i in range(0, len(pix), 4096):
