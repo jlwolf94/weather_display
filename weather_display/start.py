@@ -15,6 +15,7 @@ from weather_display.collectors.dwd_data import DwdData
 from weather_display.collectors.w24_data import W24Data
 from weather_display.collectors.won_data import WonData
 from weather_display.display import Display
+from weather_display.utils import is_raspberry_pi
 
 
 def main():
@@ -99,9 +100,17 @@ def main():
         display = Display()
         display.show(won_data.get_display_data())
     elif args.src == 3:
-        return lcd_144_test.main()
+        if is_raspberry_pi():
+            return lcd_144_test.main()
+        else:
+            print("Error: Can be used only on Raspberry Pi!")
+            return 1
     elif args.src == 4:
-        return lcd_144_key_test.main()
+        if is_raspberry_pi():
+            return lcd_144_key_test.main()
+        else:
+            print("Error: Can be used only on Raspberry Pi!")
+            return 1
     else:
         # Get the stations table.
         dwd_stations = DwdStations()
