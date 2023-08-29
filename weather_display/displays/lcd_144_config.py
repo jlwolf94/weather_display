@@ -29,7 +29,10 @@ THE SOFTWARE.
 
 import time
 import spidev
-import RPi.GPIO as GPIO
+
+from weather_display.utils import is_raspberry_pi
+if is_raspberry_pi():
+    import RPi.GPIO as GPIO
 
 
 class LCD144Config:

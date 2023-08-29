@@ -28,10 +28,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-import RPi.GPIO as GPIO
 import numpy as np
 
 from weather_display.displays.lcd_144_config import LCD144Config
+from weather_display.utils import is_raspberry_pi
+if is_raspberry_pi():
+    import RPi.GPIO as GPIO
 
 
 class LCD144:
