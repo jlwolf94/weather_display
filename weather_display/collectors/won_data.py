@@ -79,8 +79,9 @@ class WonData:
         """
         Method that calculates the dew point for a given humidity and temperature.
         For the calculation an approximation formula based on the Magnus formula
-        with empirically determined parameters is used. The formula is usable between
-        -45 degree Celsius and +60 degree Celsius.
+        with empirically determined parameters is used. The formula is enhanced
+        using the Boegel modification in form of the Arden Buck equation.
+        The equation is usable between -80 degree Celsius and +50 degree Celsius.
 
         Parameters
         ----------
@@ -101,13 +102,19 @@ class WonData:
         if humidity == float("nan") or temperature == float("nan"):
             return float("nan")
 
-        # Calculate dew point for given humidity and temperature.
-        k_two = 17.62
-        k_three = 243.12
-        f_one = (k_two * temperature) / (k_three + temperature)
-        f_two = (k_two * k_three) / (k_three + temperature)
-        return k_three * ((f_one + math.log(humidity / 100))
-                          / (f_two - math.log(humidity / 100)))
+        # Define empirical constants for the equation.
+        # k_two has no unit.
+        k_two = 18.678
+        # k_three is in degree Celsius.
+        k_three = 257.14
+        # k_four is in degree Celsius.
+        k_four = 234.5
+
+        # Calculate the result with the modified Magnus formula.
+        f_one = k_two - (temperature / k_four)
+        f_two = temperature / (k_three + temperature)
+        gamma_m = math.log((humidity / 100) * math.exp(f_one * f_two))
+        return (k_three * gamma_m) / (k_two - gamma_m)
 
     @staticmethod
     def convert_datetime_string(date_time):
