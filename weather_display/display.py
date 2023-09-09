@@ -21,15 +21,7 @@ class Display:
         Zero stands for the default console output.
     """
 
-    COLOR_MODES = ("bw", "c")
-    """
-    COLOR_MODES (tuple[str, str]):
-        A tuple containing strings that represent the accepted color modes.
-        Two color modes are accepted in form of the black and white (bw) and
-        color (c) color mode.
-    """
-
-    def __init__(self, output=0, width=128, height=128, dark_mode=False):
+    def __init__(self, output=0, dark_mode=False):
         """
         Constructor for the Display objects.
 
@@ -38,14 +30,6 @@ class Display:
         output (int):
             A number representing the chosen output channel.
             Default value is 0 representing the console output.
-
-        width (int):
-            Width of the output display in pixels.
-            The default value is 128 pixels.
-
-        height (int):
-            Height of the output display in pixels.
-            The default value is 128 pixels.
 
         dark_mode (bool):
             A boolean that indicates whether the dark mode is
@@ -56,21 +40,6 @@ class Display:
         """
         output (int):
             A number representing the chosen output channel.
-            Default value is 0 representing the console output.
-        """
-
-        self.width = width if width >= 0 and width <= 128 else 128
-        """
-        width (int):
-            Width of the output display in pixels.
-            The default value is 128 pixels.
-        """
-
-        self.height = height if height >= 0 and height <= 128 else 128
-        """
-        height (int):
-            Height of the output display in pixels.
-            The default value is 128 pixels.
         """
 
         self.dark_mode = dark_mode
@@ -188,7 +157,8 @@ class Display:
             the display.
         """
 
-        pass
+        # Create the image that will be shown on the display.
+        image = self.create_data_image_128_128(display_data)
 
     def show(self, display_data):
         """
