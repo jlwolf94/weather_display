@@ -2,6 +2,8 @@
 The display module contains the Display class that is responsible for displaying
 weather data handed to the class or its methods on the selected output channel.
 The weather data is formatted to align with the chosen output channel.
+The Display class imports all available displays for the output of data. It functions
+as a virtual main display.
 """
 
 from PIL import Image, ImageFont, ImageDraw

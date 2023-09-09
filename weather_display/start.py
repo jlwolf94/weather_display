@@ -14,7 +14,7 @@ from weather_display.collectors.dwd_stations import DwdStations
 from weather_display.collectors.dwd_data import DwdData
 from weather_display.collectors.w24_data import W24Data
 from weather_display.collectors.won_data import WonData
-from weather_display.display import Display
+from weather_display.displays.display import Display
 from weather_display.utils import is_raspberry_pi
 
 
