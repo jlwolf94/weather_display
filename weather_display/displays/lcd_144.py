@@ -103,6 +103,22 @@ class LCD144:
         GPIO.output(self.config.LCD_RST_PIN, GPIO.HIGH)
         self.config.delay_driver_ms(100)
 
+    def set_backlight(self, is_set):
+        """
+        Method that turns the LCD backlight on or off.
+
+        Parameters
+        ----------
+        is_set (bool):
+            New status of the backlight that determinates whether it is
+            turned on or off.
+        """
+
+        if is_set:
+            GPIO.output(self.config.LCD_BL_PIN, GPIO.HIGH)
+        else:
+            GPIO.output(self.config.LCD_BL_PIN, GPIO.LOW)
+
     def read_key_input(self, key):
         """
         Method that returns the input value read from the given key.
@@ -341,12 +357,13 @@ class LCD144:
             On failure one is returned and None in all other cases.
         """
 
+        # Try to initialize the GPIO pins.
         if self.config.init_GPIO(with_warnings=with_warnings,
                                  with_keys=with_keys) != 0:
             return 1
 
         # Turn on the backlight.
-        GPIO.output(self.config.LCD_BL_PIN, GPIO.HIGH)
+        self.set_backlight(True)
 
         # Hardware reset.
         self.reset()
