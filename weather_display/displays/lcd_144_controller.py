@@ -28,12 +28,22 @@ THE SOFTWARE.
 """
 
 from weather_display.displays.lcd_144 import LCD144
+from weather_display.utils import is_raspberry_pi
+if is_raspberry_pi():
+    import RPi.GPIO as GPIO
 
 
 class LCD144Controller:
     """
     Class that is responsible for the management and direct control of the
     1.44inch LCD HAT SPI interface from Waveshare.
+    """
+
+    BOUNCETIME = 500
+    """
+    BOUNCETIME (int):
+        Bouncetime of the switches next to the LCD display in ms.
+        The time is used for software switch debouncing.
     """
 
     def __init__(self):
@@ -74,6 +84,128 @@ class LCD144Controller:
             self.display.cleanup_GPIO()
         else:
             LCD144.cleanup_GPIO()
+
+    def add_event_detect(self, key, callback):
+        """
+        Method to add an event detection for a specified key
+        with a given callback function.
+
+        Parameters
+        ----------
+        key (int):
+            Number of the pin that is connected to the key.
+
+        callback (Any):
+            Callback function to register with the set event.
+        """
+
+        try:
+            if self.display is not None:
+                GPIO.add_event_detect(key, GPIO.FALLING, callback=callback,
+                                      bouncetime=self.BOUNCETIME)
+            else:
+                raise OSError("LCD display is not available!")
+        except OSError as err_os:
+            print("LCD Error:", err_os)
+
+    def add_event_detect_KEY1(self, callback):
+        """
+        Method to add an event detection for KEY1 with a given
+        callback function.
+
+        Parameters
+        ----------
+        callback (Any):
+            Callback function to register with the set event.
+        """
+
+        if self.display is not None:
+            self.add_event_detect(key=self.display.config.KEY1_PIN,
+                                  callback=callback)
+        else:
+            self.add_event_detect(key=0, callback=callback)
+
+    def add_event_detect_KEY2(self, callback):
+        """
+        Method to add an event detection for KEY2 with a given
+        callback function.
+
+        Parameters
+        ----------
+        callback (Any):
+            Callback function to register with the set event.
+        """
+
+        if self.display is not None:
+            self.add_event_detect(key=self.display.config.KEY2_PIN,
+                                  callback=callback)
+        else:
+            self.add_event_detect(key=0, callback=callback)
+
+    def add_event_detect_KEY3(self, callback):
+        """
+        Method to add an event detection for KEY3 with a given
+        callback function.
+
+        Parameters
+        ----------
+        callback (Any):
+            Callback function to register with the set event.
+        """
+
+        if self.display is not None:
+            self.add_event_detect(key=self.display.config.KEY3_PIN,
+                                  callback=callback)
+        else:
+            self.add_event_detect(key=0, callback=callback)
+
+    def remove_event_detect(self, key):
+        """
+        Method to remove an event detection from a specified key.
+
+        Parameters
+        ----------
+        key (int):
+            Number of the pin that is connected to the key.
+        """
+
+        try:
+            if self.display is not None:
+                GPIO.remove_event_detect(key)
+            else:
+                raise OSError("LCD display is not available!")
+        except OSError as err_os:
+            print("LCD Error:", err_os)
+
+    def remove_event_detect_KEY1(self):
+        """
+        Method to remove an event detection from KEY1.
+        """
+
+        if self.display is not None:
+            self.remove_event_detect(self.display.config.KEY1_PIN)
+        else:
+            self.remove_event_detect(0)
+
+    def remove_event_detect_KEY2(self):
+        """
+        Method to remove an event detection from KEY2.
+        """
+
+        if self.display is not None:
+            self.remove_event_detect(self.display.config.KEY2_PIN)
+        else:
+            self.remove_event_detect(0)
+
+    def remove_event_detect_KEY3(self):
+        """
+        Method to remove an event detection from KEY3.
+        """
+
+        if self.display is not None:
+            self.remove_event_detect(self.display.config.KEY3_PIN)
+        else:
+            self.remove_event_detect(0)
 
     def show_image(self, image):
         """
