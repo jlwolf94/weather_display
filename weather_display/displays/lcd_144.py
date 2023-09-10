@@ -119,6 +119,24 @@ class LCD144:
         else:
             GPIO.output(self.config.LCD_BL_PIN, GPIO.LOW)
 
+    def set_sleep(self, is_set):
+        """
+        Method that sets the sleep mode of the LCD to in or out.
+
+        Parameters
+        ----------
+        is_set (bool):
+            New status of the LCD sleep mode that determinates whether
+            it is in or out sleep mode.
+        """
+
+        if is_set:
+            self.write_reg(0x10)
+        else:
+            self.write_reg(0x11)
+
+        self.config.delay_driver_ms(120)
+
     def read_key_input(self, key):
         """
         Method that returns the input value read from the given key.
@@ -375,9 +393,8 @@ class LCD144:
         self.set_gram_scan_way(scan_dir)
         self.config.delay_driver_ms(200)
 
-        # Sleep out.
-        self.write_reg(0x11)
-        self.config.delay_driver_ms(120)
+        # Sleep mode out.
+        self.set_sleep(False)
 
         # Turn on the LCD display.
         self.write_reg(0x29)
