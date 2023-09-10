@@ -51,6 +51,29 @@ class Display:
             active or not.
         """
 
+        self.font = None
+        """
+        font (Optional[Any]):
+            The font used in the generation of images for the
+            LCD display. The default font is None.
+        """
+
+        self.font_size = 10
+        """
+        font_size (int):
+            The font size of the loaded font.
+            The default font size is 10.
+        """
+
+        # Try to load the selected font or fall back to default font.
+        try:
+            self.font = ImageFont.truetype(
+                font="/usr/share/fonts/truetype/noto/NotoSansMono-Regular.ttf",
+                size=self.font_size)
+        except OSError as err_os:
+            print("Font Error:", err_os)
+            self.font = None
+
     def create_data_image_128_128(self, display_data):
         """
         Method that creates an image of 128 x 128 pixel that contains the data
@@ -71,22 +94,12 @@ class Display:
         # Prepare image and color settings.
         image_mode = "RGB"
         image_size = (128, 128)
-        font_size = 10
         if self.dark_mode:
             back_color = "BLACK"
             text_color = "WHITE"
         else:
             back_color = "WHITE"
             text_color = "BLACK"
-
-        # Load the selected font or fall back to default font.
-        try:
-            font = ImageFont.truetype(
-                font="/usr/share/fonts/truetype/noto/NotoSansMono-Regular.ttf",
-                size=font_size)
-        except OSError as err_os:
-            print("Font Error:", err_os)
-            font = None
 
         image = Image.new(mode=image_mode, size=image_size, color=back_color)
         draw = ImageDraw.Draw(image)
@@ -100,20 +113,20 @@ class Display:
         date = display_data.get_formatted_date().split(" ")[1]
 
         # Draw image data.
-        draw.text((10, 7), station_name, fill=text_color, font=font)
+        draw.text((10, 7), station_name, fill=text_color, font=self.font)
         draw.text((10, 21), f"{date}, {display_data.get_formatted_time()}",
-                  fill=text_color, font=font)
-        draw.text((10, 35), f"Fore.: {forecast}", fill=text_color, font=font)
+                  fill=text_color, font=self.font)
+        draw.text((10, 35), f"Fore.: {forecast}", fill=text_color, font=self.font)
         draw.text((10, 49), f"Tmax: {display_data.daily_max:5.1F} °C",
-                  fill=text_color, font=font)
+                  fill=text_color, font=self.font)
         draw.text((10, 63), f"Tmin: {display_data.daily_min:5.1F} °C",
-                  fill=text_color, font=font)
+                  fill=text_color, font=self.font)
         draw.text((10, 77), f"T:  {display_data.temperature:5.1F} °C",
-                  fill=text_color, font=font)
+                  fill=text_color, font=self.font)
         draw.text((10, 91), f"Td: {display_data.dew_point:5.1F} °C",
-                  fill=text_color, font=font)
+                  fill=text_color, font=self.font)
         draw.text((10, 105), f"Prec.: {display_data.precipitation:4.1F} mm",
-                  fill=text_color, font=font)
+                  fill=text_color, font=self.font)
 
         return image
 
