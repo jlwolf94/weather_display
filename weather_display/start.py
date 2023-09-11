@@ -11,7 +11,7 @@ import weather_display.displays.lcd_144_key_test as lcd_144_key_test
 
 from weather_display.models.station import Station
 from weather_display.collectors.dwd_stations import DwdStations
-from weather_display.collectors.dwd_data import DwdData
+from weather_display.collectors.data_dwd import DataDWD
 from weather_display.collectors.w24_data import W24Data
 from weather_display.collectors.won_data import WonData
 from weather_display.displays.display import Display
@@ -123,12 +123,12 @@ def main():
             station = dwd_stations.get_station_by_name(args.name)
 
         # Get the station data.
-        dwd_data = DwdData(station)
-        dwd_data.update()
+        data_dwd = DataDWD(station)
+        data_dwd.update()
 
         # Show the retrieved data.
         display = Display()
-        display.show(dwd_data.get_display_data())
+        display.show(data_dwd.get_display_data())
 
     return 0
 
