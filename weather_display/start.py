@@ -12,7 +12,7 @@ import weather_display.displays.lcd_144_key_test as lcd_144_key_test
 from weather_display.models.station import Station
 from weather_display.collectors.dwd_stations import DwdStations
 from weather_display.collectors.data_dwd import DataDWD
-from weather_display.collectors.w24_data import W24Data
+from weather_display.collectors.data_w24 import DataW24
 from weather_display.collectors.won_data import WonData
 from weather_display.displays.display import Display
 from weather_display.utils import is_raspberry_pi
@@ -79,12 +79,12 @@ def main():
             station = Station(name=args.name)
 
         # Get the station data.
-        w24_data = W24Data(station)
-        w24_data.update()
+        data_w24 = DataW24(station)
+        data_w24.update()
 
         # Show the retrieved data.
         display = Display()
-        display.show(w24_data.get_display_data())
+        display.show(data_w24.get_display_data())
     elif args.src == 2:
         # Check whether an identifier is present.
         if args.id is not None:
