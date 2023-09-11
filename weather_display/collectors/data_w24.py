@@ -19,7 +19,7 @@ class DataW24(Data):
 
     def __init__(self, station, attempts=3, timeout=10):
         """
-        Constructor for the Data objects.
+        Constructor for the DataW24 objects.
 
         Parameters
         ----------
