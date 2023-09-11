@@ -1,19 +1,18 @@
 """
-The dwd_data module contains the DwdData class that is used to make all direct calls
+The data_dwd module contains the DataDWD class that is used to make all direct calls
 to the DWD-API, save the received data and preprocess the received data for display
 purposes.
 """
 
-import requests
-
 from datetime import datetime, timedelta
+from weather_display.collectors.data import Data
 from weather_display.models.display_data import DisplayData
 
 
-class DwdData:
+class DataDWD(Data):
     """
-    Class that contains the DWD-API base url and stores the station used for
-    the data requests. It stores the received data for later use or display.
+    Class that contains the DWD-API base url and stores the station informations
+    used for the data requests. It stores the received data for later use or display.
     """
 
     def __init__(self, station, attempts=3, timeout=10):
@@ -33,75 +32,49 @@ class DwdData:
             Default value is 10 seconds.
         """
 
-        self.station = station
-        """
-        station (Station):
-            Station object containing all informations of the station.
-        """
+        super().__init__(station, attempts, timeout)
 
-        self.url = "https://app-prod-ws.warnwetter.de/v30"
+        self.url = "https://app-prod-ws.warnwetter.de/v30" + "/stationOverviewExtended"
         """
         url (str):
-            Standard base url for the DWD-API.
+            Standard url for the get requests.
         """
 
-        self.attempts = attempts
+        self.params = {"stationIds": station.identifier}
         """
-        attempts (int):
-            Number of connection attempts.
-        """
-
-        self.timeout = timeout
-        """
-        timeout (int):
-            Connection timeout for a server answer in seconds.
+        params (Optional[dict[str, str]]):
+            Dictionary with all parameters for the get request.
         """
 
-        self.station_data = {}
+        self.headers = {"accept": "application/json"}
         """
+        headers (Optional[dict[str, str]]):
+            Dictionary with all header parameters for the get request.
+        """
+
+    def get_station_data(self, response):
+        """
+        Method that processes the response of a request to the
+        standard url with set parameters and headers. It returns
+        a formatted dictionary of the data.
+
+        Parameters
+        ----------
+        response (Optional[Response]):
+            A response object retrieved from a request to the standard url
+            with the set parameters and headers or None.
+
+        Returns
+        -------
         station_data (dict):
             A dictionary containing all current weather data from the
             station specified by station.
         """
 
-    def get_station_data(self):
-        """
-        Method that retrieves the current weather data for the station
-        specified by the saved station from the DWD-API.
-
-        Returns
-        -------
-        response (Optional[Response]):
-            The response object of the request to the standard url or None.
-        """
-
-        # Add url for a station data get request to the base url.
-        url = self.url + "/stationOverviewExtended"
-
-        # Build the parameters and the headers for the get request.
-        params = {"stationIds": self.station.identifier}
-        headers = {"accept": "application/json"}
-
-        # Try to reach the server multiple times and handle occuring exceptions.
-        for i in range(self.attempts):
-            try:
-                response = requests.get(url, params=params,
-                                        headers=headers, timeout=self.timeout)
-                response.raise_for_status()
-            except requests.exceptions.HTTPError as err_http:
-                print("HTTP Error:", err_http)
-            except requests.exceptions.ConnectionError as err_con:
-                print("Connection Error:", err_con)
-            except requests.exceptions.Timeout as err_time:
-                print("Timeout Error:", err_time)
-            except requests.exceptions.TooManyRedirects as err_red:
-                print("Redirect Error:", err_red)
-            except requests.exceptions.RequestException as err_req:
-                print("Request Error:", err_req)
-            else:
-                return response
-
-        return None
+        if response is not None:
+            return response.json()
+        else:
+            return {}
 
     def get_display_data(self):
         """
@@ -112,7 +85,7 @@ class DwdData:
         Returns
         -------
         display_data (DisplayData):
-            A DisplayData object containing all weather data for the given
+            A DisplayData object containing all weather data for the set
             station formatted for display purposes.
         """
 
@@ -185,28 +158,3 @@ class DwdData:
 
         # Return all gathered data in a DisplayData object.
         return display_data
-
-    def update(self):
-        """
-        Method that updates or retrieves the station_data from the DWD-API with
-        the informations saved in station.
-
-        Returns
-        -------
-        success (bool):
-            Indicates whether the update process was a success or not.
-        """
-
-        # Try to get station data from the DWD-API.
-        station_data = self.get_station_data()
-        if station_data is not None:
-            station_data = station_data.json()
-        else:
-            station_data = {}
-
-        # Check whether there is data for an update.
-        if station_data:
-            self.station_data = station_data
-            return True
-        else:
-            return False
