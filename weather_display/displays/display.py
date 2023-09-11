@@ -2,8 +2,8 @@
 The display module contains the Display class that is responsible for displaying
 weather data handed to the class or its methods on the selected output channel.
 The weather data is formatted to align with the chosen output channel.
-The Display class imports all available displays for the output of data. It functions
-as a virtual main display.
+The Display class imports all available displays for the output of data.
+It functions as a virtual main display.
 """
 
 from PIL import Image, ImageFont, ImageDraw
@@ -51,28 +51,33 @@ class Display:
             active or not.
         """
 
-        self.font = None
+        self.font = None if output == self.OUTPUTS[0] else self.load_default_font()
         """
         font (Optional[Any]):
             The font used in the generation of images for the
             LCD display. The default font is None.
         """
 
-        self.font_size = 10
+    def load_default_font(self):
         """
-        font_size (int):
-            The font size of the loaded font.
-            The default font size is 10.
+        Method that loads the set default font with a default font size.
+        If the font can not be loaded then None is returned.
+
+        Returns
+        -------
+        font (Optional[Any]):
+            The loaded font or None.
         """
 
-        # Try to load the selected font or fall back to default font.
         try:
-            self.font = ImageFont.truetype(
+            font = ImageFont.truetype(
                 font="/usr/share/fonts/truetype/noto/NotoSansMono-Regular.ttf",
-                size=self.font_size)
+                size=10)
         except OSError as err_os:
+            font = None
             print("Font Error:", err_os)
-            self.font = None
+
+        return font
 
     def create_data_image_128_128(self, display_data):
         """
