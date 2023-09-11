@@ -66,11 +66,11 @@ class LCD144Controller:
                 raise OSError("LCD initialization failed!")
             self.display.clear()
         except OSError as err_os:
+            self.display = None
             print("LCD Error:", err_os)
-            self.display = None
         except:
-            print("LCD Error: Controller initialization failed!")
             self.display = None
+            print("LCD Error: Controller initialization failed!")
 
     def cleanup(self):
         """
@@ -119,11 +119,8 @@ class LCD144Controller:
             Callback function to register with the set event.
         """
 
-        if self.display is not None:
-            self.add_event_detect(key=self.display.config.KEY1_PIN,
-                                  callback=callback)
-        else:
-            self.add_event_detect(key=0, callback=callback)
+        self.add_event_detect(key=self.display.config.KEY1_PIN,
+                              callback=callback)
 
     def add_event_detect_KEY2(self, callback):
         """
@@ -136,11 +133,8 @@ class LCD144Controller:
             Callback function to register with the set event.
         """
 
-        if self.display is not None:
-            self.add_event_detect(key=self.display.config.KEY2_PIN,
-                                  callback=callback)
-        else:
-            self.add_event_detect(key=0, callback=callback)
+        self.add_event_detect(key=self.display.config.KEY2_PIN,
+                              callback=callback)
 
     def add_event_detect_KEY3(self, callback):
         """
@@ -153,11 +147,8 @@ class LCD144Controller:
             Callback function to register with the set event.
         """
 
-        if self.display is not None:
-            self.add_event_detect(key=self.display.config.KEY3_PIN,
-                                  callback=callback)
-        else:
-            self.add_event_detect(key=0, callback=callback)
+        self.add_event_detect(key=self.display.config.KEY3_PIN,
+                              callback=callback)
 
     def remove_event_detect(self, key):
         """
@@ -182,30 +173,21 @@ class LCD144Controller:
         Method to remove an event detection from KEY1.
         """
 
-        if self.display is not None:
-            self.remove_event_detect(self.display.config.KEY1_PIN)
-        else:
-            self.remove_event_detect(0)
+        self.remove_event_detect(self.display.config.KEY1_PIN)
 
     def remove_event_detect_KEY2(self):
         """
         Method to remove an event detection from KEY2.
         """
 
-        if self.display is not None:
-            self.remove_event_detect(self.display.config.KEY2_PIN)
-        else:
-            self.remove_event_detect(0)
+        self.remove_event_detect(self.display.config.KEY2_PIN)
 
     def remove_event_detect_KEY3(self):
         """
         Method to remove an event detection from KEY3.
         """
 
-        if self.display is not None:
-            self.remove_event_detect(self.display.config.KEY3_PIN)
-        else:
-            self.remove_event_detect(0)
+        self.remove_event_detect(self.display.config.KEY3_PIN)
 
     def show_image(self, image):
         """
