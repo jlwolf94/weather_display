@@ -10,7 +10,7 @@ import weather_display.displays.lcd_144_test as lcd_144_test
 import weather_display.displays.lcd_144_key_test as lcd_144_key_test
 
 from weather_display.models.station import Station
-from weather_display.collectors.dwd_stations import DwdStations
+from weather_display.collectors.stations_dwd import StationsDWD
 from weather_display.collectors.data_dwd import DataDWD
 from weather_display.collectors.data_w24 import DataW24
 from weather_display.collectors.data_won import DataWon
@@ -113,14 +113,14 @@ def main():
             return 1
     else:
         # Get the stations table.
-        dwd_stations = DwdStations()
-        dwd_stations.update()
+        stations_dwd = StationsDWD()
+        stations_dwd.update()
 
         # If latitude and longitude is available use the geographic coordinates.
         if args.lat is not None and args.lon is not None:
-            station = dwd_stations.get_station_by_distance(args.lat, args.lon)
+            station = stations_dwd.get_station_by_distance(args.lat, args.lon)
         else:
-            station = dwd_stations.get_station_by_name(args.name)
+            station = stations_dwd.get_station_by_name(args.name)
 
         # Get the station data.
         data_dwd = DataDWD(station)
