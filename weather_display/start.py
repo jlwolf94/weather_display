@@ -13,7 +13,7 @@ from weather_display.models.station import Station
 from weather_display.collectors.dwd_stations import DwdStations
 from weather_display.collectors.data_dwd import DataDWD
 from weather_display.collectors.data_w24 import DataW24
-from weather_display.collectors.won_data import WonData
+from weather_display.collectors.data_won import DataWon
 from weather_display.displays.display import Display
 from weather_display.utils import is_raspberry_pi
 
@@ -93,12 +93,12 @@ def main():
             station = Station(name=args.name)
 
         # Get the station data.
-        won_data = WonData(station)
-        won_data.update()
+        data_won = DataWon(station)
+        data_won.update()
 
         # Show the retrieved data.
         display = Display()
-        display.show(won_data.get_display_data())
+        display.show(data_won.get_display_data())
     elif args.src == 3:
         if is_raspberry_pi():
             return lcd_144_test.main()
