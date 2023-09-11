@@ -117,45 +117,6 @@ class Data(ABC):
         gamma_m = math.log((humidity / 100) * math.exp(f_one * f_two))
         return (k_three * gamma_m) / (k_two - gamma_m)
 
-    @abstractmethod
-    def build_url(self):
-        """
-        Method that builds the standard url for the get requests.
-
-        Returns
-        -------
-        url (str):
-            Standard url for the get requests.
-        """
-
-        pass
-
-    @abstractmethod
-    def build_params(self):
-        """
-        Method that builds the parameters for the get requests.
-
-        Returns
-        -------
-        params (dict[str, str]):
-            Dictionary with all parameters for the get request.
-        """
-
-        pass
-
-    @abstractmethod
-    def build_headers(self):
-        """
-        Method that builds the headers for the get requests.
-
-        Returns
-        -------
-        headers (dict[str, str]):
-            Dictionary with all header parameters for the get request.
-        """
-
-        pass
-
     def get_station_response(self):
         """
         Method that triggers a get request to the standard url with the set
