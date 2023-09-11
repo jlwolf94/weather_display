@@ -1,5 +1,5 @@
 """
-The dwd_stations module contains the DwdStations class that is used to retrieve
+The stations_dwd module contains the StationsDWD class that is used to retrieve
 all stations listed on the corresponding DWD website and to convert the table
 to a processable json file. The class handles all needed request and I/O processes.
 """
@@ -14,16 +14,16 @@ from bs4 import BeautifulSoup
 from weather_display.models.station import Station
 
 
-class DwdStations:
+class StationsDWD:
     """
     Class that contains all methods and data necessary to retrieve the latest
     DWD stations table. The stations table is saved to a json file and is
     updated after the set amount of time.
     """
 
-    def __init__(self, attempts=3, timeout=10, refresh=24, file_name="dwd_stations.json"):
+    def __init__(self, attempts=3, timeout=10, refresh=7, file_name="stations_dwd.json"):
         """
-        Constructor for the DwdStations objects.
+        Constructor for the StationsDWD objects.
 
         Parameters
         ----------
@@ -35,12 +35,18 @@ class DwdStations:
             Default value is 10 seconds.
 
         refresh (int):
-            Refresh time in hours for the saved json file.
-            Default value is 24 hours.
+            Refresh time in days for the saved json file.
+            Default value is 7 days.
 
         file_name (str):
             File name for the json file with all station data.
-            Default name is dwd_stations.json.
+            Default name is stations_dwd.json.
+        """
+
+        self.attempts = attempts
+        """
+        attempts (int):
+            Number of connection attempts.
         """
 
         self.url = "https://www.dwd.de/DE/leistungen/klimadatendeutschland/" \
@@ -54,7 +60,7 @@ class DwdStations:
         self.params = {"view": "nasPublication", "nn": "16102"}
         """
         params (dict[str, str]):
-            Dictionary with all url parameters for the request.
+            Dictionary with all parameters for the get request.
         """
 
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) " \
@@ -62,34 +68,25 @@ class DwdStations:
         self.headers = {"User-Agent": user_agent}
         """
         headers (dict[str, str]):
-            Dictionary with all header parameters for the request.
-        """
-
-        self.attempts = attempts
-        """
-        attempts (int):
-            Number of connection attempts. Default value is 3.
+            Dictionary with all header parameters for the get request.
         """
 
         self.timeout = timeout
         """
         timeout (int):
             Connection timeout for a server answer in seconds.
-            Default value is 10 seconds.
         """
 
         self.refresh = refresh
         """
         refresh (int):
-            Refresh time in hours for the saved json file.
-            Default value is 24 hours.
+            Refresh time in days for the saved json file.
         """
 
         self.file_name = file_name
         """
         file_name (str):
             File name for the json file with all station data.
-            Default name is dwd_stations.json.
         """
 
         self.table_entries = {}
@@ -101,18 +98,51 @@ class DwdStations:
             additional station informations.
         """
 
-    @staticmethod
-    def process_stations_page(response):
+    def get_table_response(self):
         """
-        Method that processes the response content of a request to the
-        standard url and returns a formatted dictionary of the stations
-        names with their informations.
+        Method that triggers a get request to the standard url with the set
+        parameters, headers and timeout. The method handles all possible
+        error cases.
+
+        Returns
+        -------
+        table_response (Optional[Response]):
+            The response object of the request to the standard url with the
+            set parameters and headers or None.
+        """
+
+        # Try to reach the server multiple times and handle occuring exceptions.
+        for i in range(self.attempts):
+            try:
+                response = requests.get(url=self.url, params=self.params,
+                                        headers=self.headers, timeout=self.timeout)
+                response.raise_for_status()
+            except requests.exceptions.HTTPError as err_http:
+                print("HTTP Error:", err_http)
+            except requests.exceptions.ConnectionError as err_con:
+                print("Connection Error:", err_con)
+            except requests.exceptions.Timeout as err_time:
+                print("Timeout Error:", err_time)
+            except requests.exceptions.TooManyRedirects as err_red:
+                print("Redirect Error:", err_red)
+            except requests.exceptions.RequestException as err_req:
+                print("Request Error:", err_req)
+            else:
+                return response
+
+        return None
+
+    def get_table_entries(self, response):
+        """
+        Method that processes the response of a request to the
+        standard url with set parameters and headers. It returns
+        a formatted dictionary of the data.
 
         Parameters
         ----------
         response (Optional[Response]):
             A response object retrieved from a request to the standard url
-            or None.
+            with the set parameters and headers or None.
 
         Returns
         -------
@@ -148,53 +178,6 @@ class DwdStations:
                 table_entries.update({station_name: station_info})
 
         return table_entries
-
-    def get_stations_page(self):
-        """
-        Method that triggers a get request for the standard url and
-        handles all possible error cases.
-
-        Returns
-        -------
-        response (Optional[Response]):
-            The response object of the request to the standard url or None.
-        """
-
-        # Try to reach the server multiple times and handle occuring exceptions.
-        for i in range(self.attempts):
-            try:
-                response = requests.get(self.url, params=self.params,
-                                        headers=self.headers, timeout=self.timeout)
-                response.raise_for_status()
-            except requests.exceptions.HTTPError as err_http:
-                print("HTTP Error:", err_http)
-            except requests.exceptions.ConnectionError as err_con:
-                print("Connection Error:", err_con)
-            except requests.exceptions.Timeout as err_time:
-                print("Timeout Error:", err_time)
-            except requests.exceptions.TooManyRedirects as err_red:
-                print("Redirect Error:", err_red)
-            except requests.exceptions.RequestException as err_req:
-                print("Request Error:", err_req)
-            else:
-                return response
-
-        return None
-
-    def get_table_entries(self):
-        """
-        Method that triggers a request to the standard url and processes the
-        data in the response by using the already defined methods.
-
-        Returns
-        -------
-        table_entries (dict[str, dict[str, str]]):
-            A dictionary containing all stations from the stations table.
-            With no data an empty dictionary is returned.
-        """
-
-        # Get the table entries by processing the server response.
-        return self.process_stations_page(self.get_stations_page())
 
     def get_station_by_name(self, station_name):
         """
@@ -362,7 +345,7 @@ class DwdStations:
             curr_date = datetime.now()
 
             # Check whether the file is already updated.
-            if curr_date - mod_date <= timedelta(hours=self.refresh):
+            if curr_date - mod_date <= timedelta(days=self.refresh):
                 table_entries = self.load_table_from_json()
 
                 # Check whether the load was successful.
@@ -371,7 +354,7 @@ class DwdStations:
                     return True
 
             # An Update to the table entries and the json file is necessary.
-            table_entries = self.get_table_entries()
+            table_entries = self.get_table_entries(self.get_table_response())
             if table_entries:
                 self.table_entries = table_entries
                 return self.save_table_as_json(table_entries)
@@ -387,7 +370,7 @@ class DwdStations:
                     return False
         else:
             # Update the table entries and the json file.
-            table_entries = self.get_table_entries()
+            table_entries = self.get_table_entries(self.get_table_response())
             if table_entries:
                 self.table_entries = table_entries
                 return self.save_table_as_json(table_entries)
