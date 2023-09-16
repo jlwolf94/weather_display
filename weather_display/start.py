@@ -11,9 +11,7 @@ import weather_display.displays.lcd_144_key_test as lcd_144_key_test
 
 from weather_display.models.station import Station
 from weather_display.collectors.stations_dwd import StationsDWD
-from weather_display.collectors.data_dwd import DataDWD
-from weather_display.collectors.data_w24 import DataW24
-from weather_display.collectors.data_won import DataWon
+from weather_display.collectors.collectors_controller import CollectorsController
 from weather_display.displays.display import Display
 from weather_display.utils import is_raspberry_pi
 
@@ -78,13 +76,12 @@ def main():
         else:
             station = Station(name=args.name)
 
-        # Get the station data.
-        data_w24 = DataW24(station)
-        data_w24.update()
+        # Initialize the CollectorsController with the station.
+        coll_con = CollectorsController({"w24": station})
 
         # Show the retrieved data.
         display = Display()
-        display.show(data_w24.get_display_data())
+        display.show(coll_con.get_display_data())
     elif args.src == 2:
         # Check whether an identifier is present.
         if args.id is not None:
@@ -92,13 +89,12 @@ def main():
         else:
             station = Station(name=args.name)
 
-        # Get the station data.
-        data_won = DataWon(station)
-        data_won.update()
+        # Initialize the CollectorsController with the station.
+        coll_con = CollectorsController({"won": station})
 
         # Show the retrieved data.
         display = Display()
-        display.show(data_won.get_display_data())
+        display.show(coll_con.get_display_data())
     elif args.src == 3:
         if is_raspberry_pi():
             return lcd_144_test.main()
@@ -122,13 +118,12 @@ def main():
         else:
             station = stations_dwd.get_station_by_name(args.name)
 
-        # Get the station data.
-        data_dwd = DataDWD(station)
-        data_dwd.update()
+        # Initialize the CollectorsController with the station.
+        coll_con = CollectorsController({"dwd": station})
 
         # Show the retrieved data.
         display = Display()
-        display.show(data_dwd.get_display_data())
+        display.show(coll_con.get_display_data())
 
     return 0
 
