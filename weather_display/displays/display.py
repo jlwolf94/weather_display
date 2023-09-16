@@ -213,3 +213,12 @@ class Display:
                 self.output_to_display(display_data)
             else:
                 self.output_to_console(display_data)
+
+    def exit(self):
+        """
+        Method that exits all used displays and controllers. The method
+        performs the necessary cleanup actions to correctly exit the displays.
+        """
+
+        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
+            self.lcd_con.cleanup()
