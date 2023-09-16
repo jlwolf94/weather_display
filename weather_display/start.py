@@ -11,7 +11,7 @@ import weather_display.displays.lcd_144_key_test as lcd_144_key_test
 
 from weather_display.models.station import Station
 from weather_display.collectors.stations_dwd import StationsDWD
-from weather_display.collectors.collectors_controller import CollectorsController
+from weather_display.collectors.collector import Collector
 from weather_display.displays.display import Display
 from weather_display.utils import is_raspberry_pi
 
@@ -76,12 +76,13 @@ def main():
         else:
             station = Station(name=args.name)
 
-        # Initialize the CollectorsController with the station.
-        coll_con = CollectorsController({"w24": station})
+        # Initialize the collector with the station.
+        collector = Collector({"w24": station})
 
         # Show the retrieved data.
         display = Display()
-        display.show(coll_con.get_display_data())
+        display.show(collector.get_display_data())
+        display.exit()
     elif args.src == 2:
         # Check whether an identifier is present.
         if args.id is not None:
@@ -89,12 +90,13 @@ def main():
         else:
             station = Station(name=args.name)
 
-        # Initialize the CollectorsController with the station.
-        coll_con = CollectorsController({"won": station})
+        # Initialize the collector with the station.
+        collector = Collector({"won": station})
 
         # Show the retrieved data.
         display = Display()
-        display.show(coll_con.get_display_data())
+        display.show(collector.get_display_data())
+        display.exit()
     elif args.src == 3:
         if is_raspberry_pi():
             return lcd_144_test.main()
@@ -118,12 +120,13 @@ def main():
         else:
             station = stations_dwd.get_station_by_name(args.name)
 
-        # Initialize the CollectorsController with the station.
-        coll_con = CollectorsController({"dwd": station})
+        # Initialize the collector with the station.
+        collector = Collector({"dwd": station})
 
         # Show the retrieved data.
         display = Display()
-        display.show(coll_con.get_display_data())
+        display.show(collector.get_display_data())
+        display.exit()
 
     return 0
 

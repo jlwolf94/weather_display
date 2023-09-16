@@ -1,7 +1,7 @@
 """
-The collectors controller module contains the CollectorsController class that bundles
-and initializes the different data sources. The Controller provides methods to
-gather and update data contained in the different data sources.
+The collector module contains the Collector class that bundles and initializes
+the different data sources. The collector provides methods to gather and
+update data contained in the different data sources.
 """
 
 from weather_display.models.station import Station
@@ -11,9 +11,9 @@ from weather_display.collectors.data_w24 import DataW24
 from weather_display.collectors.data_won import DataWon
 
 
-class CollectorsController:
+class Collector:
     """
-    The CollectorsController class provides methods to gather and update
+    The Collector class provides methods to gather and update
     data contained in the different data sources. It can initialize all
     data sources or only some selected sources.
     """
@@ -26,7 +26,7 @@ class CollectorsController:
 
     def __init__(self, stations):
         """
-        Constructor for the CollectorsController objects.
+        Constructor for the Collector objects.
 
         Parameters
         ----------
