@@ -7,6 +7,7 @@ It functions as a virtual main display.
 """
 
 from PIL import Image, ImageFont, ImageDraw
+from weather_display.displays.lcd_144_controller import LCD144Controller
 
 
 class Display:
@@ -51,11 +52,18 @@ class Display:
             active or not.
         """
 
-        self.font = None if output == self.OUTPUTS[0] else self.load_default_font()
+        self.font = self.load_default_font() if self.output == self.OUTPUTS[1] else None
         """
         font (Optional[Any]):
             The font used in the generation of images for the
             LCD display. The default font is None.
+        """
+
+        self.lcd_con = LCD144Controller() if self.output == self.OUTPUTS[1] else None
+        """
+        lcd_con (Optional[LCD144Controller]):
+            Controller of the 1.44inch LCD HAT SPI interface from Waveshare.
+            The default controller is None.
         """
 
     def load_default_font(self):
@@ -179,6 +187,10 @@ class Display:
 
         # Create the image that will be shown on the display.
         image = self.create_data_image_128_128(display_data)
+
+        # Try to use the LCD controller to show the image.
+        if self.lcd_con is not None:
+            self.lcd_con.show_image(image)
 
     def show(self, display_data):
         """
