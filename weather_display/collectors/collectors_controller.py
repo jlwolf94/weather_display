@@ -4,7 +4,6 @@ and initializes the different data sources. The Controller provides methods to
 gather and update data contained in the different data sources.
 """
 
-from datetime import datetime
 from weather_display.models.station import Station
 from weather_display.collectors.data_dwd import DataDWD
 from weather_display.collectors.data_w24 import DataW24
@@ -51,12 +50,6 @@ class CollectorsController:
             Default value is False.
         """
 
-        self.last_update = None
-        """
-        last_update (Optional[datetime]):
-            Time of the last update call. Default value is None.
-        """
-
         if stations is None or not stations:
             # Set a default station for the default data source.
             self.data_sources.update({self.SOURCES[0]: DataDWD(Station())})
@@ -74,7 +67,7 @@ class CollectorsController:
         """
         Method that updates the station_data of all data sources by calling
         the associated update method of the sources. It also saves the combined
-        success status of the updates and the time of the update.
+        success status of the updates.
         """
 
         # Call all update methods and combine the success status.
@@ -82,6 +75,4 @@ class CollectorsController:
         for data in self.data_sources.values():
             is_updated = is_updated and data.update()
 
-        # Save success status and update time.
         self.is_updated = is_updated
-        self.last_update = datetime.now()
