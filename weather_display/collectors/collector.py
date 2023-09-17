@@ -58,9 +58,9 @@ class Collector:
         else:
             # Iterate the dictionary and initialize the found sources.
             for source, station in stations.items():
-                if source == self.SOURCES[1]:
+                if source == self.SOURCES[1] or source == "1":
                     self.data_sources.update({self.SOURCES[1]: DataW24(station)})
-                elif source == self.SOURCES[2]:
+                elif source == self.SOURCES[2] or source == "2":
                     self.data_sources.update({self.SOURCES[2]: DataWon(station)})
                 else:
                     self.data_sources.update({self.SOURCES[0]: DataDWD(station)})
