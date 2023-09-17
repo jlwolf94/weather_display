@@ -6,15 +6,58 @@ and can be used as an entry point script for the package.
 import sys
 import argparse
 import textwrap
-import weather_display.displays.lcd_144_test as lcd_144_test
-import weather_display.displays.lcd_144_key_test as lcd_144_key_test
 
 from weather_display.models.station import Station
 from weather_display.collectors.stations_dwd import StationsDWD
 from weather_display.collectors.collector import Collector
 from weather_display.displays.display import Display
-from weather_display.utils import is_raspberry_pi
+from weather_display.utils import load_config_from_json
 
+
+def get_station_from_args(source, args):
+    """
+    Method that creates a Station object with the given data source and
+    options specified in the arguments.
+
+    Parameters
+    ----------
+    source (str):
+        Name or number of the selected data source.
+
+    args (Namespace):
+        A namespace created by the argument parser with all arguments.
+
+    Returns
+    -------
+    station (Station):
+        Created station with the set options.
+    """
+
+    # Create station with arguments for the selected data source.
+    if source == Collector.SOURCES[1] or source == "1":
+        try:
+            converted_id = int(args.id)
+        except TypeError:
+            converted_id = 0
+        except ValueError:
+            converted_id = 0
+
+        station = Station(name=args.name, number=converted_id)
+    elif source == Collector.SOURCES[2] or source == "2":
+        if args.id is not None:
+            station = Station(name=args.name, identifier=args.id)
+        else:
+            station = Station(name=args.name)
+    else:
+        stations_dwd = StationsDWD()
+        stations_dwd.update()
+
+        if args.lat is not None and args.lon is not None:
+            station = stations_dwd.get_station_by_distance(args.lat, args.lon)
+        else:
+            station = stations_dwd.get_station_by_name(args.name)
+
+    return station
 
 def main():
     """
@@ -52,6 +95,12 @@ def main():
                         help="geographic coordinate longitude")
     parser.add_argument("-s", "--src", action="store", default=0,
                         type=int, help="number of the data source")
+    parser.add_argument("-f", "--fil", action="store",
+                        help="path to configuration file")
+    parser.add_argument("-o", "--out", action="store", default=0,
+                        type=int, help="number of the output channel")
+    parser.add_argument("-m", "--mod", action="store_true",
+                        help="dark mode setting for the output")
     parser.add_argument("-v", "--version", action="version",
                         version="%(prog)s 1.2.0")
 
@@ -63,70 +112,24 @@ def main():
         parser.print_help()
         return 0
 
-    # Check which data source is selected.
-    if args.src == 1:
-        # Check whether an identifier is present and convertible.
-        if args.id is not None:
-            try:
-                converted_id = int(args.id)
-            except ValueError:
-                converted_id = 0
+    # Configure the collector with a file configuration or the given arguments.
+    if args.fil is not None:
+        config = load_config_from_json(args.fil)
+        stations = {}
+        for source, options in config.items():
+            station_args = parser.parse_args(options)
+            station = get_station_from_args(str(source), station_args)
+            stations.update({str(source): station})
 
-            station = Station(name=args.name, number=converted_id)
-        else:
-            station = Station(name=args.name)
-
-        # Initialize the collector with the station.
-        collector = Collector({"w24": station})
-
-        # Show the retrieved data.
-        display = Display()
-        display.show(collector.get_display_data())
-        display.exit()
-    elif args.src == 2:
-        # Check whether an identifier is present.
-        if args.id is not None:
-            station = Station(name=args.name, identifier=args.id)
-        else:
-            station = Station(name=args.name)
-
-        # Initialize the collector with the station.
-        collector = Collector({"won": station})
-
-        # Show the retrieved data.
-        display = Display()
-        display.show(collector.get_display_data())
-        display.exit()
-    elif args.src == 3:
-        if is_raspberry_pi():
-            return lcd_144_test.main()
-        else:
-            print("Error: Can be used only on Raspberry Pi!")
-            return 1
-    elif args.src == 4:
-        if is_raspberry_pi():
-            return lcd_144_key_test.main()
-        else:
-            print("Error: Can be used only on Raspberry Pi!")
-            return 1
+        collector = Collector(stations)
     else:
-        # Get the stations table.
-        stations_dwd = StationsDWD()
-        stations_dwd.update()
+        station = get_station_from_args(str(args.src), args)
+        collector = Collector({str(args.src): station})
 
-        # If latitude and longitude is available use the geographic coordinates.
-        if args.lat is not None and args.lon is not None:
-            station = stations_dwd.get_station_by_distance(args.lat, args.lon)
-        else:
-            station = stations_dwd.get_station_by_name(args.name)
-
-        # Initialize the collector with the station.
-        collector = Collector({"dwd": station})
-
-        # Show the retrieved data.
-        display = Display()
-        display.show(collector.get_display_data())
-        display.exit()
+    # Show the retrieved data on the selected display.
+    display = Display(output=args.out, dark_mode=args.mod)
+    display.show(collector.get_display_data())
+    display.exit()
 
     return 0
 
