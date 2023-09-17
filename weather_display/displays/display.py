@@ -8,6 +8,7 @@ It functions as a virtual main display.
 
 from PIL import Image, ImageFont, ImageDraw
 from weather_display.displays.lcd_144_controller import LCD144Controller
+from weather_display.utils import is_raspberry_pi
 
 
 class Display:
@@ -38,6 +39,11 @@ class Display:
             A boolean that indicates whether the dark mode is
             active or not. The default value is False.
         """
+
+        # Only accept output channel 1 if on a Raspberry Pi.
+        if output == self.OUTPUTS[1] and not is_raspberry_pi():
+            output = 0
+            print("Display Error: Output 1 can be used only on Raspberry Pi!")
 
         self.output = output if output in self.OUTPUTS else 0
         """
