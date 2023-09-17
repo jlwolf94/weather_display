@@ -14,6 +14,54 @@ from weather_display.displays.display import Display
 from weather_display.utils import load_config_from_json
 
 
+def get_argument_parser():
+    """
+    Method that builds and returns an argument parser that is setup
+    to act as a CLI for the weather_display package.
+
+    Returns
+    -------
+    parser (ArgumentParser):
+        The configurated argument parser for the CLI.
+    """
+
+    # Set up a parser for command line argument parsing.
+    parser = argparse.ArgumentParser(
+        prog="weather_display",
+        description=textwrap.dedent("""
+            A simple Python program that retrieves weather data from different sources
+            and displays the data on the console or on a display.
+            """
+        ),
+        epilog=textwrap.dedent("""
+            Home page: <https://github.com/jlwolf94/weather_display/>
+            Author: Jan-Lukas Wolf
+            """
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    # Fill the parser with arguments.
+    parser.add_argument("-n", "--name", action="store", default="Error",
+                        help="name of the weather station")
+    parser.add_argument("-i", "--id", action="store",
+                        help="identifier of the weather station")
+    parser.add_argument("-x", "--lat", action="store", type=float,
+                        help="geographic coordinate latitude")
+    parser.add_argument("-y", "--lon", action="store", type=float,
+                        help="geographic coordinate longitude")
+    parser.add_argument("-s", "--src", action="store", default=0,
+                        type=int, help="number of the data source")
+    parser.add_argument("-f", "--fil", action="store",
+                        help="path to configuration file")
+    parser.add_argument("-o", "--out", action="store", default=0,
+                        type=int, help="number of the output channel")
+    parser.add_argument("-m", "--mod", action="store_true",
+                        help="dark mode setting for the output")
+    parser.add_argument("-v", "--version", action="version",
+                        version="%(prog)s 1.2.0")
+
+    return parser
+
 def get_station_from_args(source, args):
     """
     Method that creates a Station object with the given data source and
@@ -69,42 +117,8 @@ def main():
         A successful run returns zero and all other runs return one.
     """
 
-    # Set up a parser for command line argument parsing.
-    parser = argparse.ArgumentParser(
-        prog="weather_display",
-        description=textwrap.dedent("""
-            A simple Python program that retrieves weather data from different sources
-            and displays the data on the console or on a display.
-            """
-        ),
-        epilog=textwrap.dedent("""
-            Home page: <https://github.com/jlwolf94/weather_display/>
-            Author: Jan-Lukas Wolf
-            """
-        ),
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-
-    # Fill the parser with arguments.
-    parser.add_argument("-n", "--name", action="store", default="Error",
-                        help="name of the weather station")
-    parser.add_argument("-i", "--id", action="store",
-                        help="identifier of the weather station")
-    parser.add_argument("-x", "--lat", action="store", type=float,
-                        help="geographic coordinate latitude")
-    parser.add_argument("-y", "--lon", action="store", type=float,
-                        help="geographic coordinate longitude")
-    parser.add_argument("-s", "--src", action="store", default=0,
-                        type=int, help="number of the data source")
-    parser.add_argument("-f", "--fil", action="store",
-                        help="path to configuration file")
-    parser.add_argument("-o", "--out", action="store", default=0,
-                        type=int, help="number of the output channel")
-    parser.add_argument("-m", "--mod", action="store_true",
-                        help="dark mode setting for the output")
-    parser.add_argument("-v", "--version", action="version",
-                        version="%(prog)s 1.2.0")
-
-    # Process the command line arguments.
+    # Get the argument parser and process the command line arguments.
+    parser = get_argument_parser()
     args = parser.parse_args()
 
     # Check for arguments and print the help if no arguments are present.
