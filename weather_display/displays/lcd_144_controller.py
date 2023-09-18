@@ -85,6 +85,20 @@ class LCD144Controller:
         else:
             LCD144.cleanup_GPIO()
 
+    def sleep(self, is_set):
+        """
+        Method that sets the sleep mode of the LCD to in or out.
+
+        Parameters
+        ----------
+        is_set (bool):
+            New status of the LCD sleep mode that determinates whether
+            it is in or out sleep mode.
+        """
+
+        if self.display is not None:
+            self.display.set_sleep(is_set)
+
     def add_event_detect(self, key, callback):
         """
         Method to add an event detection for a specified key
