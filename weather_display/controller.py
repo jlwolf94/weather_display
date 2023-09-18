@@ -1,8 +1,8 @@
 """
 The controller module contains the Controller class that acts as the main
 controller of the whole weather_display package. It bundles the data
-collection and display control. The controller is thread safe and can only be
-accessed by one thread at a time.
+collection and display control. The controller methods are thread safe
+and can only be accessed by one thread at a time.
 """
 
 import threading
@@ -15,7 +15,7 @@ class Controller:
     display control.
     """
 
-    def __init__(self):
+    def __init__(self, collector, display, refresh=10):
         """
         Constructor for the Controller objects.
 
@@ -25,11 +25,75 @@ class Controller:
             The configurated data collector of the program.
 
         display (Display):
-            The virtual main display of the program.
+            The configurated virtual main display of the program.
+
+        refresh (int):
+            Refresh time for data collection and display in minutes.
+            The default refresh time is 10 minutes.
         """
 
-        self.lock = threading.Lock()
+        self.collector = collector
         """
-        lock (Lock):
-            The instance lock of a Controller class object.
+        collector (Collector):
+            The configurated data collector of the program.
         """
+
+        self.display = display
+        """
+        display (Display):
+            The configurated virtual main display of the program.
+        """
+
+        self.refresh = refresh
+        """
+        refresh (int):
+            Refresh time for data collection and display in minutes.
+        """
+
+        self.rlock = threading.RLock()
+        """
+        rlock (RLock):
+            The reentrant lock of a Controller class object.
+        """
+
+    def update_data(self):
+        """
+        Method that updates the data using the collector methods and
+        returns the updated data. This method is thread safe.
+
+        Returns
+        -------
+        display_data (DisplayData):
+            A DisplayData object containing all weather data from all
+            data sources formatted for display purposes.
+        """
+
+        with self.rlock:
+            return self.collector.get_display_data()
+
+    def show_data(self, display_data):
+        """
+        Method that shows the updated data on the configurated display.
+        This method is thread safe.
+
+        Parameters
+        ----------
+        display_data (DisplayData):
+            A DisplayData object containing all weather data from all
+            data sources formatted for display purposes.
+        """
+
+        with self.rlock:
+            self.display.sleep(False)
+            self.display.show(display_data)
+
+    def exit(self):
+        """
+        Method that is called before leaving the Controller run method.
+        It performs all necessary cleanup methods for the data collector
+        and the display. This method is thread safe.
+        """
+
+        with self.rlock:
+            self.display.remove_event_detection()
+            self.display.exit()
