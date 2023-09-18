@@ -5,6 +5,7 @@ collection and display control. The controller methods are thread safe
 and can only be accessed by one thread at a time.
 """
 
+import time
 import threading
 
 
@@ -86,12 +87,50 @@ class Controller:
 
     def exit(self):
         """
-        Method that is called before leaving the Controller run method.
-        It performs all necessary cleanup methods for the data collector
-        and the display. This method is thread safe.
+        Method that is called to initialize the exit of the controller.
+        This method is thread safe.
         """
 
         with self.rlock:
-            self.display.remove_event_detection()
-            self.display.exit()
             self.is_exited = True
+
+    def run(self):
+        """
+        Main method of the Controller class that starts an endless loop
+        that updates the data and display in the given refresh interval.
+        This method is thread safe.
+        """
+
+        with self.rlock:
+            # Update and show data for the first time.
+            self.update_and_show_data()
+
+            # Activate the event detection of the display buttons.
+            self.display.add_event_detection([self.update_and_show_data,
+                                              self.activate_sleep,
+                                              self.exit])
+
+            # Get a local copy of refresh.
+            refresh = self.refresh
+
+        while True:
+            # Sleep until the next update is necessary.
+            for index in range(6 * refresh):
+                time.sleep(10.0)
+
+                # Check every ten seconds whether the controller is exited.
+                with self.rlock:
+                    is_exited = self.is_exited
+
+                if is_exited:
+                    break
+
+            # Update and show data or exit.
+            with self.rlock:
+                if self.is_exited:
+                    self.display.remove_event_detection()
+                    self.display.exit()
+                    return
+
+                if not self.display.is_sleeping:
+                    self.update_and_show_data()
