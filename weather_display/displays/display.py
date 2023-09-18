@@ -72,6 +72,20 @@ class Display:
             The default controller is None.
         """
 
+        self.is_sleeping = False
+        """
+        is_sleeping (bool):
+            Sleeping status of the controlled display. The display
+            starts in powered on mode by default.
+        """
+
+        self.event_detection_count = 0
+        """
+        event_detection_count (int):
+            Number of active event detections. The display starts with zero
+            event detections.
+        """
+
     def load_default_font(self):
         """
         Method that loads the set default font with a default font size.
@@ -92,6 +106,63 @@ class Display:
             print("Font Error:", err_os)
 
         return font
+
+    def sleep(self, is_set):
+        """
+        Method that sets the sleep mode of the display to on or off.
+
+        Parameters
+        ----------
+        is_set (bool):
+            New status of the sleep mode that determinates whether
+            it is on or off.
+        """
+
+        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
+            if is_set != self.is_sleeping:
+                self.lcd_con.sleep(is_set)
+                self.is_sleeping = is_set
+
+    def add_event_detection(self, callbacks):
+        """
+        Method that adds at most three callback functions to keys of the display.
+        The keys are iterated from first to last.
+
+        Parameters
+        ----------
+        callbacks (list[Any]):
+            List of callback functions to register.
+        """
+
+        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
+            for index, callback in enumerate(callbacks):
+                if index == 0:
+                    self.lcd_con.add_event_detect_KEY1(callback)
+                elif index == 1:
+                    self.lcd_con.add_event_detect_KEY2(callback)
+                else:
+                    self.lcd_con.add_event_detect_KEY3(callback)
+                    break
+
+            self.event_detection_count = len(callbacks) if len(callbacks) <= 3 else 3
+
+    def remove_event_detection(self):
+        """
+        Method that removes at most three callback functions from the keys of the display.
+        The key are iterated from first to last.
+        """
+
+        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
+            for index in range(self.event_detection_count):
+                if index == 0:
+                    self.lcd_con.remove_event_detect_KEY1()
+                elif index == 1:
+                    self.lcd_con.remove_event_detect_KEY2()
+                else:
+                    self.lcd_con.remove_event_detect_KEY3()
+                    break
+
+            self.event_detection_count = 0
 
     def create_data_image_128_128(self, display_data):
         """
