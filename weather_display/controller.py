@@ -50,40 +50,37 @@ class Controller:
             Refresh time for data collection and display in minutes.
         """
 
+        self.is_exited = False
+        """
+        is_exited (bool):
+            Exit status of the controller. The start value is false and
+            the status gets set to true when the exit method is called.
+        """
+
         self.rlock = threading.RLock()
         """
         rlock (RLock):
             The reentrant lock of a Controller class object.
         """
 
-    def update_data(self):
+    def activate_sleep(self):
+        """
+        Method that activates the sleep mode of the display. This method
+        is thread safe.
+        """
+
+        with self.rlock:
+            self.display.sleep(True)
+
+    def update_and_show_data(self):
         """
         Method that updates the data using the collector methods and
-        returns the updated data. This method is thread safe.
-
-        Returns
-        -------
-        display_data (DisplayData):
-            A DisplayData object containing all weather data from all
-            data sources formatted for display purposes.
+        shows the updated data on the configurated display. This method is
+        thread safe.
         """
 
         with self.rlock:
-            return self.collector.get_display_data()
-
-    def show_data(self, display_data):
-        """
-        Method that shows the updated data on the configurated display.
-        This method is thread safe.
-
-        Parameters
-        ----------
-        display_data (DisplayData):
-            A DisplayData object containing all weather data from all
-            data sources formatted for display purposes.
-        """
-
-        with self.rlock:
+            display_data = self.collector.get_display_data()
             self.display.sleep(False)
             self.display.show(display_data)
 
@@ -97,3 +94,4 @@ class Controller:
         with self.rlock:
             self.display.remove_event_detection()
             self.display.exit()
+            self.is_exited = True
