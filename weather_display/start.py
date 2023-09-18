@@ -11,6 +11,7 @@ from weather_display.models.station import Station
 from weather_display.collectors.stations_dwd import StationsDWD
 from weather_display.collectors.collector import Collector
 from weather_display.displays.display import Display
+from weather_display.controller import Controller
 from weather_display.utils import load_config_from_json
 
 
@@ -140,10 +141,13 @@ def main():
         station = get_station_from_args(str(args.src), args)
         collector = Collector({str(args.src): station})
 
-    # Show the retrieved data on the selected display.
+    # Configure the display and start the controller if necessary.
     display = Display(output=args.out, dark_mode=args.mod)
-    display.show(collector.get_display_data())
-    display.exit()
+    if display.output == Display.OUTPUTS[1]:
+        controller = Controller(collector, display)
+        controller.run()
+    else:
+        display.show(collector.get_display_data())
 
     return 0
 
