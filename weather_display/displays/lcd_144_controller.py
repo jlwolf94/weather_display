@@ -99,8 +99,12 @@ class LCD144Controller:
 
         if self.display is not None:
             if is_set:
+                self.display.set_backlight(False)
                 self.display.clear()
-            self.display.set_sleep(is_set)
+                self.display.set_sleep(is_set)
+            else:
+                self.display.set_sleep(is_set)
+                self.display.set_backlight(True)
 
     def add_event_detect(self, key, callback):
         """
