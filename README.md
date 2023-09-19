@@ -6,18 +6,24 @@ and displays the data on the console or on a display.
 ## Installation
 
 A [Python](https://www.python.org/) version of 3.9 or higher is needed.
-The additional packages can be installed with
-[pip](https://pip.pypa.io/en/stable/) using the following command:
+The additional packages including the ones required for development can be
+installed with [pip](https://pip.pypa.io/en/stable/) using the
+following command:
 
 ```bash
 pip install -r requirements.txt
 ```
 
+Some of the required packages have C library dependencies that need to be
+installed through the system package manager. For details see
+the homepages of the packages (e.g. [lxml](https://lxml.de/) and
+[Pillow](https://pillow.readthedocs.io/en/stable/installation.html))
+
 The package as a whole can be installed from the released `.tar.gz` or `.whl`
 file by using [pip](https://pip.pypa.io/en/stable/) as an install tool:
 
 ```bash
-pip install weather_display-1.2.0.tar.gz
+pip install weather_display-1.3.0.tar.gz
 ```
 
 The project documentation can be found in the docs folder and is generated
