@@ -64,20 +64,32 @@ class Controller:
             The reentrant lock of a Controller class object.
         """
 
-    def activate_sleep(self):
+    def activate_sleep(self, channel=0):
         """
         Method that activates the sleep mode of the display. This method
         is thread safe.
+
+        Parameters
+        ----------
+        channel (int):
+            The channel that is wired to the pressed button.
+            The default channel is zero.
         """
 
         with self.rlock:
             self.display.sleep(True)
 
-    def update_and_show_data(self):
+    def update_and_show_data(self, channel=0):
         """
         Method that updates the data using the collector methods and
         shows the updated data on the configurated display. This method is
         thread safe.
+
+        Parameters
+        ----------
+        channel (int):
+            The channel that is wired to the pressed button.
+            The default channel is zero.
         """
 
         with self.rlock:
@@ -85,10 +97,16 @@ class Controller:
             self.display.sleep(False)
             self.display.show(display_data)
 
-    def exit(self):
+    def exit(self, channel=0):
         """
         Method that is called to initialize the exit of the controller.
         This method is thread safe.
+
+        Parameters
+        ----------
+        channel (int):
+            The channel that is wired to the pressed button.
+            The default channel is zero.
         """
 
         with self.rlock:
