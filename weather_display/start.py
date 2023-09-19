@@ -147,7 +147,7 @@ def main():
     if display.output == Display.OUTPUTS[1]:
         controller = Controller(collector, display)
         controller.run()
-        os.system("sudo shutdown -h now")
+        os.system("shutdown -h now")
     else:
         # Show the data and clear the terminal if needed.
         # os.system("cls" if os.name == "nt" else "clear")
