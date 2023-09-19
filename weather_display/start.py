@@ -3,6 +3,7 @@ The start module contains the main function of the weather_display package
 and can be used as an entry point script for the package.
 """
 
+import os
 import sys
 import argparse
 import textwrap
@@ -146,7 +147,10 @@ def main():
     if display.output == Display.OUTPUTS[1]:
         controller = Controller(collector, display)
         controller.run()
+        os.system("sudo shutdown -h now")
     else:
+        # Show the data and clear the terminal if needed.
+        # os.system("cls" if os.name == "nt" else "clear")
         display.show(collector.get_display_data())
 
     return 0
