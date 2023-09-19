@@ -115,10 +115,10 @@ class Controller:
 
         while True:
             # Sleep until the next update is necessary.
-            for index in range(6 * refresh):
-                time.sleep(10.0)
+            for index in range(60 * refresh):
+                time.sleep(1.0)
 
-                # Check every ten seconds whether the controller is exited.
+                # Check every second whether the controller is exited.
                 with self.rlock:
                     is_exited = self.is_exited
 
