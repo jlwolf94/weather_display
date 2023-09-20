@@ -3,7 +3,6 @@ The start module contains the main function of the weather_display package
 and can be used as an entry point script for the package.
 """
 
-import os
 import sys
 import argparse
 import textwrap
@@ -57,7 +56,7 @@ def get_argument_parser():
                         help="path to configuration file")
     parser.add_argument("-o", "--out", action="store", default=0,
                         type=int, help="number of the output channel")
-    parser.add_argument("-m", "--mod", action="store_true",
+    parser.add_argument("-m", "--mode", action="store_true",
                         help="dark mode setting for the output")
     parser.add_argument("-v", "--version", action="version",
                         version="%(prog)s 1.3.0")
@@ -143,14 +142,11 @@ def main():
         collector = Collector({str(args.src): station})
 
     # Configure the display and start the controller if necessary.
-    display = Display(output=args.out, dark_mode=args.mod)
+    display = Display(output=args.out, dark_mode=args.mode)
     if display.output == Display.OUTPUTS[1]:
         controller = Controller(collector, display)
         controller.run()
-        os.system("shutdown -h now")
     else:
-        # Show the data and clear the terminal if needed.
-        # os.system("cls" if os.name == "nt" else "clear")
         display.show(collector.get_display_data())
 
     return 0
