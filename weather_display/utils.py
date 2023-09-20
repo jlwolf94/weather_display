@@ -30,10 +30,10 @@ def is_raspberry_pi():
     except OSError:
         return False
 
-def is_possible_data_directory(path):
+def get_data_directory(path):
     """
-    Method that check whether the given path points to a usable config and
-    data directory or not.
+    Method that checks whether the given path points to a usable config and
+    data directory and returns a constructed Path object or None.
 
     Parameters
     ----------
@@ -42,20 +42,20 @@ def is_possible_data_directory(path):
 
     Returns
     -------
-    is_possible_data_directory (bool):
-        Indicates whether the path is a possible directory or not.
+    data_directory (Optional[Path]):
+        A Path object containing the path or None.
     """
 
     # Try to convert the string to an absolute path.
     try:
         data_directory = Path(path).resolve(strict=True)
         if data_directory.is_dir():
-            return True
+            return data_directory
         else:
             raise FileNotFoundError("Path is not a directory!")
     except (FileNotFoundError, RuntimeError) as err:
         print("I/O Error:", err)
-        return False
+        return None
 
 def load_config_from_json(path):
     """
@@ -76,10 +76,9 @@ def load_config_from_json(path):
         dictionary if no data could be loaded.
     """
 
-    # Try to convert the string to an absolute path.
-    if is_possible_data_directory(path):
-        data_directory = Path(path).resolve(strict=True)
-    else:
+    # Try to get the data directory Path object.
+    data_directory = get_data_directory(path)
+    if data_directory is None:
         # Fall back to default data directory.
         data_directory = Path.home().joinpath(".weather_display")
         data_directory.mkdir(parents=False, exist_ok=True)
