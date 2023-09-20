@@ -32,13 +32,15 @@ def is_raspberry_pi():
 
 def load_config_from_json(path):
     """
-    Method that loads a configuration from a json file that is located at
-    the given file path. The file needs to be a compatible json file.
+    Method that tries to load a configuration file from the directory
+    given by path. The default configuration file is named stations.json.
+    The file needs to be a compatible json file in all cases.
 
     Parameters
     ----------
     path (str):
-        The absolute path to the json file as a string.
+        The path to the data and configuration directory where the
+        stations.json file is located.
 
     Returns
     -------
@@ -47,17 +49,26 @@ def load_config_from_json(path):
         dictionary if no data could be loaded.
     """
 
-    # Convert string to Path and check whether the file extension is correct.
-    file_extension = ".json"
-    if file_extension in path.lower():
-        file_path = Path(path)
-    else:
-        file_path = Path(path + file_extension)
-
-    # Try to load the configuration from the file.
+    # Try to convert the string to an absolute path.
     try:
-        with file_path.open(encoding="utf-8") as file:
-            return json.load(file)
-    except OSError as err_os:
-        print("I/O Error:", err_os)
+        data_directory = Path(path).resolve(strict=True)
+        if not data_directory.is_dir():
+            raise FileNotFoundError("Path is not a directory!")
+    except (FileNotFoundError, RuntimeError) as err:
+        # Fall back to default data directory.
+        print("I/O Error:", err)
+        data_directory = Path.home().joinpath(".weather_display")
+        data_directory.mkdir(parents=False, exist_ok=True)
+
+    # Search for the config file and try to read it.
+    file_path = data_directory.joinpath("stations.json")
+    if file_path.is_file():
+        try:
+            with file_path.open(encoding="utf-8") as file:
+                return json.load(file)
+        except OSError as err_os:
+            print("I/O Error:", err_os)
+            return {}
+    else:
+        print("I/O Error: File stations.json does not exist.")
         return {}
