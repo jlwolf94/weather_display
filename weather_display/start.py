@@ -12,7 +12,7 @@ from weather_display.collectors.stations_dwd import StationsDWD
 from weather_display.collectors.collector import Collector
 from weather_display.displays.display import Display
 from weather_display.controller import Controller
-from weather_display.utils import load_config_from_json
+from weather_display.utils import get_data_directory, load_config_from_json
 
 
 def get_argument_parser():
@@ -52,8 +52,8 @@ def get_argument_parser():
                         help="geographic coordinate longitude")
     parser.add_argument("-s", "--src", action="store", default=0,
                         type=int, help="number of the data source")
-    parser.add_argument("-f", "--fil", action="store",
-                        help="path to configuration file")
+    parser.add_argument("-d", "--dir", action="store",
+                        help="path to config and data directory")
     parser.add_argument("-o", "--out", action="store", default=0,
                         type=int, help="number of the output channel")
     parser.add_argument("-m", "--mode", action="store_true",
@@ -63,10 +63,10 @@ def get_argument_parser():
 
     return parser
 
-def get_station_from_args(source, args):
+def get_station_from_args(source, args, data_directory=None):
     """
-    Method that creates a Station object with the given data source and
-    options specified in the arguments.
+    Method that creates a Station object with the given data source,
+    options specified in the arguments and data directory.
 
     Parameters
     ----------
@@ -75,6 +75,9 @@ def get_station_from_args(source, args):
 
     args (Namespace):
         A namespace created by the argument parser with all arguments.
+
+    data_directory (Optional[Path]):
+        The path to the config and data directory or None.
 
     Returns
     -------
@@ -98,7 +101,7 @@ def get_station_from_args(source, args):
         else:
             station = Station(name=args.name)
     else:
-        stations_dwd = StationsDWD()
+        stations_dwd = StationsDWD(data_directory=data_directory)
         stations_dwd.update()
 
         if args.lat is not None and args.lon is not None:
@@ -128,12 +131,15 @@ def main():
         return 0
 
     # Configure the collector with a file configuration or the given arguments.
-    if args.fil is not None:
-        config = load_config_from_json(args.fil)
+    if args.dir is not None:
+        data_directory = get_data_directory(args.dir)
+        config = load_config_from_json(data_directory)
         stations = {}
         for source, options in config.items():
             station_args = parser.parse_args(options)
-            station = get_station_from_args(str(source), station_args)
+            station = get_station_from_args(str(source),
+                                            station_args,
+                                            data_directory)
             stations.update({str(source): station})
 
         collector = Collector(stations)
