@@ -158,76 +158,94 @@ and can only be accessed by one thread at a time.</p>
 </span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a><span class="sd">            The reentrant lock of a Controller class object.</span>
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>    <span class="k">def</span> <span class="nf">activate_sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>    <span class="k">def</span> <span class="nf">activate_sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">        Method that activates the sleep mode of the display. This method</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">        is thread safe.</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>    <span class="k">def</span> <span class="nf">update_and_show_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">        Method that updates the data using the collector methods and</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">        shows the updated data on the configurated display. This method is</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">        thread safe.</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>            <span class="n">display_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="n">get_display_data</span><span class="p">()</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">display_data</span><span class="p">)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        Parameters</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">        ----------</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">        channel (int):</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="k">def</span> <span class="nf">update_and_show_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">        Method that updates the data using the collector methods and</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">        shows the updated data on the configurated display. This method is</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">        thread safe.</span>
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd">        Method that is called to initialize the exit of the controller.</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">        This method is thread safe.</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">        Main method of the Controller class that starts an endless loop</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">        that updates the data and display in the given refresh interval.</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">        This method is thread safe.</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>            <span class="c1"># Update and show data for the first time.</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>            <span class="c1"># Activate the event detection of the display buttons.</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">add_event_detection</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">,</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">activate_sleep</span><span class="p">,</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">])</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>            <span class="c1"># Get a local copy of refresh.</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>            <span class="n">refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>            <span class="c1"># Sleep until the next update is necessary.</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">refresh</span><span class="p">):</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>                <span class="c1"># Check every second whether the controller is exited.</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>                    <span class="n">is_exited</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>                <span class="k">if</span> <span class="n">is_exited</span><span class="p">:</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>                    <span class="k">break</span>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>            <span class="c1"># Update and show data or exit.</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span><span class="p">:</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">remove_event_detection</span><span class="p">()</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>                    <span class="k">return</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">is_sleeping</span><span class="p">:</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">        Parameters</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">        ----------</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd">        channel (int):</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>            <span class="n">display_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="n">get_display_data</span><span class="p">()</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">display_data</span><span class="p">)</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">        Method that is called to initialize the exit of the controller.</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">        This method is thread safe.</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">        Parameters</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="sd">        ----------</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="sd">        channel (int):</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">        Main method of the Controller class that starts an endless loop</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="sd">        that updates the data and display in the given refresh interval.</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">        This method is thread safe.</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>            <span class="c1"># Update and show data for the first time.</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>            <span class="c1"># Activate the event detection of the display buttons.</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">add_event_detection</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">,</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">activate_sleep</span><span class="p">,</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">])</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>            <span class="c1"># Get a local copy of refresh.</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>            <span class="n">refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>            <span class="c1"># Sleep until the next update is necessary.</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">refresh</span><span class="p">):</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>                <span class="c1"># Check every second whether the controller is exited.</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>                    <span class="n">is_exited</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>                <span class="k">if</span> <span class="n">is_exited</span><span class="p">:</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>                    <span class="k">break</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>            <span class="c1"># Update and show data or exit.</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span><span class="p">:</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">remove_event_detection</span><span class="p">()</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>                    <span class="k">return</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">is_sleeping</span><span class="p">:</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -298,76 +316,94 @@ and can only be accessed by one thread at a time.</p>
 </span><span id="Controller-65"><a href="#Controller-65"><span class="linenos"> 65</span></a><span class="sd">            The reentrant lock of a Controller class object.</span>
 </span><span id="Controller-66"><a href="#Controller-66"><span class="linenos"> 66</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="Controller-67"><a href="#Controller-67"><span class="linenos"> 67</span></a>
-</span><span id="Controller-68"><a href="#Controller-68"><span class="linenos"> 68</span></a>    <span class="k">def</span> <span class="nf">activate_sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Controller-68"><a href="#Controller-68"><span class="linenos"> 68</span></a>    <span class="k">def</span> <span class="nf">activate_sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 </span><span id="Controller-69"><a href="#Controller-69"><span class="linenos"> 69</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="Controller-70"><a href="#Controller-70"><span class="linenos"> 70</span></a><span class="sd">        Method that activates the sleep mode of the display. This method</span>
 </span><span id="Controller-71"><a href="#Controller-71"><span class="linenos"> 71</span></a><span class="sd">        is thread safe.</span>
-</span><span id="Controller-72"><a href="#Controller-72"><span class="linenos"> 72</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller-73"><a href="#Controller-73"><span class="linenos"> 73</span></a>
-</span><span id="Controller-74"><a href="#Controller-74"><span class="linenos"> 74</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller-75"><a href="#Controller-75"><span class="linenos"> 75</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="Controller-76"><a href="#Controller-76"><span class="linenos"> 76</span></a>
-</span><span id="Controller-77"><a href="#Controller-77"><span class="linenos"> 77</span></a>    <span class="k">def</span> <span class="nf">update_and_show_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Controller-78"><a href="#Controller-78"><span class="linenos"> 78</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Controller-79"><a href="#Controller-79"><span class="linenos"> 79</span></a><span class="sd">        Method that updates the data using the collector methods and</span>
-</span><span id="Controller-80"><a href="#Controller-80"><span class="linenos"> 80</span></a><span class="sd">        shows the updated data on the configurated display. This method is</span>
-</span><span id="Controller-81"><a href="#Controller-81"><span class="linenos"> 81</span></a><span class="sd">        thread safe.</span>
-</span><span id="Controller-82"><a href="#Controller-82"><span class="linenos"> 82</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller-83"><a href="#Controller-83"><span class="linenos"> 83</span></a>
-</span><span id="Controller-84"><a href="#Controller-84"><span class="linenos"> 84</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller-85"><a href="#Controller-85"><span class="linenos"> 85</span></a>            <span class="n">display_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="n">get_display_data</span><span class="p">()</span>
-</span><span id="Controller-86"><a href="#Controller-86"><span class="linenos"> 86</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="Controller-87"><a href="#Controller-87"><span class="linenos"> 87</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">display_data</span><span class="p">)</span>
+</span><span id="Controller-72"><a href="#Controller-72"><span class="linenos"> 72</span></a>
+</span><span id="Controller-73"><a href="#Controller-73"><span class="linenos"> 73</span></a><span class="sd">        Parameters</span>
+</span><span id="Controller-74"><a href="#Controller-74"><span class="linenos"> 74</span></a><span class="sd">        ----------</span>
+</span><span id="Controller-75"><a href="#Controller-75"><span class="linenos"> 75</span></a><span class="sd">        channel (int):</span>
+</span><span id="Controller-76"><a href="#Controller-76"><span class="linenos"> 76</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="Controller-77"><a href="#Controller-77"><span class="linenos"> 77</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="Controller-78"><a href="#Controller-78"><span class="linenos"> 78</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller-79"><a href="#Controller-79"><span class="linenos"> 79</span></a>
+</span><span id="Controller-80"><a href="#Controller-80"><span class="linenos"> 80</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller-81"><a href="#Controller-81"><span class="linenos"> 81</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="Controller-82"><a href="#Controller-82"><span class="linenos"> 82</span></a>
+</span><span id="Controller-83"><a href="#Controller-83"><span class="linenos"> 83</span></a>    <span class="k">def</span> <span class="nf">update_and_show_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span id="Controller-84"><a href="#Controller-84"><span class="linenos"> 84</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Controller-85"><a href="#Controller-85"><span class="linenos"> 85</span></a><span class="sd">        Method that updates the data using the collector methods and</span>
+</span><span id="Controller-86"><a href="#Controller-86"><span class="linenos"> 86</span></a><span class="sd">        shows the updated data on the configurated display. This method is</span>
+</span><span id="Controller-87"><a href="#Controller-87"><span class="linenos"> 87</span></a><span class="sd">        thread safe.</span>
 </span><span id="Controller-88"><a href="#Controller-88"><span class="linenos"> 88</span></a>
-</span><span id="Controller-89"><a href="#Controller-89"><span class="linenos"> 89</span></a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Controller-90"><a href="#Controller-90"><span class="linenos"> 90</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Controller-91"><a href="#Controller-91"><span class="linenos"> 91</span></a><span class="sd">        Method that is called to initialize the exit of the controller.</span>
-</span><span id="Controller-92"><a href="#Controller-92"><span class="linenos"> 92</span></a><span class="sd">        This method is thread safe.</span>
-</span><span id="Controller-93"><a href="#Controller-93"><span class="linenos"> 93</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller-94"><a href="#Controller-94"><span class="linenos"> 94</span></a>
-</span><span id="Controller-95"><a href="#Controller-95"><span class="linenos"> 95</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller-96"><a href="#Controller-96"><span class="linenos"> 96</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Controller-97"><a href="#Controller-97"><span class="linenos"> 97</span></a>
-</span><span id="Controller-98"><a href="#Controller-98"><span class="linenos"> 98</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Controller-99"><a href="#Controller-99"><span class="linenos"> 99</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Controller-100"><a href="#Controller-100"><span class="linenos">100</span></a><span class="sd">        Main method of the Controller class that starts an endless loop</span>
-</span><span id="Controller-101"><a href="#Controller-101"><span class="linenos">101</span></a><span class="sd">        that updates the data and display in the given refresh interval.</span>
-</span><span id="Controller-102"><a href="#Controller-102"><span class="linenos">102</span></a><span class="sd">        This method is thread safe.</span>
-</span><span id="Controller-103"><a href="#Controller-103"><span class="linenos">103</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller-104"><a href="#Controller-104"><span class="linenos">104</span></a>
-</span><span id="Controller-105"><a href="#Controller-105"><span class="linenos">105</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller-106"><a href="#Controller-106"><span class="linenos">106</span></a>            <span class="c1"># Update and show data for the first time.</span>
-</span><span id="Controller-107"><a href="#Controller-107"><span class="linenos">107</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
-</span><span id="Controller-108"><a href="#Controller-108"><span class="linenos">108</span></a>
-</span><span id="Controller-109"><a href="#Controller-109"><span class="linenos">109</span></a>            <span class="c1"># Activate the event detection of the display buttons.</span>
-</span><span id="Controller-110"><a href="#Controller-110"><span class="linenos">110</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">add_event_detection</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">,</span>
-</span><span id="Controller-111"><a href="#Controller-111"><span class="linenos">111</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">activate_sleep</span><span class="p">,</span>
-</span><span id="Controller-112"><a href="#Controller-112"><span class="linenos">112</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">])</span>
-</span><span id="Controller-113"><a href="#Controller-113"><span class="linenos">113</span></a>
-</span><span id="Controller-114"><a href="#Controller-114"><span class="linenos">114</span></a>            <span class="c1"># Get a local copy of refresh.</span>
-</span><span id="Controller-115"><a href="#Controller-115"><span class="linenos">115</span></a>            <span class="n">refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span>
-</span><span id="Controller-116"><a href="#Controller-116"><span class="linenos">116</span></a>
-</span><span id="Controller-117"><a href="#Controller-117"><span class="linenos">117</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="Controller-118"><a href="#Controller-118"><span class="linenos">118</span></a>            <span class="c1"># Sleep until the next update is necessary.</span>
-</span><span id="Controller-119"><a href="#Controller-119"><span class="linenos">119</span></a>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">refresh</span><span class="p">):</span>
-</span><span id="Controller-120"><a href="#Controller-120"><span class="linenos">120</span></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-</span><span id="Controller-121"><a href="#Controller-121"><span class="linenos">121</span></a>
-</span><span id="Controller-122"><a href="#Controller-122"><span class="linenos">122</span></a>                <span class="c1"># Check every second whether the controller is exited.</span>
-</span><span id="Controller-123"><a href="#Controller-123"><span class="linenos">123</span></a>                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller-124"><a href="#Controller-124"><span class="linenos">124</span></a>                    <span class="n">is_exited</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span>
-</span><span id="Controller-125"><a href="#Controller-125"><span class="linenos">125</span></a>
-</span><span id="Controller-126"><a href="#Controller-126"><span class="linenos">126</span></a>                <span class="k">if</span> <span class="n">is_exited</span><span class="p">:</span>
-</span><span id="Controller-127"><a href="#Controller-127"><span class="linenos">127</span></a>                    <span class="k">break</span>
-</span><span id="Controller-128"><a href="#Controller-128"><span class="linenos">128</span></a>
-</span><span id="Controller-129"><a href="#Controller-129"><span class="linenos">129</span></a>            <span class="c1"># Update and show data or exit.</span>
-</span><span id="Controller-130"><a href="#Controller-130"><span class="linenos">130</span></a>            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller-131"><a href="#Controller-131"><span class="linenos">131</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span><span class="p">:</span>
-</span><span id="Controller-132"><a href="#Controller-132"><span class="linenos">132</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">remove_event_detection</span><span class="p">()</span>
-</span><span id="Controller-133"><a href="#Controller-133"><span class="linenos">133</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-</span><span id="Controller-134"><a href="#Controller-134"><span class="linenos">134</span></a>                    <span class="k">return</span>
-</span><span id="Controller-135"><a href="#Controller-135"><span class="linenos">135</span></a>
-</span><span id="Controller-136"><a href="#Controller-136"><span class="linenos">136</span></a>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">is_sleeping</span><span class="p">:</span>
-</span><span id="Controller-137"><a href="#Controller-137"><span class="linenos">137</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
+</span><span id="Controller-89"><a href="#Controller-89"><span class="linenos"> 89</span></a><span class="sd">        Parameters</span>
+</span><span id="Controller-90"><a href="#Controller-90"><span class="linenos"> 90</span></a><span class="sd">        ----------</span>
+</span><span id="Controller-91"><a href="#Controller-91"><span class="linenos"> 91</span></a><span class="sd">        channel (int):</span>
+</span><span id="Controller-92"><a href="#Controller-92"><span class="linenos"> 92</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="Controller-93"><a href="#Controller-93"><span class="linenos"> 93</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="Controller-94"><a href="#Controller-94"><span class="linenos"> 94</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller-95"><a href="#Controller-95"><span class="linenos"> 95</span></a>
+</span><span id="Controller-96"><a href="#Controller-96"><span class="linenos"> 96</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller-97"><a href="#Controller-97"><span class="linenos"> 97</span></a>            <span class="n">display_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="n">get_display_data</span><span class="p">()</span>
+</span><span id="Controller-98"><a href="#Controller-98"><span class="linenos"> 98</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="Controller-99"><a href="#Controller-99"><span class="linenos"> 99</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">display_data</span><span class="p">)</span>
+</span><span id="Controller-100"><a href="#Controller-100"><span class="linenos">100</span></a>
+</span><span id="Controller-101"><a href="#Controller-101"><span class="linenos">101</span></a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span id="Controller-102"><a href="#Controller-102"><span class="linenos">102</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Controller-103"><a href="#Controller-103"><span class="linenos">103</span></a><span class="sd">        Method that is called to initialize the exit of the controller.</span>
+</span><span id="Controller-104"><a href="#Controller-104"><span class="linenos">104</span></a><span class="sd">        This method is thread safe.</span>
+</span><span id="Controller-105"><a href="#Controller-105"><span class="linenos">105</span></a>
+</span><span id="Controller-106"><a href="#Controller-106"><span class="linenos">106</span></a><span class="sd">        Parameters</span>
+</span><span id="Controller-107"><a href="#Controller-107"><span class="linenos">107</span></a><span class="sd">        ----------</span>
+</span><span id="Controller-108"><a href="#Controller-108"><span class="linenos">108</span></a><span class="sd">        channel (int):</span>
+</span><span id="Controller-109"><a href="#Controller-109"><span class="linenos">109</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="Controller-110"><a href="#Controller-110"><span class="linenos">110</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="Controller-111"><a href="#Controller-111"><span class="linenos">111</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller-112"><a href="#Controller-112"><span class="linenos">112</span></a>
+</span><span id="Controller-113"><a href="#Controller-113"><span class="linenos">113</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller-114"><a href="#Controller-114"><span class="linenos">114</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Controller-115"><a href="#Controller-115"><span class="linenos">115</span></a>
+</span><span id="Controller-116"><a href="#Controller-116"><span class="linenos">116</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Controller-117"><a href="#Controller-117"><span class="linenos">117</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Controller-118"><a href="#Controller-118"><span class="linenos">118</span></a><span class="sd">        Main method of the Controller class that starts an endless loop</span>
+</span><span id="Controller-119"><a href="#Controller-119"><span class="linenos">119</span></a><span class="sd">        that updates the data and display in the given refresh interval.</span>
+</span><span id="Controller-120"><a href="#Controller-120"><span class="linenos">120</span></a><span class="sd">        This method is thread safe.</span>
+</span><span id="Controller-121"><a href="#Controller-121"><span class="linenos">121</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller-122"><a href="#Controller-122"><span class="linenos">122</span></a>
+</span><span id="Controller-123"><a href="#Controller-123"><span class="linenos">123</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller-124"><a href="#Controller-124"><span class="linenos">124</span></a>            <span class="c1"># Update and show data for the first time.</span>
+</span><span id="Controller-125"><a href="#Controller-125"><span class="linenos">125</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
+</span><span id="Controller-126"><a href="#Controller-126"><span class="linenos">126</span></a>
+</span><span id="Controller-127"><a href="#Controller-127"><span class="linenos">127</span></a>            <span class="c1"># Activate the event detection of the display buttons.</span>
+</span><span id="Controller-128"><a href="#Controller-128"><span class="linenos">128</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">add_event_detection</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">,</span>
+</span><span id="Controller-129"><a href="#Controller-129"><span class="linenos">129</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">activate_sleep</span><span class="p">,</span>
+</span><span id="Controller-130"><a href="#Controller-130"><span class="linenos">130</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">])</span>
+</span><span id="Controller-131"><a href="#Controller-131"><span class="linenos">131</span></a>
+</span><span id="Controller-132"><a href="#Controller-132"><span class="linenos">132</span></a>            <span class="c1"># Get a local copy of refresh.</span>
+</span><span id="Controller-133"><a href="#Controller-133"><span class="linenos">133</span></a>            <span class="n">refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span>
+</span><span id="Controller-134"><a href="#Controller-134"><span class="linenos">134</span></a>
+</span><span id="Controller-135"><a href="#Controller-135"><span class="linenos">135</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="Controller-136"><a href="#Controller-136"><span class="linenos">136</span></a>            <span class="c1"># Sleep until the next update is necessary.</span>
+</span><span id="Controller-137"><a href="#Controller-137"><span class="linenos">137</span></a>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">refresh</span><span class="p">):</span>
+</span><span id="Controller-138"><a href="#Controller-138"><span class="linenos">138</span></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+</span><span id="Controller-139"><a href="#Controller-139"><span class="linenos">139</span></a>
+</span><span id="Controller-140"><a href="#Controller-140"><span class="linenos">140</span></a>                <span class="c1"># Check every second whether the controller is exited.</span>
+</span><span id="Controller-141"><a href="#Controller-141"><span class="linenos">141</span></a>                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller-142"><a href="#Controller-142"><span class="linenos">142</span></a>                    <span class="n">is_exited</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span>
+</span><span id="Controller-143"><a href="#Controller-143"><span class="linenos">143</span></a>
+</span><span id="Controller-144"><a href="#Controller-144"><span class="linenos">144</span></a>                <span class="k">if</span> <span class="n">is_exited</span><span class="p">:</span>
+</span><span id="Controller-145"><a href="#Controller-145"><span class="linenos">145</span></a>                    <span class="k">break</span>
+</span><span id="Controller-146"><a href="#Controller-146"><span class="linenos">146</span></a>
+</span><span id="Controller-147"><a href="#Controller-147"><span class="linenos">147</span></a>            <span class="c1"># Update and show data or exit.</span>
+</span><span id="Controller-148"><a href="#Controller-148"><span class="linenos">148</span></a>            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller-149"><a href="#Controller-149"><span class="linenos">149</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span><span class="p">:</span>
+</span><span id="Controller-150"><a href="#Controller-150"><span class="linenos">150</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">remove_event_detection</span><span class="p">()</span>
+</span><span id="Controller-151"><a href="#Controller-151"><span class="linenos">151</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</span><span id="Controller-152"><a href="#Controller-152"><span class="linenos">152</span></a>                    <span class="k">return</span>
+</span><span id="Controller-153"><a href="#Controller-153"><span class="linenos">153</span></a>
+</span><span id="Controller-154"><a href="#Controller-154"><span class="linenos">154</span></a>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">is_sleeping</span><span class="p">:</span>
+</span><span id="Controller-155"><a href="#Controller-155"><span class="linenos">155</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -530,25 +566,37 @@ display control.</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">activate_sleep</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+        <span class="name">activate_sleep</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">channel</span><span class="o">=</span><span class="mi">0</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="Controller.activate_sleep-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Controller.activate_sleep"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.activate_sleep-68"><a href="#Controller.activate_sleep-68"><span class="linenos">68</span></a>    <span class="k">def</span> <span class="nf">activate_sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.activate_sleep-68"><a href="#Controller.activate_sleep-68"><span class="linenos">68</span></a>    <span class="k">def</span> <span class="nf">activate_sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 </span><span id="Controller.activate_sleep-69"><a href="#Controller.activate_sleep-69"><span class="linenos">69</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="Controller.activate_sleep-70"><a href="#Controller.activate_sleep-70"><span class="linenos">70</span></a><span class="sd">        Method that activates the sleep mode of the display. This method</span>
 </span><span id="Controller.activate_sleep-71"><a href="#Controller.activate_sleep-71"><span class="linenos">71</span></a><span class="sd">        is thread safe.</span>
-</span><span id="Controller.activate_sleep-72"><a href="#Controller.activate_sleep-72"><span class="linenos">72</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller.activate_sleep-73"><a href="#Controller.activate_sleep-73"><span class="linenos">73</span></a>
-</span><span id="Controller.activate_sleep-74"><a href="#Controller.activate_sleep-74"><span class="linenos">74</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller.activate_sleep-75"><a href="#Controller.activate_sleep-75"><span class="linenos">75</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="Controller.activate_sleep-72"><a href="#Controller.activate_sleep-72"><span class="linenos">72</span></a>
+</span><span id="Controller.activate_sleep-73"><a href="#Controller.activate_sleep-73"><span class="linenos">73</span></a><span class="sd">        Parameters</span>
+</span><span id="Controller.activate_sleep-74"><a href="#Controller.activate_sleep-74"><span class="linenos">74</span></a><span class="sd">        ----------</span>
+</span><span id="Controller.activate_sleep-75"><a href="#Controller.activate_sleep-75"><span class="linenos">75</span></a><span class="sd">        channel (int):</span>
+</span><span id="Controller.activate_sleep-76"><a href="#Controller.activate_sleep-76"><span class="linenos">76</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="Controller.activate_sleep-77"><a href="#Controller.activate_sleep-77"><span class="linenos">77</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="Controller.activate_sleep-78"><a href="#Controller.activate_sleep-78"><span class="linenos">78</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller.activate_sleep-79"><a href="#Controller.activate_sleep-79"><span class="linenos">79</span></a>
+</span><span id="Controller.activate_sleep-80"><a href="#Controller.activate_sleep-80"><span class="linenos">80</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller.activate_sleep-81"><a href="#Controller.activate_sleep-81"><span class="linenos">81</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Method that activates the sleep mode of the display. This method
 is thread safe.</p>
+
+<h2 id="parameters">Parameters</h2>
+
+<p>channel (int):
+    The channel that is wired to the pressed button.
+    The default channel is zero.</p>
 </div>
 
 
@@ -558,29 +606,41 @@ is thread safe.</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">update_and_show_data</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+        <span class="name">update_and_show_data</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">channel</span><span class="o">=</span><span class="mi">0</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="Controller.update_and_show_data-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Controller.update_and_show_data"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.update_and_show_data-77"><a href="#Controller.update_and_show_data-77"><span class="linenos">77</span></a>    <span class="k">def</span> <span class="nf">update_and_show_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Controller.update_and_show_data-78"><a href="#Controller.update_and_show_data-78"><span class="linenos">78</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Controller.update_and_show_data-79"><a href="#Controller.update_and_show_data-79"><span class="linenos">79</span></a><span class="sd">        Method that updates the data using the collector methods and</span>
-</span><span id="Controller.update_and_show_data-80"><a href="#Controller.update_and_show_data-80"><span class="linenos">80</span></a><span class="sd">        shows the updated data on the configurated display. This method is</span>
-</span><span id="Controller.update_and_show_data-81"><a href="#Controller.update_and_show_data-81"><span class="linenos">81</span></a><span class="sd">        thread safe.</span>
-</span><span id="Controller.update_and_show_data-82"><a href="#Controller.update_and_show_data-82"><span class="linenos">82</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller.update_and_show_data-83"><a href="#Controller.update_and_show_data-83"><span class="linenos">83</span></a>
-</span><span id="Controller.update_and_show_data-84"><a href="#Controller.update_and_show_data-84"><span class="linenos">84</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller.update_and_show_data-85"><a href="#Controller.update_and_show_data-85"><span class="linenos">85</span></a>            <span class="n">display_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="n">get_display_data</span><span class="p">()</span>
-</span><span id="Controller.update_and_show_data-86"><a href="#Controller.update_and_show_data-86"><span class="linenos">86</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="Controller.update_and_show_data-87"><a href="#Controller.update_and_show_data-87"><span class="linenos">87</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">display_data</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.update_and_show_data-83"><a href="#Controller.update_and_show_data-83"><span class="linenos">83</span></a>    <span class="k">def</span> <span class="nf">update_and_show_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span id="Controller.update_and_show_data-84"><a href="#Controller.update_and_show_data-84"><span class="linenos">84</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Controller.update_and_show_data-85"><a href="#Controller.update_and_show_data-85"><span class="linenos">85</span></a><span class="sd">        Method that updates the data using the collector methods and</span>
+</span><span id="Controller.update_and_show_data-86"><a href="#Controller.update_and_show_data-86"><span class="linenos">86</span></a><span class="sd">        shows the updated data on the configurated display. This method is</span>
+</span><span id="Controller.update_and_show_data-87"><a href="#Controller.update_and_show_data-87"><span class="linenos">87</span></a><span class="sd">        thread safe.</span>
+</span><span id="Controller.update_and_show_data-88"><a href="#Controller.update_and_show_data-88"><span class="linenos">88</span></a>
+</span><span id="Controller.update_and_show_data-89"><a href="#Controller.update_and_show_data-89"><span class="linenos">89</span></a><span class="sd">        Parameters</span>
+</span><span id="Controller.update_and_show_data-90"><a href="#Controller.update_and_show_data-90"><span class="linenos">90</span></a><span class="sd">        ----------</span>
+</span><span id="Controller.update_and_show_data-91"><a href="#Controller.update_and_show_data-91"><span class="linenos">91</span></a><span class="sd">        channel (int):</span>
+</span><span id="Controller.update_and_show_data-92"><a href="#Controller.update_and_show_data-92"><span class="linenos">92</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="Controller.update_and_show_data-93"><a href="#Controller.update_and_show_data-93"><span class="linenos">93</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="Controller.update_and_show_data-94"><a href="#Controller.update_and_show_data-94"><span class="linenos">94</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller.update_and_show_data-95"><a href="#Controller.update_and_show_data-95"><span class="linenos">95</span></a>
+</span><span id="Controller.update_and_show_data-96"><a href="#Controller.update_and_show_data-96"><span class="linenos">96</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller.update_and_show_data-97"><a href="#Controller.update_and_show_data-97"><span class="linenos">97</span></a>            <span class="n">display_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="n">get_display_data</span><span class="p">()</span>
+</span><span id="Controller.update_and_show_data-98"><a href="#Controller.update_and_show_data-98"><span class="linenos">98</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="Controller.update_and_show_data-99"><a href="#Controller.update_and_show_data-99"><span class="linenos">99</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">display_data</span><span class="p">)</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Method that updates the data using the collector methods and
 shows the updated data on the configurated display. This method is
 thread safe.</p>
+
+<h2 id="parameters">Parameters</h2>
+
+<p>channel (int):
+    The channel that is wired to the pressed button.
+    The default channel is zero.</p>
 </div>
 
 
@@ -590,25 +650,37 @@ thread safe.</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">exit</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+        <span class="name">exit</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">channel</span><span class="o">=</span><span class="mi">0</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="Controller.exit-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Controller.exit"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.exit-89"><a href="#Controller.exit-89"><span class="linenos">89</span></a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Controller.exit-90"><a href="#Controller.exit-90"><span class="linenos">90</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Controller.exit-91"><a href="#Controller.exit-91"><span class="linenos">91</span></a><span class="sd">        Method that is called to initialize the exit of the controller.</span>
-</span><span id="Controller.exit-92"><a href="#Controller.exit-92"><span class="linenos">92</span></a><span class="sd">        This method is thread safe.</span>
-</span><span id="Controller.exit-93"><a href="#Controller.exit-93"><span class="linenos">93</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller.exit-94"><a href="#Controller.exit-94"><span class="linenos">94</span></a>
-</span><span id="Controller.exit-95"><a href="#Controller.exit-95"><span class="linenos">95</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller.exit-96"><a href="#Controller.exit-96"><span class="linenos">96</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span> <span class="o">=</span> <span class="kc">True</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.exit-101"><a href="#Controller.exit-101"><span class="linenos">101</span></a>    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span id="Controller.exit-102"><a href="#Controller.exit-102"><span class="linenos">102</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Controller.exit-103"><a href="#Controller.exit-103"><span class="linenos">103</span></a><span class="sd">        Method that is called to initialize the exit of the controller.</span>
+</span><span id="Controller.exit-104"><a href="#Controller.exit-104"><span class="linenos">104</span></a><span class="sd">        This method is thread safe.</span>
+</span><span id="Controller.exit-105"><a href="#Controller.exit-105"><span class="linenos">105</span></a>
+</span><span id="Controller.exit-106"><a href="#Controller.exit-106"><span class="linenos">106</span></a><span class="sd">        Parameters</span>
+</span><span id="Controller.exit-107"><a href="#Controller.exit-107"><span class="linenos">107</span></a><span class="sd">        ----------</span>
+</span><span id="Controller.exit-108"><a href="#Controller.exit-108"><span class="linenos">108</span></a><span class="sd">        channel (int):</span>
+</span><span id="Controller.exit-109"><a href="#Controller.exit-109"><span class="linenos">109</span></a><span class="sd">            The channel that is wired to the pressed button.</span>
+</span><span id="Controller.exit-110"><a href="#Controller.exit-110"><span class="linenos">110</span></a><span class="sd">            The default channel is zero.</span>
+</span><span id="Controller.exit-111"><a href="#Controller.exit-111"><span class="linenos">111</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller.exit-112"><a href="#Controller.exit-112"><span class="linenos">112</span></a>
+</span><span id="Controller.exit-113"><a href="#Controller.exit-113"><span class="linenos">113</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller.exit-114"><a href="#Controller.exit-114"><span class="linenos">114</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span> <span class="o">=</span> <span class="kc">True</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Method that is called to initialize the exit of the controller.
 This method is thread safe.</p>
+
+<h2 id="parameters">Parameters</h2>
+
+<p>channel (int):
+    The channel that is wired to the pressed button.
+    The default channel is zero.</p>
 </div>
 
 
@@ -624,46 +696,46 @@ This method is thread safe.</p>
 
     </div>
     <a class="headerlink" href="#Controller.run"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.run-98"><a href="#Controller.run-98"><span class="linenos"> 98</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="Controller.run-99"><a href="#Controller.run-99"><span class="linenos"> 99</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Controller.run-100"><a href="#Controller.run-100"><span class="linenos">100</span></a><span class="sd">        Main method of the Controller class that starts an endless loop</span>
-</span><span id="Controller.run-101"><a href="#Controller.run-101"><span class="linenos">101</span></a><span class="sd">        that updates the data and display in the given refresh interval.</span>
-</span><span id="Controller.run-102"><a href="#Controller.run-102"><span class="linenos">102</span></a><span class="sd">        This method is thread safe.</span>
-</span><span id="Controller.run-103"><a href="#Controller.run-103"><span class="linenos">103</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Controller.run-104"><a href="#Controller.run-104"><span class="linenos">104</span></a>
-</span><span id="Controller.run-105"><a href="#Controller.run-105"><span class="linenos">105</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller.run-106"><a href="#Controller.run-106"><span class="linenos">106</span></a>            <span class="c1"># Update and show data for the first time.</span>
-</span><span id="Controller.run-107"><a href="#Controller.run-107"><span class="linenos">107</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
-</span><span id="Controller.run-108"><a href="#Controller.run-108"><span class="linenos">108</span></a>
-</span><span id="Controller.run-109"><a href="#Controller.run-109"><span class="linenos">109</span></a>            <span class="c1"># Activate the event detection of the display buttons.</span>
-</span><span id="Controller.run-110"><a href="#Controller.run-110"><span class="linenos">110</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">add_event_detection</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">,</span>
-</span><span id="Controller.run-111"><a href="#Controller.run-111"><span class="linenos">111</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">activate_sleep</span><span class="p">,</span>
-</span><span id="Controller.run-112"><a href="#Controller.run-112"><span class="linenos">112</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">])</span>
-</span><span id="Controller.run-113"><a href="#Controller.run-113"><span class="linenos">113</span></a>
-</span><span id="Controller.run-114"><a href="#Controller.run-114"><span class="linenos">114</span></a>            <span class="c1"># Get a local copy of refresh.</span>
-</span><span id="Controller.run-115"><a href="#Controller.run-115"><span class="linenos">115</span></a>            <span class="n">refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span>
-</span><span id="Controller.run-116"><a href="#Controller.run-116"><span class="linenos">116</span></a>
-</span><span id="Controller.run-117"><a href="#Controller.run-117"><span class="linenos">117</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="Controller.run-118"><a href="#Controller.run-118"><span class="linenos">118</span></a>            <span class="c1"># Sleep until the next update is necessary.</span>
-</span><span id="Controller.run-119"><a href="#Controller.run-119"><span class="linenos">119</span></a>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">refresh</span><span class="p">):</span>
-</span><span id="Controller.run-120"><a href="#Controller.run-120"><span class="linenos">120</span></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-</span><span id="Controller.run-121"><a href="#Controller.run-121"><span class="linenos">121</span></a>
-</span><span id="Controller.run-122"><a href="#Controller.run-122"><span class="linenos">122</span></a>                <span class="c1"># Check every second whether the controller is exited.</span>
-</span><span id="Controller.run-123"><a href="#Controller.run-123"><span class="linenos">123</span></a>                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller.run-124"><a href="#Controller.run-124"><span class="linenos">124</span></a>                    <span class="n">is_exited</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span>
-</span><span id="Controller.run-125"><a href="#Controller.run-125"><span class="linenos">125</span></a>
-</span><span id="Controller.run-126"><a href="#Controller.run-126"><span class="linenos">126</span></a>                <span class="k">if</span> <span class="n">is_exited</span><span class="p">:</span>
-</span><span id="Controller.run-127"><a href="#Controller.run-127"><span class="linenos">127</span></a>                    <span class="k">break</span>
-</span><span id="Controller.run-128"><a href="#Controller.run-128"><span class="linenos">128</span></a>
-</span><span id="Controller.run-129"><a href="#Controller.run-129"><span class="linenos">129</span></a>            <span class="c1"># Update and show data or exit.</span>
-</span><span id="Controller.run-130"><a href="#Controller.run-130"><span class="linenos">130</span></a>            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
-</span><span id="Controller.run-131"><a href="#Controller.run-131"><span class="linenos">131</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span><span class="p">:</span>
-</span><span id="Controller.run-132"><a href="#Controller.run-132"><span class="linenos">132</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">remove_event_detection</span><span class="p">()</span>
-</span><span id="Controller.run-133"><a href="#Controller.run-133"><span class="linenos">133</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-</span><span id="Controller.run-134"><a href="#Controller.run-134"><span class="linenos">134</span></a>                    <span class="k">return</span>
-</span><span id="Controller.run-135"><a href="#Controller.run-135"><span class="linenos">135</span></a>
-</span><span id="Controller.run-136"><a href="#Controller.run-136"><span class="linenos">136</span></a>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">is_sleeping</span><span class="p">:</span>
-</span><span id="Controller.run-137"><a href="#Controller.run-137"><span class="linenos">137</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Controller.run-116"><a href="#Controller.run-116"><span class="linenos">116</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Controller.run-117"><a href="#Controller.run-117"><span class="linenos">117</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Controller.run-118"><a href="#Controller.run-118"><span class="linenos">118</span></a><span class="sd">        Main method of the Controller class that starts an endless loop</span>
+</span><span id="Controller.run-119"><a href="#Controller.run-119"><span class="linenos">119</span></a><span class="sd">        that updates the data and display in the given refresh interval.</span>
+</span><span id="Controller.run-120"><a href="#Controller.run-120"><span class="linenos">120</span></a><span class="sd">        This method is thread safe.</span>
+</span><span id="Controller.run-121"><a href="#Controller.run-121"><span class="linenos">121</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Controller.run-122"><a href="#Controller.run-122"><span class="linenos">122</span></a>
+</span><span id="Controller.run-123"><a href="#Controller.run-123"><span class="linenos">123</span></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller.run-124"><a href="#Controller.run-124"><span class="linenos">124</span></a>            <span class="c1"># Update and show data for the first time.</span>
+</span><span id="Controller.run-125"><a href="#Controller.run-125"><span class="linenos">125</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
+</span><span id="Controller.run-126"><a href="#Controller.run-126"><span class="linenos">126</span></a>
+</span><span id="Controller.run-127"><a href="#Controller.run-127"><span class="linenos">127</span></a>            <span class="c1"># Activate the event detection of the display buttons.</span>
+</span><span id="Controller.run-128"><a href="#Controller.run-128"><span class="linenos">128</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">add_event_detection</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">,</span>
+</span><span id="Controller.run-129"><a href="#Controller.run-129"><span class="linenos">129</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">activate_sleep</span><span class="p">,</span>
+</span><span id="Controller.run-130"><a href="#Controller.run-130"><span class="linenos">130</span></a>                                              <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">])</span>
+</span><span id="Controller.run-131"><a href="#Controller.run-131"><span class="linenos">131</span></a>
+</span><span id="Controller.run-132"><a href="#Controller.run-132"><span class="linenos">132</span></a>            <span class="c1"># Get a local copy of refresh.</span>
+</span><span id="Controller.run-133"><a href="#Controller.run-133"><span class="linenos">133</span></a>            <span class="n">refresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span>
+</span><span id="Controller.run-134"><a href="#Controller.run-134"><span class="linenos">134</span></a>
+</span><span id="Controller.run-135"><a href="#Controller.run-135"><span class="linenos">135</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="Controller.run-136"><a href="#Controller.run-136"><span class="linenos">136</span></a>            <span class="c1"># Sleep until the next update is necessary.</span>
+</span><span id="Controller.run-137"><a href="#Controller.run-137"><span class="linenos">137</span></a>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">refresh</span><span class="p">):</span>
+</span><span id="Controller.run-138"><a href="#Controller.run-138"><span class="linenos">138</span></a>                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+</span><span id="Controller.run-139"><a href="#Controller.run-139"><span class="linenos">139</span></a>
+</span><span id="Controller.run-140"><a href="#Controller.run-140"><span class="linenos">140</span></a>                <span class="c1"># Check every second whether the controller is exited.</span>
+</span><span id="Controller.run-141"><a href="#Controller.run-141"><span class="linenos">141</span></a>                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller.run-142"><a href="#Controller.run-142"><span class="linenos">142</span></a>                    <span class="n">is_exited</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span>
+</span><span id="Controller.run-143"><a href="#Controller.run-143"><span class="linenos">143</span></a>
+</span><span id="Controller.run-144"><a href="#Controller.run-144"><span class="linenos">144</span></a>                <span class="k">if</span> <span class="n">is_exited</span><span class="p">:</span>
+</span><span id="Controller.run-145"><a href="#Controller.run-145"><span class="linenos">145</span></a>                    <span class="k">break</span>
+</span><span id="Controller.run-146"><a href="#Controller.run-146"><span class="linenos">146</span></a>
+</span><span id="Controller.run-147"><a href="#Controller.run-147"><span class="linenos">147</span></a>            <span class="c1"># Update and show data or exit.</span>
+</span><span id="Controller.run-148"><a href="#Controller.run-148"><span class="linenos">148</span></a>            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+</span><span id="Controller.run-149"><a href="#Controller.run-149"><span class="linenos">149</span></a>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_exited</span><span class="p">:</span>
+</span><span id="Controller.run-150"><a href="#Controller.run-150"><span class="linenos">150</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">remove_event_detection</span><span class="p">()</span>
+</span><span id="Controller.run-151"><a href="#Controller.run-151"><span class="linenos">151</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</span><span id="Controller.run-152"><a href="#Controller.run-152"><span class="linenos">152</span></a>                    <span class="k">return</span>
+</span><span id="Controller.run-153"><a href="#Controller.run-153"><span class="linenos">153</span></a>
+</span><span id="Controller.run-154"><a href="#Controller.run-154"><span class="linenos">154</span></a>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">is_sleeping</span><span class="p">:</span>
+</span><span id="Controller.run-155"><a href="#Controller.run-155"><span class="linenos">155</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">update_and_show_data</span><span class="p">()</span>
 </span></pre></div>
 
 
