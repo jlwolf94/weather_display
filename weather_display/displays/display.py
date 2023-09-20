@@ -60,7 +60,7 @@ class Display:
 
         self.font = self.load_default_font() if self.output == self.OUTPUTS[1] else None
         """
-        font (Optional[Any]):
+        font (Optional[FreeTypeFont]):
             The font used in the generation of images for the
             LCD display. The default font is None.
         """
@@ -131,7 +131,8 @@ class Display:
         Parameters
         ----------
         callbacks (list[Any]):
-            List of callback functions to register.
+            List of callback functions with at least one positional argument
+            that will be used to register an event detection.
         """
 
         if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
@@ -262,12 +263,9 @@ class Display:
             the display.
         """
 
-        # Create the image that will be shown on the display.
-        image = self.create_data_image_128_128(display_data)
-
         # Try to use the LCD controller to show the image.
         if self.lcd_con is not None:
-            self.lcd_con.show_image(image)
+            self.lcd_con.show_image(self.create_data_image_128_128(display_data))
 
     def show(self, display_data):
         """
