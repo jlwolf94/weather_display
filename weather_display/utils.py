@@ -57,17 +57,16 @@ def get_data_directory(path):
         print("I/O Error:", err)
         return None
 
-def load_config_from_json(path):
+def load_config_from_json(data_directory):
     """
     Method that tries to load a configuration file from the directory
-    given by path. The default configuration file is named stations.json.
-    The file needs to be a compatible json file in all cases.
+    given by the Path object. The default configuration file is named
+    stations.json. The file needs to be a compatible json file in all cases.
 
     Parameters
     ----------
-    path (str):
-        The path to the config and data directory where the stations.json
-        file is located.
+    data_directory (Optional[Path]):
+        The path to the config and data directory or None.
 
     Returns
     -------
@@ -76,8 +75,7 @@ def load_config_from_json(path):
         dictionary if no data could be loaded.
     """
 
-    # Try to get the data directory Path object.
-    data_directory = get_data_directory(path)
+    # Check whether the data directory exists.
     if data_directory is None:
         # Fall back to default data directory.
         data_directory = Path.home().joinpath(".weather_display")
