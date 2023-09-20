@@ -21,7 +21,8 @@ class StationsDWD:
     updated after the set amount of time.
     """
 
-    def __init__(self, attempts=3, timeout=10, refresh=7, file_name="stations_dwd.json"):
+    def __init__(self, attempts=3, timeout=10, refresh=7,
+                 file_name="stations_dwd.json", data_directory=None):
         """
         Constructor for the StationsDWD objects.
 
@@ -41,6 +42,10 @@ class StationsDWD:
         file_name (str):
             File name for the json file with all station data.
             Default name is stations_dwd.json.
+
+        data_directory (Optional[Path]):
+            The path to the config and data directory.
+            Default path is None.
         """
 
         self.attempts = attempts
@@ -87,6 +92,12 @@ class StationsDWD:
         """
         file_name (str):
             File name for the json file with all station data.
+        """
+
+        self.data_directory = data_directory
+        """
+        data_directory (Optional[Path]):
+            The path to the config and data directory.
         """
 
         self.table_entries = {}
@@ -283,10 +294,13 @@ class StationsDWD:
         """
 
         # Get the path to the json file.
-        file_path = Path(__file__).parents[2].joinpath("data", self.file_name)
-
-        # Create parent directory if necessary.
-        file_path.parent.mkdir(parents=True, exist_ok=True)
+        if self.data_directory is not None:
+            file_path = self.data_directory.joinpath(self.file_name)
+        else:
+            # Fall back to default data directory.
+            data_directory = Path.home().joinpath(".weather_display")
+            data_directory.mkdir(parents=False, exist_ok=True)
+            file_path = data_directory.joinpath(self.file_name)
 
         # Write all table entries to the json file.
         try:
@@ -311,7 +325,12 @@ class StationsDWD:
         """
 
         # Get the path to the json file.
-        file_path = Path(__file__).parents[2].joinpath("data", self.file_name)
+        if self.data_directory is not None:
+            file_path = self.data_directory.joinpath(self.file_name)
+        else:
+            # Fall back to default data directory.
+            data_directory = Path.home().joinpath(".weather_display")
+            file_path = data_directory.joinpath(self.file_name)
 
         # Try to load the data if the file exists.
         if file_path.is_file():
@@ -337,7 +356,12 @@ class StationsDWD:
         """
 
         # Get the path to the json file.
-        file_path = Path(__file__).parents[2].joinpath("data", self.file_name)
+        if self.data_directory is not None:
+            file_path = self.data_directory.joinpath(self.file_name)
+        else:
+            # Fall back to default data directory.
+            data_directory = Path.home().joinpath(".weather_display")
+            file_path = data_directory.joinpath(self.file_name)
 
         # Check whether the file already exists.
         if file_path.is_file():
