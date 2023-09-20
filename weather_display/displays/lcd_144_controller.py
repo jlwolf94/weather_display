@@ -87,8 +87,10 @@ class LCD144Controller:
 
     def sleep(self, is_set):
         """
-        Method that sets the sleep mode of the LCD to in or out.
-        The method clears the display before setting it to sleep.
+        Method that sets the sleep mode of the LCD display.
+        The method turns of the backligth and clears the display before
+        setting it to sleep. The method activates the backlight again
+        when sleep mode is exited.
 
         Parameters
         ----------
