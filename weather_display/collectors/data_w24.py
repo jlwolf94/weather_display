@@ -152,12 +152,13 @@ class DataW24(Data):
         # Check whether precipitation data is available.
         prec_dict = self.station_data.get("precipitation", {})
         if prec_dict:
-            # Extract the current precipitation.
-            prec_list = prec_dict.get("hourly", [])
-            for prec in reversed(prec_list):
-                if prec[1] is not None:
-                    display_data.precipitation = float(prec[1])
-                    break
+            # Extract the current precipitation per day.
+            prec_list = prec_dict.get("daily", [])
+            if prec_list:
+                display_data.precipitation = (0.0 if prec_list[-1] is None
+                                              else float(prec_list[-1]))
+            else:
+                display_data.precipitation = 0.0
 
         # Return all gathered data in a DisplayData object.
         return display_data
