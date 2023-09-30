@@ -4,6 +4,8 @@ the different data sources. The collector provides methods to gather and
 update data contained in the different data sources.
 """
 
+import math
+
 from weather_display.models.station import Station
 from weather_display.models.display_data import DisplayData
 from weather_display.collectors.data_dwd import DataDWD
@@ -89,18 +91,29 @@ class Collector:
         # Get default DisplayData object for comparison.
         dd_def = DisplayData()
 
-        if (dd_new.station_name != dd_def.station_name
-            and dd_new.station_name != dd_res.station_name):
+        # Update station name if necessary.
+        if (dd_new.station_name != dd_def.station_name):
             dd_res.station_name = dd_new.station_name
 
-        if (dd_new.date_time is not None
-            and dd_new.date_time >= dd_res.date_time):
+        # Update date time, temperature and dew point if necessary.
+        if dd_res.date_time is None:
             dd_res.date_time = dd_new.date_time
             dd_res.temperature = dd_new.temperature
             dd_res.dew_point = dd_new.dew_point
-            if (dd_new.precipitation != dd_def.precipitation):
-                dd_res.precipitation = dd_new.precipitation
+        elif (dd_new.date_time is not None
+              and dd_new.date_time >= dd_res.date_time):
+            dd_res.date_time = dd_new.date_time
+            dd_res.temperature = dd_new.temperature
+            dd_res.dew_point = dd_new.dew_point
 
+        # Update precipitation per day if necessary.
+        if math.isnan(dd_res.precipitation):
+            dd_res.precipitation = dd_new.precipitation
+        elif ((not math.isnan(dd_new.precipitation))
+              and dd_new.precipitation >= dd_res.precipitation):
+            dd_res.precipitation = dd_new.precipitation
+
+        # Update forecast if necessary.
         if (dd_new.forecast != dd_def.forecast
             and dd_new.forecast != dd_res.forecast):
             dd_res.forecast = dd_new.forecast
