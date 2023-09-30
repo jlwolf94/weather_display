@@ -23,7 +23,7 @@ The package as a whole can be installed from the released `.tar.gz` or `.whl`
 file by using [pip](https://pip.pypa.io/en/stable/) as an install tool:
 
 ```bash
-pip install weather_display-1.3.0.tar.gz
+pip install weather_display-1.4.0.tar.gz
 ```
 
 The project documentation can be found in the docs folder and is generated

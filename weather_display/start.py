@@ -59,7 +59,7 @@ def get_argument_parser():
     parser.add_argument("-m", "--mode", action="store_true",
                         help="dark mode setting for the output")
     parser.add_argument("-v", "--version", action="version",
-                        version="%(prog)s 1.3.0")
+                        version="%(prog)s 1.4.0")
 
     return parser
 
