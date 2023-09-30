@@ -79,7 +79,7 @@ class DisplayData:
             The dew point in degree celsius. Default value is NAN.
 
         precipitation (float):
-            The current precipitation in millimeter.
+            The precipitation of the day in millimeter.
             Default value is NAN.
         """
 
@@ -129,7 +129,7 @@ class DisplayData:
         self.precipitation = precipitation
         """
         precipitation (float):
-            The current precipitation in millimeter.
+            The precipitation of the day in millimeter.
         """
 
     def get_formatted_date(self):
