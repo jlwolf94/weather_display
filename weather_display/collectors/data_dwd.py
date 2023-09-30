@@ -5,6 +5,7 @@ purposes.
 """
 
 from datetime import datetime, timedelta
+from functools import reduce
 from weather_display.collectors.data import Data
 from weather_display.models.display_data import DisplayData
 
@@ -119,7 +120,7 @@ class DataDWD(Data):
             date_pre_list = []
             for step, pre in enumerate(forecast_dict["precipitationTotal"]):
                 if pre < 0 or pre > 999:
-                    date_pre_list.append((start_date + (step * date_step), float("nan")))
+                    date_pre_list.append((start_date + (step * date_step), 0.0))
                 else:
                     date_pre_list.append((start_date + (step * date_step), pre / 10))
 
@@ -130,13 +131,16 @@ class DataDWD(Data):
             display_data.date_time = date_temp[0]
             display_data.temperature = date_temp[1]
 
-            # Use the found date_time for dew point and precipitation.
+            # Use the found date_time to find the dew point.
             display_data.dew_point = next((dd[1] for dd in date_dew_list
                                            if dd[0] == date_temp[0]),
                                            float("nan"))
-            display_data.precipitation = next((dp[1] for dp in date_pre_list
-                                               if dp[0] == date_temp[0]),
-                                               float("nan"))
+
+            # Add up all precipitation data per hour to get the precipitation per day.
+            display_data.precipitation = reduce(lambda x, y: x + y,
+                                                [dp[1] for dp in date_pre_list
+                                                 if dp[0] <= date_temp[0]],
+                                                0.0)
 
         # Check whether days data is available.
         days_list = self.station_data.get(self.station.identifier, {}).get("days", [])
