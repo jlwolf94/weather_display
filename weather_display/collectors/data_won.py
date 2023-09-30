@@ -5,6 +5,7 @@ display purposes.
 """
 
 from datetime import datetime, date
+from functools import reduce
 from bs4 import BeautifulSoup
 from weather_display.collectors.data import Data
 from weather_display.models.display_data import DisplayData
@@ -150,7 +151,7 @@ class DataWon(Data):
 
         if (precipitation == "" or precipitation == "-"
             or precipitation == "keine Meldung"):
-            return float("nan")
+            return 0.0
         else:
             # Split the unit and check whether there is a sign for the number.
             number_string = precipitation.split(" ")[0]
@@ -273,8 +274,11 @@ class DataWon(Data):
         # Check whether precipitation data is available.
         prec_list = self.station_data.get("precipitations", [])
         if prec_list:
-            # Extract the current precipitation.
-            display_data.precipitation = prec_list[0][1]
+            # Extract the precipitation per day.
+            display_data.precipitation = reduce(lambda x, y: x + y,
+                                                [prec[1] for prec in prec_list
+                                                 if prec[0].minute == 0],
+                                                0.0)
 
         # Return all gathered data in a DisplayData object.
         return display_data
