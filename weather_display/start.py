@@ -3,10 +3,9 @@ The start module contains the main function of the weather_display package
 and can be used as an entry point script for the package.
 """
 
-import argparse
 import sys
-import textwrap
 
+from weather_display.cli.argument_parser import create_argument_parser
 from weather_display.collectors.collector import Collector
 from weather_display.collectors.stations_dwd import StationsDWD
 from weather_display.controller import Controller
@@ -22,7 +21,7 @@ def main():
     Returns:
         int: A successful run returns zero and all other runs return one.
     """
-    parser = _create_argument_parser()
+    parser = create_argument_parser()
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
@@ -35,55 +34,6 @@ def main():
     _start_display(display, collector)
 
     return 0
-
-
-def _create_argument_parser():
-    parser = _create_argument_parser_with_default_settings()
-    _add_default_arguments_to_argument_parser(parser)
-    return parser
-
-
-def _create_argument_parser_with_default_settings():
-    return argparse.ArgumentParser(
-        prog="weather_display",
-        description=textwrap.dedent(
-            """
-            A simple Python program that retrieves weather data from different sources
-            and displays the data on the console or on a display.
-            """
-        ),
-        epilog=textwrap.dedent(
-            """
-            Home page: <https://github.com/jlwolf94/weather_display/>
-            Author: Jan-Lukas Wolf
-            """
-        ),
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-
-
-def _add_default_arguments_to_argument_parser(parser):
-    parser.add_argument(
-        "-n", "--name", action="store", default="Error", help="name of the weather station"
-    )
-    parser.add_argument("-i", "--id", action="store", help="identifier of the weather station")
-    parser.add_argument(
-        "-x", "--lat", action="store", type=float, help="geographic coordinate latitude"
-    )
-    parser.add_argument(
-        "-y", "--lon", action="store", type=float, help="geographic coordinate longitude"
-    )
-    parser.add_argument(
-        "-s", "--src", action="store", default=0, type=int, help="number of the data source"
-    )
-    parser.add_argument("-d", "--dir", action="store", help="path to config and data directory")
-    parser.add_argument(
-        "-o", "--out", action="store", default=0, type=int, help="number of the output channel"
-    )
-    parser.add_argument(
-        "-m", "--mode", action="store_true", help="dark mode setting for the output"
-    )
-    parser.add_argument("-v", "--version", action="version", version="%(prog)s 1.4.0")
 
 
 def _create_collector(parser, args):
