@@ -20,7 +20,7 @@ the homepages of the packages (e.g. [lxml](https://lxml.de/) and
 [Pillow](https://pillow.readthedocs.io/en/stable/installation.html))
 
 The package as a whole can be installed from the released `.tar.gz` or `.whl`
-file by using [pip](https://pip.pypa.io/en/stable/) as an install tool:
+file by using [pip](https://pip.pypa.io/en/stable/) as an installation tool:
 
 ```bash
 pip install weather_display-1.4.0.tar.gz
