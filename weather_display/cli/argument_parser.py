@@ -1,5 +1,5 @@
 """
-The argument_parser module contains all methods to create an ArgumentParser with
+The argument_parser module contains all functions to create an ArgumentParser with
 default settings. The ArgumentParser is the main object of the command line interface.
 """
 

@@ -6,12 +6,9 @@ and can be used as an entry point script for the package.
 import sys
 
 from weather_display.cli.argument_parser import create_argument_parser
-from weather_display.cli.configuration import create_data_directory, load_config_from_json
-from weather_display.collectors.collector import Collector
-from weather_display.collectors.stations_dwd import StationsDWD
+from weather_display.cli.source import create_collector
 from weather_display.controller import Controller
 from weather_display.displays.display import Display
-from weather_display.models.station import Station
 
 
 def main():
@@ -28,94 +25,12 @@ def main():
         parser.print_help()
         return 1
 
-    collector = _create_collector(parser, args)
+    collector = create_collector(parser, args)
     display = _create_display(args)
 
     _start_display(display, collector)
 
     return 0
-
-
-def _create_collector(parser, args):
-    if args.dir is not None:
-        collector = _create_collector_from_file_configuration(parser, args)
-    else:
-        collector = _create_collector_from_arguments(args)
-
-    return collector
-
-
-def _create_collector_from_file_configuration(parser, args):
-    data_directory = create_data_directory(args.dir)
-    config = load_config_from_json(data_directory)
-    stations = {}
-
-    for source, options in config.items():
-        station_args = parser.parse_args(options)
-        station = create_station_from_arguments(str(source), station_args, data_directory)
-        stations.update({str(source): station})
-
-    return Collector(stations)
-
-
-def _create_collector_from_arguments(args):
-    station = create_station_from_arguments(str(args.src), args)
-    return Collector({str(args.src): station})
-
-
-def create_station_from_arguments(source, args, data_directory=None):
-    """
-    Method that creates a Station object with the given data source, options specified in
-    the arguments and data directory.
-
-    Args:
-        source (str): Name or number of the selected data source.
-        args (Namespace): A Namespace created by the ArgumentParser with all arguments.
-        data_directory (Path, optional): The path to the config and data directory or None.
-
-    Returns:
-        Station: Created Station with the set options.
-    """
-    if source == Collector.SOURCES[1] or source == "1":
-        station = _create_w24_station(args)
-    elif source == Collector.SOURCES[2] or source == "2":
-        station = _create_won_station(args)
-    else:
-        station = _create_dwd_station(args, data_directory)
-
-    return station
-
-
-def _create_w24_station(args):
-    try:
-        converted_id = int(args.id)
-    except TypeError:
-        converted_id = 0
-    except ValueError:
-        converted_id = 0
-
-    return Station(name=args.name, number=converted_id)
-
-
-def _create_won_station(args):
-    if args.id is not None:
-        station = Station(name=args.name, identifier=args.id)
-    else:
-        station = Station(name=args.name)
-
-    return station
-
-
-def _create_dwd_station(args, data_directory):
-    stations_dwd = StationsDWD(data_directory=data_directory)
-    stations_dwd.update()
-
-    if args.lat is not None and args.lon is not None:
-        station = stations_dwd.get_station_by_distance(args.lat, args.lon)
-    else:
-        station = stations_dwd.get_station_by_name(args.name)
-
-    return station
 
 
 def _create_display(args):
