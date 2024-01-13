@@ -6,12 +6,12 @@ and can be used as an entry point script for the package.
 import sys
 
 from weather_display.cli.argument_parser import create_argument_parser
+from weather_display.cli.configuration import create_data_directory, load_config_from_json
 from weather_display.collectors.collector import Collector
 from weather_display.collectors.stations_dwd import StationsDWD
 from weather_display.controller import Controller
 from weather_display.displays.display import Display
 from weather_display.models.station import Station
-from weather_display.utils import get_data_directory, load_config_from_json
 
 
 def main():
@@ -46,7 +46,7 @@ def _create_collector(parser, args):
 
 
 def _create_collector_from_file_configuration(parser, args):
-    data_directory = get_data_directory(args.dir)
+    data_directory = create_data_directory(args.dir)
     config = load_config_from_json(data_directory)
     stations = {}
 
