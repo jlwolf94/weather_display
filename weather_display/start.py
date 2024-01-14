@@ -6,8 +6,8 @@ and can be used as an entry point script for the package.
 import sys
 
 from weather_display.cli.argument_parser import create_argument_parser
+from weather_display.cli.controller import Controller
 from weather_display.cli.source import create_collector
-from weather_display.controller import Controller
 from weather_display.displays.display import Display
 
 
