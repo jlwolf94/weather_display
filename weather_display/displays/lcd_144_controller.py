@@ -62,7 +62,7 @@ class LCD144Controller:
         # Try to initialize the LCD display.
         try:
             self.display = LCD144()
-            if self.display.init_LCD(with_keys=True) == 1:
+            if self.display.init_lcd(with_keys=True) == 1:
                 raise OSError("LCD initialization failed!")
             self.display.clear()
         except OSError as err_os:
@@ -83,7 +83,7 @@ class LCD144Controller:
             self.display.clear()
             self.display.cleanup_gpio()
         else:
-            LCD144.cleanup_GPIO()
+            LCD144.cleanup_gpio()
 
     def sleep(self, is_set):
         """
