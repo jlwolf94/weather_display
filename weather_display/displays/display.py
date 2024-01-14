@@ -1,15 +1,16 @@
 """
 The display module contains the Display class that is responsible for displaying
-weather data handed to the class or its methods on the selected output channel.
+weather data handed to its methods on the selected output channel.
 The weather data is formatted to align with the chosen output channel.
 The Display class imports all available displays for the output of data.
 It functions as a virtual main display.
 """
 
-from PIL import Image, ImageFont, ImageDraw
+from PIL import ImageFont
 
 from weather_display.displays.lcd_144_controller import LCD144Controller
 from weather_display.displays.util import is_raspberry_pi
+from weather_display.models.data_image import DataImage
 
 
 class Display:
@@ -51,7 +52,7 @@ class Display:
 
         self.font = self.load_default_font() if self.output == self.OUTPUTS[1] else None
         """
-        FreeTypeFont, optional: The font used in the generation of images for the LCD.
+        FreeTypeFont, optional: The font used in the generation of Images.
             The default font is None.
         """
 
@@ -143,57 +144,6 @@ class Display:
 
             self.event_detection_count = 0
 
-    def create_data_image_128_128(self, display_data):
-        """
-        Method that creates an image of 128 x 128 pixel that contains the data
-        of the given DisplayData object.
-
-        Args:
-            display_data (DisplayData): A DisplayData object containing all
-                weather data to be shown on the Image.
-
-        Returns:
-            Image: Created image that contains all data of the DisplayData object.
-        """
-        # Prepare image and color settings.
-        image_mode = "RGB"
-        image_size = (128, 128)
-        if self.dark_mode:
-            back_color = "BLACK"
-            text_color = "WHITE"
-        else:
-            back_color = "WHITE"
-            text_color = "BLACK"
-
-        image = Image.new(mode=image_mode, size=image_size, color=back_color)
-        draw = ImageDraw.Draw(image)
-
-        # Truncate to long station names, forecasts and dates.
-        station_name = (display_data.station_name[:16] + ".") \
-            if len(display_data.station_name) > 17 else display_data.station_name
-        formatted_forecast = display_data.get_formatted_forecast()
-        forecast = (formatted_forecast[:9] + ".") \
-            if len(formatted_forecast) > 10 else formatted_forecast
-        date = display_data.get_formatted_date().split(" ")[1]
-
-        # Draw image data.
-        draw.text((10, 7), station_name, fill=text_color, font=self.font)
-        draw.text((10, 21), f"{date}, {display_data.get_formatted_time()}",
-                  fill=text_color, font=self.font)
-        draw.text((10, 35), f"Fore.: {forecast}", fill=text_color, font=self.font)
-        draw.text((10, 49), f"Tmax: {display_data.daily_max:5.1F} °C",
-                  fill=text_color, font=self.font)
-        draw.text((10, 63), f"Tmin: {display_data.daily_min:5.1F} °C",
-                  fill=text_color, font=self.font)
-        draw.text((10, 77), f"T:  {display_data.temperature:5.1F} °C",
-                  fill=text_color, font=self.font)
-        draw.text((10, 91), f"Td: {display_data.dew_point:5.1F} °C",
-                  fill=text_color, font=self.font)
-        draw.text((10, 105), f"Prec.: {display_data.precipitation:4.1F} mm",
-                  fill=text_color, font=self.font)
-
-        return image
-
     @staticmethod
     def output_to_console(display_data):
         """
@@ -205,21 +155,25 @@ class Display:
                 weather data to be shown on the console.
         """
         # Truncate station names that are too long.
-        station_name = (display_data.station_name[:35] + ".") \
-            if len(display_data.station_name) > 36 else display_data.station_name
+        station_name = (
+            (display_data.station_name[:35] + ".")
+            if len(display_data.station_name) > 36
+            else display_data.station_name
+        )
 
-        print(f"Station: {station_name}\n"
-              f"----------------------------------------------\n"
-              f"Date: {display_data.get_formatted_date()}\n"
-              f"Daily forecast: {display_data.get_formatted_forecast()}\n"
-              f"Daily max. temp.: {display_data.daily_max:5.1F} °C\n"
-              f"Daily min. temp.: {display_data.daily_min:5.1F} °C\n"
-              f"----------------------------------------------\n"
-              f"Time: {display_data.get_formatted_time()}\n"
-              f"Temperature: {display_data.temperature:5.1F} °C\n"
-              f"Dew point: {display_data.dew_point:5.1F} °C\n"
-              f"Precipitation: {display_data.precipitation:4.1F} mm"
-              )
+        print(
+            f"Station: {station_name}\n"
+            f"----------------------------------------------\n"
+            f"Date: {display_data.get_formatted_date()}\n"
+            f"Daily forecast: {display_data.get_formatted_forecast()}\n"
+            f"Daily max. temp.: {display_data.daily_max:5.1F} °C\n"
+            f"Daily min. temp.: {display_data.daily_min:5.1F} °C\n"
+            f"----------------------------------------------\n"
+            f"Time: {display_data.get_formatted_time()}\n"
+            f"Temperature: {display_data.temperature:5.1F} °C\n"
+            f"Dew point: {display_data.dew_point:5.1F} °C\n"
+            f"Precipitation: {display_data.precipitation:4.1F} mm"
+        )
 
     def output_to_display(self, display_data):
         """
@@ -231,7 +185,10 @@ class Display:
                 weather data to be shown on the display.
         """
         if self.lcd_con is not None:
-            self.lcd_con.show_image(self.create_data_image_128_128(display_data))
+            data_image = DataImage(display_data, self.font, self.dark_mode)
+            self.lcd_con.show_image(
+                data_image.create_data_image(self.lcd_con.width, self.lcd_con.height)
+            )
 
     def show(self, display_data):
         """

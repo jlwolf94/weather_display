@@ -86,6 +86,16 @@ class LCD144Controller:
             self.display = None
             print("LCD Error: Controller initialization failed!")
 
+        self.width = 0 if self.display is None else self.display.width
+        """
+        int: Width of the display in pixel. The default value is 0.
+        """
+
+        self.height = 0 if self.display is None else self.display.height
+        """
+        int: Height of the display in pixel. The default value is 0.
+        """
+
     def cleanup(self):
         """
         Method that clears the display and resets the GPIO pins
