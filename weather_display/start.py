@@ -6,9 +6,8 @@ and can be used as an entry point script for the package.
 import sys
 
 from weather_display.cli.argument_parser import create_argument_parser
-from weather_display.cli.controller import Controller
+from weather_display.cli.output import create_display, start_display
 from weather_display.cli.source import create_collector
-from weather_display.displays.display import Display
 
 
 def main():
@@ -26,23 +25,11 @@ def main():
         return 1
 
     collector = create_collector(parser, args)
-    display = _create_display(args)
+    display = create_display(args)
 
-    _start_display(display, collector)
+    start_display(display, collector)
 
     return 0
-
-
-def _create_display(args):
-    return Display(output=args.out, dark_mode=args.mode)
-
-
-def _start_display(display, collector):
-    if display.output == Display.OUTPUTS[1]:
-        controller = Controller(collector, display)
-        controller.run()
-    else:
-        display.show(collector.get_display_data())
 
 
 if __name__ == "__main__":
