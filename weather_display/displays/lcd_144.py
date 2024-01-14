@@ -31,7 +31,7 @@ THE SOFTWARE.
 import numpy as np
 
 from weather_display.displays.lcd_144_config import LCD144Config
-from weather_display.utils import is_raspberry_pi
+from weather_display.displays.util import is_raspberry_pi
 if is_raspberry_pi():
     import RPi.GPIO as GPIO
 

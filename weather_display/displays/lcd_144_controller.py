@@ -28,7 +28,7 @@ THE SOFTWARE.
 """
 
 from weather_display.displays.lcd_144 import LCD144
-from weather_display.utils import is_raspberry_pi
+from weather_display.displays.util import is_raspberry_pi
 if is_raspberry_pi():
     import RPi.GPIO as GPIO
 

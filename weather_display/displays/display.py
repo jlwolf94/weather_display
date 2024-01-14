@@ -8,7 +8,7 @@ It functions as a virtual main display.
 
 from PIL import Image, ImageFont, ImageDraw
 from weather_display.displays.lcd_144_controller import LCD144Controller
-from weather_display.utils import is_raspberry_pi
+from weather_display.displays.util import is_raspberry_pi
 
 
 class Display:

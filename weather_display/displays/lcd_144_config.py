@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 import time
 
-from weather_display.utils import is_raspberry_pi
+from weather_display.displays.util import is_raspberry_pi
 if is_raspberry_pi():
     import spidev
     import RPi.GPIO as GPIO
