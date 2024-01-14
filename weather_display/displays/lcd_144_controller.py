@@ -81,7 +81,7 @@ class LCD144Controller:
 
         if self.display is not None:
             self.display.clear()
-            self.display.cleanup_GPIO()
+            self.display.cleanup_gpio()
         else:
             LCD144.cleanup_GPIO()
 

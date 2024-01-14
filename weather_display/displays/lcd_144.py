@@ -89,7 +89,7 @@ class LCD144:
         Method that calls the GPIO cleanup from the LCD144Config class.
         """
 
-        LCD144Config.cleanup_GPIO()
+        LCD144Config.cleanup_gpio()
 
     def reset(self):
         """
@@ -165,7 +165,7 @@ class LCD144:
         """
 
         GPIO.output(self.config.LCD_DC_PIN, GPIO.LOW)
-        self.config.write_SPI_bytes([reg])
+        self.config.write_spi_bytes([reg])
 
     def write_data_8bit(self, data):
         """
@@ -176,7 +176,7 @@ class LCD144:
         """
 
         GPIO.output(self.config.LCD_DC_PIN, GPIO.HIGH)
-        self.config.write_SPI_bytes([data])
+        self.config.write_spi_bytes([data])
 
     def write_data_nlen_16bit(self, data, data_len):
         """
@@ -193,8 +193,8 @@ class LCD144:
 
         GPIO.output(self.config.LCD_DC_PIN, GPIO.HIGH)
         for i in range(0, data_len):
-            self.config.write_SPI_bytes([data >> 8])
-            self.config.write_SPI_bytes([data & 0xff])
+            self.config.write_spi_bytes([data >> 8])
+            self.config.write_spi_bytes([data & 0xff])
 
     def init_reg(self):
         """
@@ -376,7 +376,7 @@ class LCD144:
         """
 
         # Try to initialize the GPIO pins.
-        if self.config.init_GPIO(with_warnings=with_warnings,
+        if self.config.init_gpio(with_warnings=with_warnings,
                                  with_keys=with_keys) != 0:
             return 1
 
@@ -443,7 +443,7 @@ class LCD144:
         self.set_windows(0, 0, self.width, self.height)
         GPIO.output(self.config.LCD_DC_PIN, GPIO.HIGH)
         for i in range(0, len(buffer), 4096):
-            self.config.write_SPI_bytes(buffer[i:i+4096])
+            self.config.write_spi_bytes(buffer[i:i + 4096])
 
     def show_image(self, image):
         """
@@ -478,4 +478,4 @@ class LCD144:
         self.set_windows(0, 0, self.width, self.height)
         GPIO.output(self.config.LCD_DC_PIN, GPIO.HIGH)
         for i in range(0, len(pix), 4096):
-            self.config.write_SPI_bytes(pix[i:i+4096])
+            self.config.write_spi_bytes(pix[i:i + 4096])
