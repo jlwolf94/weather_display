@@ -122,12 +122,12 @@ class LCD144Config:
     int: Display adjustment in y-direction.
     """
 
-    LCD_X_MAXPIXEL = 132
+    LCD_X_MAX_PIXEL = 132
     """
     int: Display width maximum memory in pixel.
     """
 
-    LCD_Y_MAXPIXEL = 162
+    LCD_Y_MAX_PIXEL = 162
     """
     int: Display height maximum memory in pixel.
     """

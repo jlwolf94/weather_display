@@ -138,11 +138,11 @@ class Display:
         if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
             for index, callback in enumerate(callbacks):
                 if index == 0:
-                    self.lcd_con.add_event_detect_KEY1(callback)
+                    self.lcd_con.add_event_detect_key1(callback)
                 elif index == 1:
-                    self.lcd_con.add_event_detect_KEY2(callback)
+                    self.lcd_con.add_event_detect_key2(callback)
                 else:
-                    self.lcd_con.add_event_detect_KEY3(callback)
+                    self.lcd_con.add_event_detect_key3(callback)
                     break
 
             self.event_detection_count = len(callbacks) if len(callbacks) <= 3 else 3
@@ -156,11 +156,11 @@ class Display:
         if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
             for index in range(self.event_detection_count):
                 if index == 0:
-                    self.lcd_con.remove_event_detect_KEY1()
+                    self.lcd_con.remove_event_detect_key1()
                 elif index == 1:
-                    self.lcd_con.remove_event_detect_KEY2()
+                    self.lcd_con.remove_event_detect_key2()
                 else:
-                    self.lcd_con.remove_event_detect_KEY3()
+                    self.lcd_con.remove_event_detect_key3()
                     break
 
             self.event_detection_count = 0
