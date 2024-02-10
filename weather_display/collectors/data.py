@@ -4,9 +4,9 @@ a prototype with all common methods for the specialized data classes.
 """
 
 import math
-import requests
-
 from abc import ABC, abstractmethod
+
+import requests
 
 
 class Data(ABC):
@@ -19,59 +19,47 @@ class Data(ABC):
         """
         Constructor for the Data objects.
 
-        Parameters
-        ----------
-        station (Station):
-            Station object containing all informations of the station.
-
-        attempts (int):
-            Number of connection attempts. Default value is 3.
-
-        timeout (int):
-            Connection timeout for a server answer in seconds.
-            Default value is 10 seconds.
+        Args:
+            station (Station): Station object containing all information of the station.
+            attempts (int): Number of connection attempts.
+                Default value is 3.
+            timeout (int): Connection timeout for a server answer in seconds.
+                Default value is 10 seconds.
         """
 
         self.station = station
         """
-        station (Station):
-            Station object containing all informations of the station.
+        Station: Station object containing all information of the station.
         """
 
         self.attempts = attempts
         """
-        attempts (int):
-            Number of connection attempts.
+        int: Number of connection attempts.
         """
 
         self.url = ""
         """
-        url (str):
-            Standard url for the get requests.
+        str: Standard url for the get requests.
         """
 
         self.params = None
         """
-        params (Optional[dict[str, str]]):
-            Dictionary with all parameters for the get request.
+        dict[str, str], optional: Dictionary with all parameters for the get request.
         """
 
         self.headers = None
         """
-        headers (Optional[dict[str, str]]):
-            Dictionary with all header parameters for the get request.
+        dict[str, str], optional: Dictionary with all header parameters for the get request.
         """
 
         self.timeout = timeout
         """
-        timeout (int):
-            Connection timeout for a server answer in seconds.
+        int: Connection timeout for a server answer in seconds.
         """
 
         self.station_data = {}
         """
-        station_data (dict):
-            A dictionary containing all current weather data from the
+        dict: A dictionary containing all current weather data from the
             station specified by station.
         """
 
@@ -84,22 +72,14 @@ class Data(ABC):
         using the Boegel modification in form of the Arden Buck equation.
         The equation is usable between -80 degree Celsius and +50 degree Celsius.
 
-        Parameters
-        ----------
-        humidity (float):
-            The relative humidity of the air in percent.
+        Args:
+            humidity (float): The relative humidity of the air in percent.
+            temperature (float): The current temperature in degree Celsius.
 
-        temperature (float):
-            The current temperature in degree Celsius.
-
-        Returns
-        -------
-        dew_point (float):
-            The calculated dew point in degree Celsius for the given
-            relative humidity and temperature.
+        Returns:
+            float: The calculated dew point in degree Celsius for the given
+                relative humidity and temperature.
         """
-
-        # Check whether humidity and temperature are available.
         if humidity == float("nan") or temperature == float("nan"):
             return float("nan")
 
@@ -123,18 +103,15 @@ class Data(ABC):
         parameters, headers and timeout. The method handles all possible
         error cases.
 
-        Returns
-        -------
-        station_response (Optional[Response]):
-            The response object of the request to the standard url with the
-            set parameters and headers or None.
+        Returns:
+            Response, optional: The response object of the request to the
+                standard url with the set parameters and headers or None.
         """
-
-        # Try to reach the server multiple times and handle occuring exceptions.
-        for i in range(self.attempts):
+        for _ in range(self.attempts):
             try:
-                response = requests.get(url=self.url, params=self.params,
-                                        headers=self.headers, timeout=self.timeout)
+                response = requests.get(
+                    url=self.url, params=self.params, headers=self.headers, timeout=self.timeout
+                )
                 response.raise_for_status()
             except requests.exceptions.HTTPError as err_http:
                 print("HTTP Error:", err_http)
@@ -154,23 +131,17 @@ class Data(ABC):
     @abstractmethod
     def get_station_data(self, response):
         """
-        Method that processes the response of a request to the
-        standard url with set parameters and headers. It returns
-        a formatted dictionary of the data.
+        Method that processes the response of a request to the standard url
+        with set parameters and headers. It returns a formatted dictionary of the data.
 
-        Parameters
-        ----------
-        response (Optional[Response]):
-            A response object retrieved from a request to the standard url
-            with the set parameters and headers or None.
+        Args:
+            response (Response, optional): A response object retrieved from a request
+                to the standard url with the set parameters and headers or None.
 
-        Returns
-        -------
-        station_data (dict):
-            A dictionary containing all current weather data from the
-            station specified by station.
+        Returns:
+            dict: A dictionary containing all current weather data from the
+                station specified by station.
         """
-
         pass
 
     @abstractmethod
@@ -180,13 +151,10 @@ class Data(ABC):
         the saved station and station_data. The data used for display is
         returned in a new DisplayData object.
 
-        Returns
-        -------
-        display_data (DisplayData):
-            A DisplayData object containing all weather data for the set
-            station formatted for display purposes.
+        Returns:
+            DisplayData: A DisplayData object containing all weather data for the set
+                station formatted for display purposes.
         """
-
         pass
 
     def update(self):
@@ -195,16 +163,11 @@ class Data(ABC):
         using the set parameters and headers. If the specified station is
         not available then the current data is not overwritten.
 
-        Returns
-        -------
-        success (bool):
-            Indicates whether the update process was a success or not.
+        Returns:
+            bool: Indicates whether the update process was a success or not.
         """
-
-        # Try to get station data from the standard url.
         station_data = self.get_station_data(self.get_station_response())
 
-        # Check whether there is data for an update.
         if station_data:
             self.station_data = station_data
             return True

@@ -6,72 +6,58 @@ purposes.
 
 from datetime import datetime, timedelta
 from functools import reduce
+
 from weather_display.collectors.data import Data
 from weather_display.models.display_data import DisplayData
 
 
 class DataDWD(Data):
     """
-    Class that contains the DWD-API base url and stores the station informations
+    Class that contains the DWD-API base url and stores the station information
     used for the data requests. It stores the received data for later use or display.
     """
 
     def __init__(self, station, attempts=3, timeout=10):
         """
-        Constructor for the DwdData objects.
+        Constructor for the DataDWD objects.
 
-        Parameters
-        ----------
-        station (Station):
-            Station object containing all informations of the station.
-
-        attempts (int):
-            Number of connection attempts. Default value is 3.
-
-        timeout (int):
-            Connection timeout for a server answer in seconds.
-            Default value is 10 seconds.
+        Args:
+            station (Station): Station object containing all information of the station.
+            attempts (int): Number of connection attempts.
+                Default value is 3.
+            timeout (int): Connection timeout for a server answer in seconds.
+                Default value is 10 seconds.
         """
-
         super().__init__(station, attempts, timeout)
 
         self.url = "https://app-prod-ws.warnwetter.de/v30" + "/stationOverviewExtended"
         """
-        url (str):
-            Standard url for the get requests.
+        str: Standard url for the get requests.
         """
 
         self.params = {"stationIds": station.identifier}
         """
-        params (Optional[dict[str, str]]):
-            Dictionary with all parameters for the get request.
+        dict[str, str], optional: Dictionary with all parameters for the get request.
         """
 
         self.headers = {"accept": "application/json"}
         """
-        headers (Optional[dict[str, str]]):
-            Dictionary with all header parameters for the get request.
+        dict[str, str], optional: Dictionary with all header parameters for the get request.
         """
 
     def get_station_data(self, response):
         """
-        Method that processes the response of a request to the
-        standard url with set parameters and headers. It returns
-        a formatted dictionary of the data.
+        Method that processes the response of a request to the standard url
+        with set parameters and headers. It returns a formatted dictionary of the data.
 
-        Parameters
-        ----------
-        response (Optional[Response]):
-            A response object retrieved from a request to the standard url
-            with the set parameters and headers or None.
+        Args:
+            response (Response, optional): A response object retrieved from a request
+                to the standard url with the set parameters and headers or None.
 
-        Returns
-        -------
-        station_data (dict):
-            A dictionary containing all current weather data from the
-            station specified by station.
+        Returns:
+            dict: A dictionary containing all current weather data from the
+                station specified by station.
         """
-
         if response is not None:
             return response.json()
         else:
@@ -83,82 +69,131 @@ class DataDWD(Data):
         the saved station and station_data. The data used for display is
         returned in a new DisplayData object.
 
-        Returns
-        -------
-        display_data (DisplayData):
-            A DisplayData object containing all weather data for the set
-            station formatted for display purposes.
+        Returns:
+            DisplayData: A DisplayData object containing all weather data for the set
+                station formatted for display purposes.
         """
-
-        # Create the result DisplayData object.
         display_data = DisplayData(station_name=self.station.name)
 
-        # Check whether forecast data is available.
         forecast_dict = self.station_data.get(self.station.identifier, {}).get("forecast1", {})
+        display_data = self._update_display_data_with_forecast_dict(display_data, forecast_dict)
+
+        days_list = self.station_data.get(self.station.identifier, {}).get("days", [])
+        display_data = self._update_display_data_with_days_list(display_data, days_list)
+
+        return display_data
+
+    def _update_display_data_with_forecast_dict(self, display_data, forecast_dict):
         if forecast_dict:
-            # Extract start date and date step.
             start_date = datetime.fromtimestamp(forecast_dict["start"] / 1000)
             date_step = timedelta(milliseconds=forecast_dict["timeStep"])
 
-            # Process the temperature list by adding the time to each temperature.
-            date_temp_list = []
-            for step, temp in enumerate(forecast_dict["temperature"]):
-                if temp < -999 or temp > 999:
-                    date_temp_list.append((start_date + (step * date_step), float("nan")))
-                else:
-                    date_temp_list.append((start_date + (step * date_step), temp / 10))
+            date_temp_list = self._create_date_temp_list(forecast_dict, start_date, date_step)
+            date_dew_list = self._create_date_dew_list(forecast_dict, start_date, date_step)
+            date_pre_list = self._create_date_pre_list(forecast_dict, start_date, date_step)
 
-            # Process the dew point list by adding the time to each dew_point.
-            date_dew_list = []
-            for step, dew in enumerate(forecast_dict["dewPoint2m"]):
-                if dew < -999 or dew > 999:
-                    date_dew_list.append((start_date + (step * date_step), float("nan")))
-                else:
-                    date_dew_list.append((start_date + (step * date_step), dew / 10))
+            date_temp = self._get_date_temp_closest_to_current_date(date_temp_list)
 
-            # Process the precipitation list by adding the time to each precipitation.
-            date_pre_list = []
-            for step, pre in enumerate(forecast_dict["precipitationTotal"]):
-                if pre < 0 or pre > 999:
-                    date_pre_list.append((start_date + (step * date_step), 0.0))
-                else:
-                    date_pre_list.append((start_date + (step * date_step), pre / 10))
+            display_data = self._update_display_data(
+                display_data, date_temp, date_dew_list, date_pre_list
+            )
+            return display_data
+        else:
+            return display_data
 
-            # Find the temperature closest to the current date.
-            curr_date = datetime.now()
-            date_temp = min([dt for dt in date_temp_list if dt[0] <= curr_date],
-                            key=lambda t: abs(curr_date - t[0]))
-            display_data.date_time = date_temp[0]
-            display_data.temperature = date_temp[1]
-
-            # Use the found date_time to find the dew point.
-            display_data.dew_point = next((dd[1] for dd in date_dew_list
-                                           if dd[0] == date_temp[0]),
-                                           float("nan"))
-
-            # Add up all precipitation data per hour to get the precipitation per day.
-            display_data.precipitation = reduce(lambda x, y: x + y,
-                                                [dp[1] for dp in date_pre_list
-                                                 if dp[0] <= date_temp[0]],
-                                                0.0)
-
-        # Check whether days data is available.
-        days_list = self.station_data.get(self.station.identifier, {}).get("days", [])
+    def _update_display_data_with_days_list(self, display_data, days_list):
         if days_list:
-            # Find the date in the days list closest to the current date.
-            curr_date = datetime.now()
-            day = min([da for da in days_list
-                       if datetime.strptime(da["dayDate"], "%Y-%m-%d") <= curr_date],
-                      key=lambda d: abs(curr_date -
-                                        datetime.strptime(d["dayDate"], "%Y-%m-%d")))
+            day = self._get_day_closest_to_current_date(days_list)
+            return self._update_display_data_with_day(display_data, day)
+        else:
+            return display_data
 
-            display_data.forecast = day["icon"]
+    @staticmethod
+    def _create_date_value_list(
+            forecast_dict_value, start_date, date_step, lower_limit, default_value
+    ):
+        date_value_list = []
+        for step, value in enumerate(forecast_dict_value):
+            if value < lower_limit or value > 999:
+                date_value_list.append((start_date + (step * date_step), default_value))
+            else:
+                date_value_list.append((start_date + (step * date_step), value / 10))
+        return date_value_list
 
-            if day["temperatureMin"] >= -999 and day["temperatureMin"] <= 999:
-                display_data.daily_min = day["temperatureMin"] / 10
+    @staticmethod
+    def _create_date_temp_list(forecast_dict, start_date, date_step):
+        date_temp_list = []
+        for step, temp in enumerate(forecast_dict["temperature"]):
+            if temp < -999 or temp > 999:
+                date_temp_list.append((start_date + (step * date_step), float("nan")))
+            else:
+                date_temp_list.append((start_date + (step * date_step), temp / 10))
+        return date_temp_list
 
-            if day["temperatureMax"] >= -999 and day["temperatureMax"] <= 999:
-                display_data.daily_max = day["temperatureMax"] / 10
+    @staticmethod
+    def _create_date_dew_list(forecast_dict, start_date, date_step):
+        date_dew_list = []
+        for step, dew in enumerate(forecast_dict["dewPoint2m"]):
+            if dew < -999 or dew > 999:
+                date_dew_list.append((start_date + (step * date_step), float("nan")))
+            else:
+                date_dew_list.append((start_date + (step * date_step), dew / 10))
+        return date_dew_list
 
-        # Return all gathered data in a DisplayData object.
+    @staticmethod
+    def _create_date_pre_list(forecast_dict, start_date, date_step):
+        date_pre_list = []
+        for step, pre in enumerate(forecast_dict["precipitationTotal"]):
+            if pre < 0 or pre > 999:
+                date_pre_list.append((start_date + (step * date_step), 0.0))
+            else:
+                date_pre_list.append((start_date + (step * date_step), pre / 10))
+        return date_pre_list
+
+    @staticmethod
+    def _get_date_temp_closest_to_current_date(date_temp_list):
+        curr_date = datetime.now()
+        date_temp = min(
+            [dt for dt in date_temp_list if dt[0] <= curr_date],
+            key=lambda t: abs(curr_date - t[0])
+        )
+        return date_temp
+
+    @staticmethod
+    def _update_display_data(display_data, date_temp, date_dew_list, date_pre_list):
+        display_data.date_time = date_temp[0]
+        display_data.temperature = date_temp[1]
+
+        # Use the found date_time to find the dew point.
+        display_data.dew_point = next(
+            (dd[1] for dd in date_dew_list if dd[0] == date_temp[0]),
+            float("nan")
+        )
+
+        # Add up all precipitation data per hour to get the precipitation per day.
+        display_data.precipitation = reduce(
+            lambda x, y: x + y,
+            [dp[1] for dp in date_pre_list if dp[0] <= date_temp[0]],
+            0.0
+        )
+
+        return display_data
+
+    @staticmethod
+    def _get_day_closest_to_current_date(days_list):
+        curr_date = datetime.now()
+        day = min(
+            [da for da in days_list
+             if datetime.strptime(da["dayDate"], "%Y-%m-%d") <= curr_date],
+            key=lambda d: abs(curr_date - datetime.strptime(d["dayDate"], "%Y-%m-%d"))
+        )
+        return day
+
+    @staticmethod
+    def _update_display_data_with_day(display_data, day):
+        display_data.forecast = day["icon"]
+        if -999 <= day["temperatureMin"] <= 999:
+            display_data.daily_min = day["temperatureMin"] / 10
+        if -999 <= day["temperatureMax"] <= 999:
+            display_data.daily_max = day["temperatureMax"] / 10
         return display_data
