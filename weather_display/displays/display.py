@@ -50,25 +50,25 @@ class Display:
         bool: A boolean that indicates whether the dark mode is active or not.
         """
 
-        self.font = self.load_default_font() if self.output == self.OUTPUTS[1] else None
-        """
-        FreeTypeFont, optional: The font used in the generation of Images.
-            The default font is None.
-        """
-
-        self.lcd_con = LCD144Controller() if self.output == self.OUTPUTS[1] else None
-        """
-        LCD144Controller, optional: Controller of the 1.44inch LCD HAT SPI interface
-            from Waveshare. The default controller is None.
-        """
-
         self.is_sleeping = False
         """
         bool: Sleeping status of the controlled display. The display starts in
             powered on mode by default.
         """
 
-        self.event_detection_count = 0
+        self._font = self.load_default_font() if self.output == self.OUTPUTS[1] else None
+        """
+        FreeTypeFont, optional: The font used in the generation of Images.
+            The default font is None.
+        """
+
+        self._lcd_con = LCD144Controller() if self.output == self.OUTPUTS[1] else None
+        """
+        LCD144Controller, optional: Controller of the 1.44inch LCD HAT SPI interface
+            from Waveshare. The default controller is None.
+        """
+
+        self._event_detection_count = 0
         """
         int: Number of active event detections. The display starts with
             zero event detections.
@@ -101,9 +101,9 @@ class Display:
             is_set (bool): New status of the sleep mode that determinate whether
                 it is on or off.
         """
-        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
+        if self.output == self.OUTPUTS[1] and self._lcd_con is not None:
             if is_set != self.is_sleeping:
-                self.lcd_con.sleep(is_set)
+                self._lcd_con.sleep(is_set)
                 self.is_sleeping = is_set
 
     def add_event_detection(self, callbacks):
@@ -115,34 +115,34 @@ class Display:
             callbacks (list[Any]): List of callback functions with at least
                 one positional argument that will be used to register an event detection.
         """
-        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
+        if self.output == self.OUTPUTS[1] and self._lcd_con is not None:
             for index, callback in enumerate(callbacks):
                 if index == 0:
-                    self.lcd_con.add_event_detect_key1(callback)
+                    self._lcd_con.add_event_detect_key1(callback)
                 elif index == 1:
-                    self.lcd_con.add_event_detect_key2(callback)
+                    self._lcd_con.add_event_detect_key2(callback)
                 else:
-                    self.lcd_con.add_event_detect_key3(callback)
+                    self._lcd_con.add_event_detect_key3(callback)
                     break
 
-            self.event_detection_count = len(callbacks) if len(callbacks) <= 3 else 3
+            self._event_detection_count = len(callbacks) if len(callbacks) <= 3 else 3
 
     def remove_event_detection(self):
         """
         Method that removes at most three callback functions from the keys of the display.
         The key are iterated from first to last.
         """
-        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
-            for index in range(self.event_detection_count):
+        if self.output == self.OUTPUTS[1] and self._lcd_con is not None:
+            for index in range(self._event_detection_count):
                 if index == 0:
-                    self.lcd_con.remove_event_detect_key1()
+                    self._lcd_con.remove_event_detect_key1()
                 elif index == 1:
-                    self.lcd_con.remove_event_detect_key2()
+                    self._lcd_con.remove_event_detect_key2()
                 else:
-                    self.lcd_con.remove_event_detect_key3()
+                    self._lcd_con.remove_event_detect_key3()
                     break
 
-            self.event_detection_count = 0
+            self._event_detection_count = 0
 
     @staticmethod
     def output_to_console(display_data):
@@ -184,10 +184,10 @@ class Display:
             display_data (DisplayData): A DisplayData object containing all
                 weather data to be shown on the display.
         """
-        if self.lcd_con is not None:
-            data_image = DataImage(display_data, self.font, self.dark_mode)
-            self.lcd_con.show_image(
-                data_image.create_data_image(self.lcd_con.width, self.lcd_con.height)
+        if self._lcd_con is not None:
+            data_image = DataImage(display_data, self._font, self.dark_mode)
+            self._lcd_con.show_image(
+                data_image.create_data_image(self._lcd_con.width, self._lcd_con.height)
             )
 
     def show(self, display_data):
@@ -212,5 +212,5 @@ class Display:
         Method that exits all used displays and controllers. The method
         performs the necessary cleanup actions to correctly exit the displays.
         """
-        if self.output == self.OUTPUTS[1] and self.lcd_con is not None:
-            self.lcd_con.cleanup()
+        if self.output == self.OUTPUTS[1] and self._lcd_con is not None:
+            self._lcd_con.cleanup()
