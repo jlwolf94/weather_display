@@ -45,7 +45,7 @@ class DataImage:
 
         self.font = font
         """
-        FreeTypeFont: The font used in the generation of Images.
+        FreeTypeFont, optional: The font used in the generation of Images.
         """
 
         self.dark_mode = dark_mode
