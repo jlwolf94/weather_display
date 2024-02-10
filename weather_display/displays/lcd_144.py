@@ -63,17 +63,17 @@ class LCD144:
         int: Height of the display in pixel.
         """
 
-        self.scan_dir = LCD144Config.SCAN_DIR_DFT
+        self._scan_dir = LCD144Config.SCAN_DIR_DFT
         """
         int: Scan direction of the display.
         """
 
-        self.x_adjust = LCD144Config.LCD_X
+        self._x_adjust = LCD144Config.LCD_X
         """
         int: Adjustment in x-direction.
         """
 
-        self.y_adjust = LCD144Config.LCD_Y
+        self._y_adjust = LCD144Config.LCD_Y
         """
         int: Adjustment in y-direction.
         """
@@ -277,7 +277,7 @@ class LCD144:
             scan_dir (int): Number for the new scan direction.
         """
         # Save the new screen scan direction.
-        self.scan_dir = scan_dir
+        self._scan_dir = scan_dir
 
         # Get GRAM and LCD width and height.
         if (
@@ -312,11 +312,11 @@ class LCD144:
 
         # Please set (memory_access_reg_data & 0x10) != 1.
         if (memory_access_reg_data & 0x10) != 1:
-            self.x_adjust = self.config.LCD_Y
-            self.y_adjust = self.config.LCD_X
+            self._x_adjust = self.config.LCD_Y
+            self._y_adjust = self.config.LCD_X
         else:
-            self.x_adjust = self.config.LCD_X
-            self.y_adjust = self.config.LCD_Y
+            self._x_adjust = self.config.LCD_X
+            self._y_adjust = self.config.LCD_Y
 
         # Set the read and write scan direction of the frame memory with
         # MX, MY, RGB mode and 0x08 set RGB.
@@ -375,16 +375,16 @@ class LCD144:
         # Set the x-coordinates.
         self.write_reg(0x2A)
         self.write_data_8bit(0x00)
-        self.write_data_8bit((x_start & 0xFF) + self.x_adjust)
+        self.write_data_8bit((x_start & 0xFF) + self._x_adjust)
         self.write_data_8bit(0x00)
-        self.write_data_8bit(((x_end - 1) & 0xFF) + self.x_adjust)
+        self.write_data_8bit(((x_end - 1) & 0xFF) + self._x_adjust)
 
         # Set the y-coordinates.
         self.write_reg(0x2B)
         self.write_data_8bit(0x00)
-        self.write_data_8bit((y_start & 0xFF) + self.y_adjust)
+        self.write_data_8bit((y_start & 0xFF) + self._y_adjust)
         self.write_data_8bit(0x00)
-        self.write_data_8bit(((y_end - 1) & 0xFF) + self.y_adjust)
+        self.write_data_8bit(((y_end - 1) & 0xFF) + self._y_adjust)
 
         self.write_reg(0x2C)
 
