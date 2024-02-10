@@ -66,7 +66,7 @@ class LCD144Controller:
         Constructor for the LCD144Controller objects.
         """
 
-        self.display = None
+        self._display = None
         """
         LCD144, optional: LCD object for configuration and control of the
             1.44inch LCD HAT SPI interface from Waveshare. The default
@@ -75,23 +75,23 @@ class LCD144Controller:
 
         # Try to initialize the LCD.
         try:
-            self.display = LCD144()
-            if self.display.init_lcd(with_keys=True) == 1:
+            self._display = LCD144()
+            if self._display.init_lcd(with_keys=True) == 1:
                 raise OSError("LCD initialization failed!")
-            self.display.clear()
+            self._display.clear()
         except OSError as err_os:
-            self.display = None
+            self._display = None
             print("LCD Error: ", err_os)
         except:
-            self.display = None
+            self._display = None
             print("LCD Error: Controller initialization failed!")
 
-        self.width = 0 if self.display is None else self.display.width
+        self.width = 0 if self._display is None else self._display.width
         """
         int: Width of the display in pixel. The default value is 0.
         """
 
-        self.height = 0 if self.display is None else self.display.height
+        self.height = 0 if self._display is None else self._display.height
         """
         int: Height of the display in pixel. The default value is 0.
         """
@@ -102,9 +102,9 @@ class LCD144Controller:
         to their default state. The default state is the configuration
         before the program started.
         """
-        if self.display is not None:
-            self.display.clear()
-            self.display.cleanup_gpio()
+        if self._display is not None:
+            self._display.clear()
+            self._display.cleanup_gpio()
         else:
             LCD144.cleanup_gpio()
 
@@ -119,14 +119,14 @@ class LCD144Controller:
             is_set (bool): New status of the LCD sleep mode that determinate
                 whether it is in or out sleep mode.
         """
-        if self.display is not None:
+        if self._display is not None:
             if is_set:
-                self.display.set_backlight(False)
-                self.display.clear()
-                self.display.set_sleep(is_set)
+                self._display.set_backlight(False)
+                self._display.clear()
+                self._display.set_sleep(is_set)
             else:
-                self.display.set_sleep(is_set)
-                self.display.set_backlight(True)
+                self._display.set_sleep(is_set)
+                self._display.set_backlight(True)
 
     def add_event_detect(self, key, callback):
         """
@@ -138,7 +138,7 @@ class LCD144Controller:
             callback (Any): Callback function to register with the set event.
         """
         try:
-            if self.display is not None:
+            if self._display is not None:
                 GPIO.add_event_detect(
                     key, GPIO.FALLING, callback=callback, bouncetime=self.BOUNCE_TIME
                 )
@@ -155,7 +155,7 @@ class LCD144Controller:
         Args:
             callback (Any): Callback function to register with the set event.
         """
-        self.add_event_detect(key=self.display.config.KEY1_PIN, callback=callback)
+        self.add_event_detect(key=self._display.config.KEY1_PIN, callback=callback)
 
     def add_event_detect_key2(self, callback):
         """
@@ -165,7 +165,7 @@ class LCD144Controller:
         Args:
             callback (Any): Callback function to register with the set event.
         """
-        self.add_event_detect(key=self.display.config.KEY2_PIN, callback=callback)
+        self.add_event_detect(key=self._display.config.KEY2_PIN, callback=callback)
 
     def add_event_detect_key3(self, callback):
         """
@@ -175,7 +175,7 @@ class LCD144Controller:
         Args:
             callback (Any): Callback function to register with the set event.
         """
-        self.add_event_detect(key=self.display.config.KEY3_PIN, callback=callback)
+        self.add_event_detect(key=self._display.config.KEY3_PIN, callback=callback)
 
     def remove_event_detect(self, key):
         """
@@ -185,7 +185,7 @@ class LCD144Controller:
             key (int): Number of the pin that is connected to the key.
         """
         try:
-            if self.display is not None:
+            if self._display is not None:
                 GPIO.remove_event_detect(key)
             else:
                 raise OSError(self.LCD_NOT_AVAILABLE_MESSAGE)
@@ -196,19 +196,19 @@ class LCD144Controller:
         """
         Method to remove an event detection from KEY1.
         """
-        self.remove_event_detect(self.display.config.KEY1_PIN)
+        self.remove_event_detect(self._display.config.KEY1_PIN)
 
     def remove_event_detect_key2(self):
         """
         Method to remove an event detection from KEY2.
         """
-        self.remove_event_detect(self.display.config.KEY2_PIN)
+        self.remove_event_detect(self._display.config.KEY2_PIN)
 
     def remove_event_detect_key3(self):
         """
         Method to remove an event detection from KEY3.
         """
-        self.remove_event_detect(self.display.config.KEY3_PIN)
+        self.remove_event_detect(self._display.config.KEY3_PIN)
 
     def show_image(self, image):
         """
@@ -221,8 +221,8 @@ class LCD144Controller:
                 The image needs to match the display size in pixel.
         """
         try:
-            if self.display is not None:
-                self.display.show_image(image)
+            if self._display is not None:
+                self._display.show_image(image)
             else:
                 raise OSError(self.LCD_NOT_AVAILABLE_MESSAGE)
         except ValueError as err_val:
