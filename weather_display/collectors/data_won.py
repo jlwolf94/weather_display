@@ -6,184 +6,77 @@ display purposes.
 
 from datetime import datetime, date
 from functools import reduce
+
 from bs4 import BeautifulSoup
+
 from weather_display.collectors.data import Data
 from weather_display.models.display_data import DisplayData
 
 
 class DataWon(Data):
     """
-    Class that contains the wetteronline base url and stores the station informations
+    Class that contains the wetteronline base url and stores the station information
     used for the website requests. It stores the received data for later use or display.
+    """
+
+    DATE_TIME_FORMAT_STRING = "%d.%m.%Y %H:%M"
+    """
+    str: Format used to convert date time strings to datetime objects.
+    """
+
+    NO_VALUE_MESSAGE = "keine Meldung"
+    """
+    str: Message string when no value is present.
     """
 
     def __init__(self, station, attempts=3, timeout=10):
         """
         Constructor for the DataWon objects.
 
-        Parameters
-        ----------
-        station (Station):
-            Station object containing all informations of the station.
-
-        attempts (int):
-            Number of connection attempts. Default value is 3.
-
-        timeout (int):
-            Connection timeout for a server answer in seconds.
-            Default value is 10 seconds.
+        Args:
+            station (Station): Station object containing all information of the station.
+            attempts (int): Number of connection attempts.
+                Default value is 3.
+            timeout (int): Connection timeout for a server answer in seconds.
+                Default value is 10 seconds.
         """
-
         super().__init__(station, attempts, timeout)
 
-        self.url = "https://www.wetteronline.de/wetter-aktuell" \
-            + "/" + station.name.lower()
+        self.url = "https://www.wetteronline.de/wetter-aktuell" + "/" + station.name.lower()
         """
-        url (str):
-            Standard url for the get requests.
+        str: Standard url for the get requests.
         """
 
         self.params = {"iid": station.identifier}
         """
-        params (Optional[dict[str, str]]):
-            Dictionary with all parameters for the get request.
+        dict[str, str]: Dictionary with all parameters for the get request.
         """
 
-        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) " \
-            + "Gecko/20100101 Firefox/114.0"
+        user_agent = (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) " + "Gecko/20100101 Firefox/114.0"
+        )
+
         self.headers = {"User-Agent": user_agent}
         """
-        headers (Optional[dict[str, str]]):
-            Dictionary with all header parameters for the get request.
+        dict[str, str]: Dictionary with all header parameters for the get request.
         """
-
-    def convert_datetime_string(self, date_time):
-        """
-        Method that converts a given date and time from its string representation
-        to a datetime object.
-
-        Parameters
-        ----------
-        date_time (str):
-            A string that contains a date and a time.
-
-        Returns
-        -------
-        date_time (datetime):
-            A new datetime object with the given date and time or
-            the epoch as datetime object.
-        """
-
-        # Format for the date time string.
-        format_string = "%d.%m.%Y %H:%M"
-
-        if (date_time == "" or date_time == "-"
-            or date_time == "keine Meldung"):
-            return datetime.strptime("01.01.1970 00:00", format_string)
-        else:
-            dt_list = date_time.split(" ")
-            return datetime.strptime(
-                dt_list[1] + str(date.today().year) + " " + dt_list[2],
-                format_string)
-
-    def convert_temperature_string(self, temperature):
-        """
-        Method that converts a given temperature string to its float representation.
-
-        Parameters
-        ----------
-        temperature (str):
-            A string that contains the temperature with its unit.
-
-        Returns
-        -------
-        temperature (float):
-            A float number representing the given temperature.
-        """
-
-        # Split the unit from the number.
-        number_string = temperature.split("°")[0]
-
-        if (number_string == "" or number_string == "-"
-            or number_string == "keine Meldung"):
-            return float("nan")
-        else:
-            return float(number_string)
-
-    def convert_humidity_string(self, humidity):
-        """
-        Method that converts a given humidity string to its float representation.
-
-        Parameters
-        ----------
-        humidity (str):
-            A string that contains the humidity with its unit.
-
-        Returns
-        -------
-        humidity (float):
-            A float number representing the given humidity.
-        """
-
-        # Split the unit from the number.
-        number_string = humidity.split("%")[0]
-
-        if (number_string == "" or number_string == "-"
-            or number_string == "keine Meldung"):
-            return float("nan")
-        else:
-            return float(number_string)
-
-    def convert_precipitation_string(self, precipitation):
-        """
-        Method that converts a given precipitation string to its float representation.
-
-        Parameters
-        ----------
-        precipitation (str):
-            A string that contains the precipitation with its unit.
-
-        Returns
-        -------
-        precipitation (float):
-            A float number representing the given precipitation.
-        """
-
-        if (precipitation == "" or precipitation == "-"
-            or precipitation == "keine Meldung"):
-            return 0.0
-        else:
-            # Split the unit and check whether there is a sign for the number.
-            number_string = precipitation.split(" ")[0]
-            if number_string[0].isdigit():
-                return float(number_string)
-            else:
-                return float(number_string[1:])
 
     def get_station_data(self, response):
         """
-        Method that processes the response of a request to the
-        standard url with set parameters and headers. It returns
-        a formatted dictionary of the data.
+        Method that processes the response of a request to the standard url
+        with set parameters and headers. It returns a formatted dictionary of the data.
 
-        Parameters
-        ----------
-        response (Optional[Response]):
-            A response object retrieved from a request to the standard url
-            with the set parameters and headers or None.
+        Args:
+            response (Response, optional): A response object retrieved from a request
+                to the standard url with the set parameters and headers or None.
 
-        Returns
-        -------
-        station_data (dict):
-            A dictionary containing all current weather data from the
-            station specified by station.
+        Returns:
+            dict: A dictionary containing all current weather data from the
+                station specified by station.
         """
-
-        # Check whether response data is available.
         if response is None:
             return {}
 
-        # Convert the response content to a searchable object.
         page = BeautifulSoup(response.content, features="lxml")
 
         # Extract the div with all tables and check whether it exists.
@@ -191,49 +84,28 @@ class DataWon(Data):
         if table_div is None:
             return {}
 
-        # Extract the three tables.
-        tables = [table_div.find("div", id="temperature", recursive=False),
-                  table_div.find("div", id="humidity", recursive=False),
-                  table_div.find("div", id="precipitation", recursive=False)]
+        tables = self._extract_tables(table_div)
+        row_data_list = self._extract_row_data_list(tables)
+        temperature_data = self._extract_temperature_data(row_data_list)
+        humidity_data = self._extract_humidity_data(row_data_list)
+        precipitation_data = self._extract_precipitation_data(row_data_list)
 
-        # Extract the rows of each table and the data of each row.
-        rows_list = [(table.find("table", attrs={"class": "hourly"}, recursive=False)
-                      .find("tbody", recursive=False)
-                      .find_all("tr", recursive=False))
-                     for table in tables]
-        row_data_list = [[[td.get_text() for td in row.find_all("td", recursive=False)]
-                          for row in rows] for rows in rows_list]
-
-        # Convert data for each of the three tables.
-        temperature_data = [[self.convert_datetime_string(data[0]),
-                             self.convert_temperature_string(data[1])]
-                            for data in row_data_list[0]]
-        humidity_data = [[self.convert_datetime_string(data[0]),
-                          self.convert_humidity_string(data[1])]
-                         for data in row_data_list[1]]
-        precipitation_data = [[self.convert_datetime_string(data[0]),
-                               self.convert_precipitation_string(data[1])]
-                              for data in row_data_list[2]]
-
-        # Return the extracted data in a dictionary.
-        return {"temperatures": temperature_data,
-                "humidities": humidity_data,
-                "precipitations": precipitation_data}
+        return {
+            "temperatures": temperature_data,
+            "humidities": humidity_data,
+            "precipitations": precipitation_data,
+        }
 
     def get_display_data(self):
         """
-        Method that extracts the weather data that will be displayed from
-        the saved station and station_data. The data used for display is
-        returned in a new DisplayData object.
+        Method that extracts the weather data that will be displayed from the saved
+        station and station_data. The data used for display is returned in
+        a new DisplayData object.
 
-        Returns
-        -------
-        display_data (DisplayData):
-            A DisplayData object containing all weather data for the set
-            station formatted for display purposes.
+        Returns:
+            DisplayData: A DisplayData object containing all weather data for the set
+                station formatted for display purposes.
         """
-
-        # Create the result DisplayData object.
         display_data = DisplayData(station_name=self.station.name)
 
         # Check whether temperature data is available.
@@ -267,18 +139,98 @@ class DataWon(Data):
         humi_list = self.station_data.get("humidities", [])
         if humi_list:
             # Calculate the current dew point.
-            display_data.dew_point = \
-                self.calc_dew_point(humidity=humi_list[0][1],
-                                    temperature=display_data.temperature)
+            display_data.dew_point = self.calc_dew_point(
+                humidity=humi_list[0][1], temperature=display_data.temperature
+            )
 
         # Check whether precipitation data is available.
         prec_list = self.station_data.get("precipitations", [])
         if prec_list:
             # Extract the precipitation per day.
-            display_data.precipitation = reduce(lambda x, y: x + y,
-                                                [prec[1] for prec in prec_list
-                                                 if prec[0].minute == 0],
-                                                0.0)
+            display_data.precipitation = reduce(
+                lambda x, y: x + y, [prec[1] for prec in prec_list if prec[0].minute == 0], 0.0
+            )
 
-        # Return all gathered data in a DisplayData object.
         return display_data
+
+    @staticmethod
+    def _extract_tables(table_div):
+        return [
+            table_div.find("div", id="temperature", recursive=False),
+            table_div.find("div", id="humidity", recursive=False),
+            table_div.find("div", id="precipitation", recursive=False),
+        ]
+
+    @staticmethod
+    def _extract_row_data_list(tables):
+        rows_list = [
+            (
+                table.find("table", attrs={"class": "hourly"}, recursive=False)
+                .find("tbody", recursive=False)
+                .find_all("tr", recursive=False)
+            )
+            for table in tables
+        ]
+        return [
+            [[td.get_text() for td in row.find_all("td", recursive=False)] for row in rows]
+            for rows in rows_list
+        ]
+
+    def _extract_temperature_data(self, row_data_list):
+        return [
+            [self._convert_date_time_string(data[0]), self._convert_temperature_string(data[1])]
+            for data in row_data_list[0]
+        ]
+
+    def _extract_humidity_data(self, row_data_list):
+        return [
+            [self._convert_date_time_string(data[0]), self._convert_humidity_string(data[1])]
+            for data in row_data_list[1]
+        ]
+
+    def _extract_precipitation_data(self, row_data_list):
+        return [
+            [self._convert_date_time_string(data[0]), self._convert_precipitation_string(data[1])]
+            for data in row_data_list[2]
+        ]
+
+    @staticmethod
+    def _convert_date_time_string(date_time):
+        if date_time == "" or date_time == "-" or date_time == DataWon.NO_VALUE_MESSAGE:
+            return datetime.strptime("01.01.1970 00:00", DataWon.DATE_TIME_FORMAT_STRING)
+        else:
+            dt_list = date_time.split(" ")
+            return datetime.strptime(
+                dt_list[1] + str(date.today().year) + " " + dt_list[2],
+                DataWon.DATE_TIME_FORMAT_STRING,
+            )
+
+    @staticmethod
+    def _convert_temperature_string(temperature):
+        # Split the unit from the number.
+        number_string = temperature.split("°")[0]
+        if number_string == "" or number_string == "-" or number_string == DataWon.NO_VALUE_MESSAGE:
+            return float("nan")
+        else:
+            return float(number_string)
+
+    @staticmethod
+    def _convert_humidity_string(humidity):
+        # Split the unit from the number.
+        number_string = humidity.split("%")[0]
+        if number_string == "" or number_string == "-" or number_string == DataWon.NO_VALUE_MESSAGE:
+            return float("nan")
+        else:
+            return float(number_string)
+
+    @staticmethod
+    def _convert_precipitation_string(precipitation):
+        if precipitation == "" or precipitation == "-" or precipitation == DataWon.NO_VALUE_MESSAGE:
+            return 0.0
+        else:
+            # Split the unit and check whether there is a sign for the number.
+            number_string = precipitation.split(" ")[0]
+            if number_string[0].isdigit():
+                return float(number_string)
+            else:
+                return float(number_string[1:])
