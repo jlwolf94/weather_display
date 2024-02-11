@@ -85,19 +85,23 @@ class DataDWD(Data):
 
     def _update_display_data_with_forecast_dict(self, display_data, forecast_dict):
         if forecast_dict:
-            start_date = datetime.fromtimestamp(forecast_dict["start"] / 1000)
+            date_start = datetime.fromtimestamp(forecast_dict["start"] / 1000)
             date_step = timedelta(milliseconds=forecast_dict["timeStep"])
+            date_start_step = (date_start, date_step)
 
-            date_temp_list = self._create_date_temp_list(forecast_dict, start_date, date_step)
-            date_dew_list = self._create_date_dew_list(forecast_dict, start_date, date_step)
-            date_pre_list = self._create_date_pre_list(forecast_dict, start_date, date_step)
-
-            date_temp = self._get_date_temp_closest_to_current_date(date_temp_list)
-
-            display_data = self._update_display_data(
-                display_data, date_temp, date_dew_list, date_pre_list
+            date_temp_list = self._create_date_value_list(
+                forecast_dict["temperature"], date_start_step, (-999, 999), float("nan")
             )
-            return display_data
+            date_dew_list = self._create_date_value_list(
+                forecast_dict["dewPoint2m"], date_start_step, (-999, 999), float("nan")
+            )
+            date_pre_list = self._create_date_value_list(
+                forecast_dict["precipitationTotal"], date_start_step, (0, 999), 0.0
+            )
+
+            return self._update_display_data_with_value_lists(
+                display_data, date_temp_list, date_dew_list, date_pre_list
+            )
         else:
             return display_data
 
@@ -108,84 +112,51 @@ class DataDWD(Data):
         else:
             return display_data
 
-    @staticmethod
-    def _create_date_value_list(
-            forecast_dict_value, start_date, date_step, lower_limit, default_value
+    def _update_display_data_with_value_lists(
+        self, display_data, date_temp_list, date_dew_list, date_pre_list
     ):
-        date_value_list = []
-        for step, value in enumerate(forecast_dict_value):
-            if value < lower_limit or value > 999:
-                date_value_list.append((start_date + (step * date_step), default_value))
-            else:
-                date_value_list.append((start_date + (step * date_step), value / 10))
-        return date_value_list
-
-    @staticmethod
-    def _create_date_temp_list(forecast_dict, start_date, date_step):
-        date_temp_list = []
-        for step, temp in enumerate(forecast_dict["temperature"]):
-            if temp < -999 or temp > 999:
-                date_temp_list.append((start_date + (step * date_step), float("nan")))
-            else:
-                date_temp_list.append((start_date + (step * date_step), temp / 10))
-        return date_temp_list
-
-    @staticmethod
-    def _create_date_dew_list(forecast_dict, start_date, date_step):
-        date_dew_list = []
-        for step, dew in enumerate(forecast_dict["dewPoint2m"]):
-            if dew < -999 or dew > 999:
-                date_dew_list.append((start_date + (step * date_step), float("nan")))
-            else:
-                date_dew_list.append((start_date + (step * date_step), dew / 10))
-        return date_dew_list
-
-    @staticmethod
-    def _create_date_pre_list(forecast_dict, start_date, date_step):
-        date_pre_list = []
-        for step, pre in enumerate(forecast_dict["precipitationTotal"]):
-            if pre < 0 or pre > 999:
-                date_pre_list.append((start_date + (step * date_step), 0.0))
-            else:
-                date_pre_list.append((start_date + (step * date_step), pre / 10))
-        return date_pre_list
-
-    @staticmethod
-    def _get_date_temp_closest_to_current_date(date_temp_list):
-        curr_date = datetime.now()
-        date_temp = min(
-            [dt for dt in date_temp_list if dt[0] <= curr_date],
-            key=lambda t: abs(curr_date - t[0])
-        )
-        return date_temp
-
-    @staticmethod
-    def _update_display_data(display_data, date_temp, date_dew_list, date_pre_list):
+        date_temp = self._get_date_temp_closest_to_current_date(date_temp_list)
         display_data.date_time = date_temp[0]
         display_data.temperature = date_temp[1]
 
         # Use the found date_time to find the dew point.
         display_data.dew_point = next(
-            (dd[1] for dd in date_dew_list if dd[0] == date_temp[0]),
-            float("nan")
+            (dd[1] for dd in date_dew_list if dd[0] == date_temp[0]), float("nan")
         )
 
         # Add up all precipitation data per hour to get the precipitation per day.
         display_data.precipitation = reduce(
-            lambda x, y: x + y,
-            [dp[1] for dp in date_pre_list if dp[0] <= date_temp[0]],
-            0.0
+            lambda x, y: x + y, [dp[1] for dp in date_pre_list if dp[0] <= date_temp[0]], 0.0
         )
 
         return display_data
 
     @staticmethod
+    def _create_date_value_list(forecast_dict_value, date_start_step, limits, default_value):
+        date_start, date_step = date_start_step
+        lower_limit, upper_limit = limits
+        date_value_list = []
+        for step, value in enumerate(forecast_dict_value):
+            if value < lower_limit or value > upper_limit:
+                date_value_list.append((date_start + (step * date_step), default_value))
+            else:
+                date_value_list.append((date_start + (step * date_step), value / 10))
+        return date_value_list
+
+    @staticmethod
+    def _get_date_temp_closest_to_current_date(date_temp_list):
+        curr_date = datetime.now()
+        date_temp = min(
+            [dt for dt in date_temp_list if dt[0] <= curr_date], key=lambda t: abs(curr_date - t[0])
+        )
+        return date_temp
+
+    @staticmethod
     def _get_day_closest_to_current_date(days_list):
         curr_date = datetime.now()
         day = min(
-            [da for da in days_list
-             if datetime.strptime(da["dayDate"], "%Y-%m-%d") <= curr_date],
-            key=lambda d: abs(curr_date - datetime.strptime(d["dayDate"], "%Y-%m-%d"))
+            [da for da in days_list if datetime.strptime(da["dayDate"], "%Y-%m-%d") <= curr_date],
+            key=lambda d: abs(curr_date - datetime.strptime(d["dayDate"], "%Y-%m-%d")),
         )
         return day
 
